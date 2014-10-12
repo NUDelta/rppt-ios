@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA11A15919EB3A83008CFDEA /* demoVideo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = AA11A15819EB3A83008CFDEA /* demoVideo.mp4 */; };
+		AA11A15E19EB3FE9008CFDEA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA11A15C19EB3FE9008CFDEA /* Main.storyboard */; };
 		AA881AB419DE6F88004F9DB1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA881AB319DE6F88004F9DB1 /* AppDelegate.swift */; };
 		AA881AB619DE6F88004F9DB1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA881AB519DE6F88004F9DB1 /* ViewController.swift */; };
-		AA881AB919DE6F88004F9DB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA881AB719DE6F88004F9DB1 /* Main.storyboard */; };
 		AA881ABB19DE6F88004F9DB1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA881ABA19DE6F88004F9DB1 /* Images.xcassets */; };
 		AA881ABE19DE6F88004F9DB1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA881ABC19DE6F88004F9DB1 /* LaunchScreen.xib */; };
 		AA881ACA19DE6F88004F9DB1 /* remote_paper_prototyper_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA881AC919DE6F88004F9DB1 /* remote_paper_prototyper_iosTests.swift */; };
@@ -26,11 +27,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AA11A15819EB3A83008CFDEA /* demoVideo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = demoVideo.mp4; sourceTree = "<group>"; };
+		AA11A15D19EB3FE9008CFDEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AA881AAE19DE6F88004F9DB1 /* remote-paper-prototyper-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "remote-paper-prototyper-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA881AB219DE6F88004F9DB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA881AB319DE6F88004F9DB1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AA881AB519DE6F88004F9DB1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		AA881AB819DE6F88004F9DB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AA881ABA19DE6F88004F9DB1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		AA881ABD19DE6F88004F9DB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		AA881AC319DE6F88004F9DB1 /* remote-paper-prototyper-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "remote-paper-prototyper-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -77,9 +79,10 @@
 		AA881AB019DE6F88004F9DB1 /* remote-paper-prototyper-ios */ = {
 			isa = PBXGroup;
 			children = (
+				AA11A15C19EB3FE9008CFDEA /* Main.storyboard */,
+				AA11A15819EB3A83008CFDEA /* demoVideo.mp4 */,
 				AA881AB319DE6F88004F9DB1 /* AppDelegate.swift */,
 				AA881AB519DE6F88004F9DB1 /* ViewController.swift */,
-				AA881AB719DE6F88004F9DB1 /* Main.storyboard */,
 				AA881ABA19DE6F88004F9DB1 /* Images.xcassets */,
 				AA881ABC19DE6F88004F9DB1 /* LaunchScreen.xib */,
 				AA881AB119DE6F88004F9DB1 /* Supporting Files */,
@@ -192,9 +195,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA881AB919DE6F88004F9DB1 /* Main.storyboard in Resources */,
+				AA11A15919EB3A83008CFDEA /* demoVideo.mp4 in Resources */,
 				AA881ABE19DE6F88004F9DB1 /* LaunchScreen.xib in Resources */,
 				AA881ABB19DE6F88004F9DB1 /* Images.xcassets in Resources */,
+				AA11A15E19EB3FE9008CFDEA /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,10 +240,10 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		AA881AB719DE6F88004F9DB1 /* Main.storyboard */ = {
+		AA11A15C19EB3FE9008CFDEA /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				AA881AB819DE6F88004F9DB1 /* Base */,
+				AA11A15D19EB3FE9008CFDEA /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -405,6 +409,7 @@
 				AA881ACF19DE6F88004F9DB1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AA881AD019DE6F88004F9DB1 /* Build configuration list for PBXNativeTarget "remote-paper-prototyper-iosTests" */ = {
 			isa = XCConfigurationList;
@@ -413,6 +418,7 @@
 				AA881AD219DE6F88004F9DB1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
