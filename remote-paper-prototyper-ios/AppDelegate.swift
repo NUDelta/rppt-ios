@@ -40,6 +40,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+    
+//    func applicationDidFinishLaunching(application: UIApplication) {
+//        Parse.setApplicationId("3dgBmw9ZzGVprNrdoNuQZ4TgmWzjkc8rc5HT3quP", clientKey: "U7bbsU5rY5yUy8twRgSrvz46SUvL1O7OlrS2U8JP")
+//    }
 
 
 }

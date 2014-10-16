@@ -10,7 +10,7 @@ import UIKit
 import MediaPlayer
 import MobileCoreServices
 
-class ViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class ViewController: UIViewController, UINavigationControllerDelegate {
 
     var videoController : MPMoviePlayerController!
     var tapGestureRecognizer : UITapGestureRecognizer!
@@ -24,6 +24,11 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
 
         self.videoController = MPMoviePlayerController()
         self.tapGestureRecognizer = UITapGestureRecognizer()
+        
+//        var object = PFObject(className: "TestClass")
+//        object.addObject("Banana", forKey: "favoriteFood")
+//        object.addObject("Chocolate", forKey: "favoriteIceCream")
+//        object.saveInBackground()
     }
 
     override func didReceiveMemoryWarning() {
