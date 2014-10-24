@@ -1,0 +1,6 @@
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/M13OrderedDictionary" "${PODS_ROOT}/Headers/Public/ObjectiveDDP" "${PODS_ROOT}/Headers/Public/SocketRocket"
+OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/M13OrderedDictionary" -isystem "${PODS_ROOT}/Headers/Public/ObjectiveDDP" -isystem "${PODS_ROOT}/Headers/Public/SocketRocket"
+OTHER_LDFLAGS = -ObjC -l"Pods-remote-paper-prototyper-ios-M13OrderedDictionary" -l"Pods-remote-paper-prototyper-ios-ObjectiveDDP" -l"Pods-remote-paper-prototyper-ios-SocketRocket" -l"icucore" -framework "CFNetwork" -framework "Foundation" -framework "Security"
+OTHER_LIBTOOLFLAGS = $(OTHER_LDFLAGS)
+PODS_ROOT = ${SRCROOT}/Pods

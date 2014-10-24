@@ -31,6 +31,7 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.tapGestureRecognizer = UITapGestureRecognizer()
         self.session = OTSession(apiKey: APIKey, sessionId: SessionID, delegate: self)
         self.doConnect()
@@ -178,6 +179,23 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         var touch = event.allTouches()?.anyObject()
         var touchPoint = touch?.locationInView(self.view)
+        
+        var tabObject = PFObject(className: "taps")
+        tabObject["x"] = touchPoint?.x
+        tabObject["y"] = touchPoint?.y
+        tabObject.saveInBackground()
+        
+//        var query = PFQuery(className: "taps")
+//        var tapObject = query.getFirstObject()
+//        
+//        if tapObject["new"] as Bool == false {
+//            tapObject["new"] = true
+//            tapObject["x"] = touchPoint?.x
+//            tapObject["y"] = touchPoint?.y
+//            tapObject.saveInBackground()
+//            
+//        }
+        
         println("x: \(touchPoint?.x)")
         println("y: \(touchPoint?.y)")
     }

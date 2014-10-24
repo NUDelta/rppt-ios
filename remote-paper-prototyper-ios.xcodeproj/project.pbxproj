@@ -32,6 +32,14 @@
 		AA881ABB19DE6F88004F9DB1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA881ABA19DE6F88004F9DB1 /* Images.xcassets */; };
 		AA881ABE19DE6F88004F9DB1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA881ABC19DE6F88004F9DB1 /* LaunchScreen.xib */; };
 		AA881ACA19DE6F88004F9DB1 /* remote_paper_prototyper_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA881AC919DE6F88004F9DB1 /* remote_paper_prototyper_iosTests.swift */; };
+		AA8C5B0719FA2B7B002ED73E /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8C5B0619FA2B7B002ED73E /* Parse.framework */; };
+		AA8C5B0919FA2B97002ED73E /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8C5B0819FA2B97002ED73E /* CFNetwork.framework */; };
+		AA8C5B0B19FA2BA3002ED73E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8C5B0A19FA2BA3002ED73E /* CoreLocation.framework */; };
+		AA8C5B0D19FA2BAB002ED73E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8C5B0C19FA2BAB002ED73E /* libz.dylib */; };
+		AA8C5B0F19FA2BB1002ED73E /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8C5B0E19FA2BB1002ED73E /* MobileCoreServices.framework */; };
+		AA8C5B1119FA2BC0002ED73E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8C5B1019FA2BC0002ED73E /* Security.framework */; };
+		AA8C5B1319FA2BC6002ED73E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8C5B1219FA2BC6002ED73E /* StoreKit.framework */; };
+		AA8C5B1519FA2EEB002ED73E /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8C5B1419FA2EEB002ED73E /* Bolts.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +83,14 @@
 		AA881AC319DE6F88004F9DB1 /* remote-paper-prototyper-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "remote-paper-prototyper-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA881AC819DE6F88004F9DB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA881AC919DE6F88004F9DB1 /* remote_paper_prototyper_iosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = remote_paper_prototyper_iosTests.swift; sourceTree = "<group>"; };
+		AA8C5B0619FA2B7B002ED73E /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = "../Libraries/parse-library-1.4.1/Parse.framework"; sourceTree = "<group>"; };
+		AA8C5B0819FA2B97002ED73E /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		AA8C5B0A19FA2BA3002ED73E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		AA8C5B0C19FA2BAB002ED73E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		AA8C5B0E19FA2BB1002ED73E /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		AA8C5B1019FA2BC0002ED73E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		AA8C5B1219FA2BC6002ED73E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		AA8C5B1419FA2EEB002ED73E /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "../Libraries/parse-library-1.4.1/Bolts.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +98,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA8C5B1319FA2BC6002ED73E /* StoreKit.framework in Frameworks */,
+				AA8C5B1119FA2BC0002ED73E /* Security.framework in Frameworks */,
+				AA1ABF5319F8A87B00DF101B /* QuartzCore.framework in Frameworks */,
+				AA8C5B0F19FA2BB1002ED73E /* MobileCoreServices.framework in Frameworks */,
+				AA8C5B0D19FA2BAB002ED73E /* libz.dylib in Frameworks */,
+				AA8C5B0B19FA2BA3002ED73E /* CoreLocation.framework in Frameworks */,
+				AA8C5B0919FA2B97002ED73E /* CFNetwork.framework in Frameworks */,
+				AA8C5B1519FA2EEB002ED73E /* Bolts.framework in Frameworks */,
 				AA1ABF6319F8A8B800DF101B /* libxml2.dylib in Frameworks */,
 				AA1ABF6119F8A8B000DF101B /* libsqlite3.dylib in Frameworks */,
 				AA1ABF5F19F8A8A800DF101B /* libpthread.dylib in Frameworks */,
@@ -90,11 +114,11 @@
 				AA1ABF5919F8A88D00DF101B /* UIKit.framework in Frameworks */,
 				AA1ABF5719F8A88800DF101B /* CoreGraphics.framework in Frameworks */,
 				AA1ABF5519F8A88100DF101B /* Foundation.framework in Frameworks */,
-				AA1ABF5319F8A87B00DF101B /* QuartzCore.framework in Frameworks */,
 				AA1ABF5119F8A87200DF101B /* AVFoundation.framework in Frameworks */,
 				AA1ABF4F19F8A86C00DF101B /* AudioToolbox.framework in Frameworks */,
 				AA1ABF4D19F8A86500DF101B /* CoreMedia.framework in Frameworks */,
 				AA1ABF4B19F8A85F00DF101B /* CoreVideo.framework in Frameworks */,
+				AA8C5B0719FA2B7B002ED73E /* Parse.framework in Frameworks */,
 				AA1ABF4919F8A84E00DF101B /* OpenGLES.framework in Frameworks */,
 				AA1ABF4719F8A7E700DF101B /* CoreTelephony.framework in Frameworks */,
 				AA1ABF4519F8A7E000DF101B /* SystemConfiguration.framework in Frameworks */,
@@ -116,6 +140,14 @@
 		AA0208CF19EC489100180328 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AA8C5B1419FA2EEB002ED73E /* Bolts.framework */,
+				AA8C5B1219FA2BC6002ED73E /* StoreKit.framework */,
+				AA8C5B1019FA2BC0002ED73E /* Security.framework */,
+				AA8C5B0E19FA2BB1002ED73E /* MobileCoreServices.framework */,
+				AA8C5B0C19FA2BAB002ED73E /* libz.dylib */,
+				AA8C5B0A19FA2BA3002ED73E /* CoreLocation.framework */,
+				AA8C5B0819FA2B97002ED73E /* CFNetwork.framework */,
+				AA8C5B0619FA2B7B002ED73E /* Parse.framework */,
 				AA1ABF6219F8A8B800DF101B /* libxml2.dylib */,
 				AA1ABF6019F8A8B000DF101B /* libsqlite3.dylib */,
 				AA1ABF5E19F8A8A800DF101B /* libpthread.dylib */,
@@ -428,8 +460,8 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/aspin/Downloads/parse-library-1.4.1",
 					"$(PROJECT_DIR)",
+					"/Users/aspin/Libraries/parse-library-1.4.1",
 				);
 				INFOPLIST_FILE = "remote-paper-prototyper-ios/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -451,8 +483,8 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/aspin/Downloads/parse-library-1.4.1",
 					"$(PROJECT_DIR)",
+					"/Users/aspin/Libraries/parse-library-1.4.1",
 				);
 				INFOPLIST_FILE = "remote-paper-prototyper-ios/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
