@@ -11,6 +11,8 @@ import MediaPlayer
 import MobileCoreServices
 
 class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate {
+    
+    var meteorClient = initializeMeteor("pre2", "ws://localhost:3000/websocket");
 
     var session : OTSession!
     var publisher: OTPublisher!
@@ -32,9 +34,25 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.initMeteor()
         self.tapGestureRecognizer = UITapGestureRecognizer()
+        
         self.session = OTSession(apiKey: APIKey, sessionId: SessionID, delegate: self)
         self.doConnect()
+    }
+    
+    func initMeteor() {
+//        self.meteorClient.addSubscription("taps")
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reportConnection", name: MeteorClientDidConnectNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reportDisconnection", name: MeteorClientDidDisconnectNotification, object: nil)
+    }
+    
+    func reportConnection() {
+        println("================> connected to server!")
+    }
+    
+    func reportDisconnection() {
+        println("================> disconnected from server!")
     }
     
     func doConnect() {
@@ -161,40 +179,17 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         // Dispose of any resources that can be recreated.
     }
     
-//    override func viewDidAppear(animated: Bool) {
-//        // live stream viewer
-////         let fileURL = NSURL.URLWithString("http://glass.ci.northwestern.edu:4000/vod/mp4:sample.mp4/playlist.m3u8")
-//        
-////        let filePath = NSBundle.mainBundle().pathForResource("demoVideo", ofType: "mp4")
-////        let fileURL = NSURL.fileURLWithPath(filePath!)
-//        
-//        self.videoController.contentURL = fileURL
-//        self.videoController.view.frame = CGRectMake(0, 0, 320,460)
-//        self.videoController.controlStyle = MPMovieControlStyle.None
-//        self.view.addSubview(self.videoController.view)
-//        self.videoController.play()
-//
-//    }
-    
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        var touch = event.allTouches()?.anyObject()
+        var touch: AnyObject? = event.allTouches()?.anyObject()
         var touchPoint = touch?.locationInView(self.view)
         
-        var tabObject = PFObject(className: "taps")
-        tabObject["x"] = touchPoint?.x
-        tabObject["y"] = touchPoint?.y
-        tabObject.saveInBackground()
+        var xcor = touchPoint?.x
+        var ycor = touchPoint?.y
+
+        var tapData = ["x": Float(xcor!), "y": Float(ycor!)]
+        var params = ["type": "tap", "params": tapData]
         
-//        var query = PFQuery(className: "taps")
-//        var tapObject = query.getFirstObject()
-//        
-//        if tapObject["new"] as Bool == false {
-//            tapObject["new"] = true
-//            tapObject["x"] = touchPoint?.x
-//            tapObject["y"] = touchPoint?.y
-//            tapObject.saveInBackground()
-//            
-//        }
+        self.meteorClient.callMethodName("updateTap", parameters: [params], responseCallback: nil)
         
         println("x: \(touchPoint?.x)")
         println("y: \(touchPoint?.y)")

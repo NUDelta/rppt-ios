@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6287C6CAADD5AF21E74FDF47 /* libPods-remote-paper-prototyper-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F713FE1CF715C02BC6D6439 /* libPods-remote-paper-prototyper-ios.a */; };
 		AA11A15919EB3A83008CFDEA /* demoVideo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = AA11A15819EB3A83008CFDEA /* demoVideo.mp4 */; };
 		AA11A15E19EB3FE9008CFDEA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA11A15C19EB3FE9008CFDEA /* Main.storyboard */; };
 		AA1ABF4119F8A7B200DF101B /* OpenTok.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1ABF4019F8A7B200DF101B /* OpenTok.framework */; };
@@ -27,12 +28,12 @@
 		AA1ABF5F19F8A8A800DF101B /* libpthread.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1ABF5E19F8A8A800DF101B /* libpthread.dylib */; };
 		AA1ABF6119F8A8B000DF101B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1ABF6019F8A8B000DF101B /* libsqlite3.dylib */; };
 		AA1ABF6319F8A8B800DF101B /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1ABF6219F8A8B800DF101B /* libxml2.dylib */; };
+		AA78AA6A1A0C20D100CA4B40 /* bridge.m in Sources */ = {isa = PBXBuildFile; fileRef = AA78AA691A0C20D100CA4B40 /* bridge.m */; };
 		AA881AB419DE6F88004F9DB1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA881AB319DE6F88004F9DB1 /* AppDelegate.swift */; };
 		AA881AB619DE6F88004F9DB1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA881AB519DE6F88004F9DB1 /* ViewController.swift */; };
 		AA881ABB19DE6F88004F9DB1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA881ABA19DE6F88004F9DB1 /* Images.xcassets */; };
 		AA881ABE19DE6F88004F9DB1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA881ABC19DE6F88004F9DB1 /* LaunchScreen.xib */; };
 		AA881ACA19DE6F88004F9DB1 /* remote_paper_prototyper_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA881AC919DE6F88004F9DB1 /* remote_paper_prototyper_iosTests.swift */; };
-		AA8C5B0719FA2B7B002ED73E /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8C5B0619FA2B7B002ED73E /* Parse.framework */; };
 		AA8C5B0919FA2B97002ED73E /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8C5B0819FA2B97002ED73E /* CFNetwork.framework */; };
 		AA8C5B0B19FA2BA3002ED73E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8C5B0A19FA2BA3002ED73E /* CoreLocation.framework */; };
 		AA8C5B0D19FA2BAB002ED73E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8C5B0C19FA2BAB002ED73E /* libz.dylib */; };
@@ -53,6 +54,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2F713FE1CF715C02BC6D6439 /* libPods-remote-paper-prototyper-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-remote-paper-prototyper-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA0208D219EC496C00180328 /* remote-paper-prototyper-ios-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "remote-paper-prototyper-ios-Bridging-Header.h"; sourceTree = "<group>"; };
 		AA11A15819EB3A83008CFDEA /* demoVideo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = demoVideo.mp4; sourceTree = "<group>"; };
 		AA11A15D19EB3FE9008CFDEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 		AA1ABF5E19F8A8A800DF101B /* libpthread.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpthread.dylib; path = usr/lib/libpthread.dylib; sourceTree = SDKROOT; };
 		AA1ABF6019F8A8B000DF101B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		AA1ABF6219F8A8B800DF101B /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		AA78AA691A0C20D100CA4B40 /* bridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = bridge.m; sourceTree = SOURCE_ROOT; };
 		AA881AAE19DE6F88004F9DB1 /* remote-paper-prototyper-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "remote-paper-prototyper-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA881AB219DE6F88004F9DB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA881AB319DE6F88004F9DB1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -91,6 +94,8 @@
 		AA8C5B1019FA2BC0002ED73E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		AA8C5B1219FA2BC6002ED73E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		AA8C5B1419FA2EEB002ED73E /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "../Libraries/parse-library-1.4.1/Bolts.framework"; sourceTree = "<group>"; };
+		D2BD4816F10916153602D0E6 /* Pods-remote-paper-prototyper-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-remote-paper-prototyper-ios.release.xcconfig"; path = "Pods/Target Support Files/Pods-remote-paper-prototyper-ios/Pods-remote-paper-prototyper-ios.release.xcconfig"; sourceTree = "<group>"; };
+		D9AA9088DC0C386B87A6806A /* Pods-remote-paper-prototyper-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-remote-paper-prototyper-ios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-remote-paper-prototyper-ios/Pods-remote-paper-prototyper-ios.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,12 +123,12 @@
 				AA1ABF4F19F8A86C00DF101B /* AudioToolbox.framework in Frameworks */,
 				AA1ABF4D19F8A86500DF101B /* CoreMedia.framework in Frameworks */,
 				AA1ABF4B19F8A85F00DF101B /* CoreVideo.framework in Frameworks */,
-				AA8C5B0719FA2B7B002ED73E /* Parse.framework in Frameworks */,
 				AA1ABF4919F8A84E00DF101B /* OpenGLES.framework in Frameworks */,
 				AA1ABF4719F8A7E700DF101B /* CoreTelephony.framework in Frameworks */,
 				AA1ABF4519F8A7E000DF101B /* SystemConfiguration.framework in Frameworks */,
 				AA1ABF4319F8A7D800DF101B /* GLKit.framework in Frameworks */,
 				AA1ABF4119F8A7B200DF101B /* OpenTok.framework in Frameworks */,
+				6287C6CAADD5AF21E74FDF47 /* libPods-remote-paper-prototyper-ios.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,6 +142,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3143A0941742926C139D8FFE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D9AA9088DC0C386B87A6806A /* Pods-remote-paper-prototyper-ios.debug.xcconfig */,
+				D2BD4816F10916153602D0E6 /* Pods-remote-paper-prototyper-ios.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		AA0208CF19EC489100180328 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -166,6 +180,7 @@
 				AA1ABF4419F8A7E000DF101B /* SystemConfiguration.framework */,
 				AA1ABF4219F8A7D800DF101B /* GLKit.framework */,
 				AA1ABF4019F8A7B200DF101B /* OpenTok.framework */,
+				2F713FE1CF715C02BC6D6439 /* libPods-remote-paper-prototyper-ios.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -173,11 +188,13 @@
 		AA881AA519DE6F87004F9DB1 = {
 			isa = PBXGroup;
 			children = (
+				AA78AA691A0C20D100CA4B40 /* bridge.m */,
 				AA0208CF19EC489100180328 /* Frameworks */,
 				AA881AB019DE6F88004F9DB1 /* remote-paper-prototyper-ios */,
 				AA881AC619DE6F88004F9DB1 /* remote-paper-prototyper-iosTests */,
 				AA881AAF19DE6F88004F9DB1 /* Products */,
 				AA0208D219EC496C00180328 /* remote-paper-prototyper-ios-Bridging-Header.h */,
+				3143A0941742926C139D8FFE /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -236,9 +253,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AA881ACD19DE6F88004F9DB1 /* Build configuration list for PBXNativeTarget "remote-paper-prototyper-ios" */;
 			buildPhases = (
+				0D5728A6BB0ED86BA1D0EB26 /* Check Pods Manifest.lock */,
 				AA881AAA19DE6F87004F9DB1 /* Sources */,
 				AA881AAB19DE6F87004F9DB1 /* Frameworks */,
 				AA881AAC19DE6F87004F9DB1 /* Resources */,
+				DB191CCEB3C006FCC4FDEF2F /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -326,11 +345,45 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0D5728A6BB0ED86BA1D0EB26 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		DB191CCEB3C006FCC4FDEF2F /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-remote-paper-prototyper-ios/Pods-remote-paper-prototyper-ios-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		AA881AAA19DE6F87004F9DB1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA78AA6A1A0C20D100CA4B40 /* bridge.m in Sources */,
 				AA881AB619DE6F88004F9DB1 /* ViewController.swift in Sources */,
 				AA881AB419DE6F88004F9DB1 /* AppDelegate.swift in Sources */,
 			);
@@ -453,6 +506,7 @@
 		};
 		AA881ACE19DE6F88004F9DB1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D9AA9088DC0C386B87A6806A /* Pods-remote-paper-prototyper-ios.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -476,6 +530,7 @@
 		};
 		AA881ACF19DE6F88004F9DB1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D2BD4816F10916153602D0E6 /* Pods-remote-paper-prototyper-ios.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
