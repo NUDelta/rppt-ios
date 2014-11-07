@@ -11,22 +11,25 @@ import MediaPlayer
 import MobileCoreServices
 
 class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate {
-    
+
+    // MARK: MeteorDDP Member
     var meteorClient = initializeMeteor("pre2", "ws://localhost:3000/websocket");
 
+    // MARK: OpenTok Streaming Member
     var session : OTSession!
     var publisher: OTPublisher!
     var subscriber: OTSubscriber!
-    var tapGestureRecognizer : UITapGestureRecognizer!
-    
-    let height = 240
-    let width = 320
     
     let APIKey = "45040222"
     let SessionID = "2_MX40NTA0MDIyMn5-MTQxNDc3NTMzNjIzOX5JQ2hRNkhMZTlJQ1NOd2hNbzBwSGNmbU9-fg"
     let Token = "T1==cGFydG5lcl9pZD00NTA0MDIyMiZzaWc9Y2IxMzM4YjBiMWJkYjNkZGZlNTg5ODEyNmU2ZGYyNTAyYTY1NTM4Yjpyb2xlPXN1YnNjcmliZXImc2Vzc2lvbl9pZD0yX01YNDBOVEEwTURJeU1uNS1NVFF4TkRjM05UTXpOakl6T1g1SlEyaFJOa2hNWlRsSlExTk9kMmhOYnpCd1NHTm1iVTktZmcmY3JlYXRlX3RpbWU9MTQxNTM0MzcxNSZub25jZT0wLjY2MTQ1MDA1MDgzNTE0MjMmZXhwaXJlX3RpbWU9MTQxNzkzNTY4NQ=="
-    let subscribeToSelf = false
     
+    // MARK: Gesture Recognition Members
+    var tapGestureRecognizer : UITapGestureRecognizer!
+    
+    // -------------------------
+    // MARK: View Initialization
+    // -------------------------
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -41,8 +44,15 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         self.doConnect()
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    // --------------------------------------------
+    // MARK: MeteorDDP Initialization and Observers
+    // --------------------------------------------
     func initMeteor() {
-//        self.meteorClient.addSubscription("taps")
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reportConnection", name: MeteorClientDidConnectNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reportDisconnection", name: MeteorClientDidDisconnectNotification, object: nil)
     }
@@ -55,6 +65,9 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         println("================> disconnected from server!")
     }
     
+    // ----------------------------------------
+    // MARK: OpenTok Initialization and Methods
+    // ----------------------------------------
     func doConnect() {
         var error : OTError? = nil
         
@@ -66,31 +79,31 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     }
     
     func doPublish() {
-        self.publisher = OTPublisher(delegate: self, name: UIDevice.currentDevice().name)
-
-        var error : OTError? = nil
-        self.session.publish(self.publisher, error: &error)
-        if (error != nil) {
-            // self.showAlert
-        }
-        
-        // self.view.addSubview(self.publisher.view!)
-        // self.publisher.view.frame = CGRectMake(0, 0, 320, 240)
+//        self.publisher = OTPublisher(delegate: self, name: UIDevice.currentDevice().name)
+//
+//        var error : OTError? = nil
+//        self.session.publish(self.publisher, error: &error)
+//        if (error != nil) {
+//            // self.showAlert
+//        }
+//        
+//        // self.view.addSubview(self.publisher.view!)
+//        // self.publisher.view.frame = CGRectMake(0, 0, 320, 240)
     }
     
     func cleanupPublisher() {
-        self.publisher.view.removeFromSuperview()
-        // self.publisher = nil
+//        self.publisher.view.removeFromSuperview()
+//        self.publisher = nil
     }
     
     func doSubscribe(stream: OTStream) {
         self.subscriber = OTSubscriber(stream: stream, delegate: self)
     
-        var error : OTError? = nil
-        self.session.subscribe(self.subscriber, error: &error)
-        if (error != nil) {
-            // self.showAlert
-        }
+//        var error : OTError? = nil
+//        self.session.subscribe(self.subscriber, error: &error)
+//        if (error != nil) {
+//            // self.showAlert
+//        }
     }
     
     func cleanupSubscriber() {
@@ -98,8 +111,9 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         //self.subscriber = nil
     }
     
-    // OTSession Delegate Callbacks
-    
+    // ----------------------------------
+    // MARK: OTSession Delegate Callbacks
+    // ----------------------------------
     func sessionDidConnect(session: OTSession!) {
         println("sessionDidConnect \(session.sessionId)")
         // self.doPublish()
@@ -136,9 +150,10 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     func session(session: OTSession!, didFailWithError error: OTError!) {
         println("didFailWithError: \(error)")
     }
-    
-    // OTSubscriber delegate callbacks
-    
+   
+    // -------------------------------------
+    // MARK: OTSubscriber delegate callbacks
+    // -------------------------------------
     func subscriberDidConnectToStream(subscriber: OTSubscriberKit!) {
         println("subscriberDidConnectToStream \(subscriber.stream.connection.connectionId)")
         assert(subscriber == self.subscriber)
@@ -149,9 +164,10 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     func subscriber(subscriber: OTSubscriberKit!, didFailWithError error: OTError!) {
         println("")
     }
-    
-    // OTPublisher delegate callbacks
-    
+  
+    // ------------------------------------
+    // MARK: OTPublisher delegate callbacks
+    // ------------------------------------
     func publisher(publisher: OTPublisherKit!, streamCreated stream: OTStream!) {
         self.doSubscribe(stream)
     }
@@ -164,7 +180,6 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     }
     
     func publisher(publisher: OTPublisherKit!, didFailWithError: OTError!) {
-        println("")
         self.cleanupPublisher()
     }
     
@@ -174,24 +189,18 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
 //            }, alert.show())
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+    // ---------------------------------
+    // MARK: Gesture Recognition Methods
+    // ---------------------------------
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         var touch: AnyObject? = event.allTouches()?.anyObject()
         var touchPoint = touch?.locationInView(self.view)
         
         var xcor = touchPoint?.x
         var ycor = touchPoint?.y
-
         var tapData = ["x": Float(xcor!), "y": Float(ycor!)]
         
         self.meteorClient.callMethodName("createTap", parameters: [tapData], responseCallback: nil)
-        
-        println("x: \(touchPoint?.x)")
-        println("y: \(touchPoint?.y)")
     }
 }
 
