@@ -23,8 +23,8 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     let width = 320
     
     let APIKey = "45040222"
-    let SessionID = "1_MX40NTA0MDIyMn5-MTQxNDA5NTYxNjEyMH5maGZKSVREODc0MkM0K0MvR3kvLzgrQ2l-fg"
-    let Token = "T1==cGFydG5lcl9pZD00NTA0MDIyMiZzaWc9Y2VjNDhiZWNlNTQ1ODE0MTczMWI2NTQ5YTY0MjVhNzZmMGY2OTYyMTpyb2xlPXN1YnNjcmliZXImc2Vzc2lvbl9pZD0xX01YNDBOVEEwTURJeU1uNS1NVFF4TkRBNU5UWXhOakV5TUg1bWFHWktTVlJFT0RjME1rTTBLME12UjNrdkx6Z3JRMmwtZmcmY3JlYXRlX3RpbWU9MTQxNDA5NTY5MSZub25jZT0wLjU2NzUyNjI3MjA4ODk1NjEmZXhwaXJlX3RpbWU9MTQxNDcwMDQxMA=="
+    let SessionID = "2_MX40NTA0MDIyMn5-MTQxNDc3NTMzNjIzOX5JQ2hRNkhMZTlJQ1NOd2hNbzBwSGNmbU9-fg"
+    let Token = "T1==cGFydG5lcl9pZD00NTA0MDIyMiZzaWc9Y2IxMzM4YjBiMWJkYjNkZGZlNTg5ODEyNmU2ZGYyNTAyYTY1NTM4Yjpyb2xlPXN1YnNjcmliZXImc2Vzc2lvbl9pZD0yX01YNDBOVEEwTURJeU1uNS1NVFF4TkRjM05UTXpOakl6T1g1SlEyaFJOa2hNWlRsSlExTk9kMmhOYnpCd1NHTm1iVTktZmcmY3JlYXRlX3RpbWU9MTQxNTM0MzcxNSZub25jZT0wLjY2MTQ1MDA1MDgzNTE0MjMmZXhwaXJlX3RpbWU9MTQxNzkzNTY4NQ=="
     let subscribeToSelf = false
     
     required init(coder aDecoder: NSCoder) {
@@ -187,9 +187,8 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         var ycor = touchPoint?.y
 
         var tapData = ["x": Float(xcor!), "y": Float(ycor!)]
-        var params = ["type": "tap", "params": tapData]
         
-        self.meteorClient.callMethodName("updateTap", parameters: [params], responseCallback: nil)
+        self.meteorClient.callMethodName("createTap", parameters: [tapData], responseCallback: nil)
         
         println("x: \(touchPoint?.x)")
         println("y: \(touchPoint?.y)")
