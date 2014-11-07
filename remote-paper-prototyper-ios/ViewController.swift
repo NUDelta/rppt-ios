@@ -25,7 +25,12 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     let Token = "T1==cGFydG5lcl9pZD00NTA0MDIyMiZzaWc9Y2IxMzM4YjBiMWJkYjNkZGZlNTg5ODEyNmU2ZGYyNTAyYTY1NTM4Yjpyb2xlPXN1YnNjcmliZXImc2Vzc2lvbl9pZD0yX01YNDBOVEEwTURJeU1uNS1NVFF4TkRjM05UTXpOakl6T1g1SlEyaFJOa2hNWlRsSlExTk9kMmhOYnpCd1NHTm1iVTktZmcmY3JlYXRlX3RpbWU9MTQxNTM0MzcxNSZub25jZT0wLjY2MTQ1MDA1MDgzNTE0MjMmZXhwaXJlX3RpbWU9MTQxNzkzNTY4NQ=="
     
     // MARK: Gesture Recognition Members
-    var tapGestureRecognizer : UITapGestureRecognizer!
+    let tapGestureRecognizer = UITapGestureRecognizer()
+    let pinchGestureRecognizer = UIPinchGestureRecognizer()
+    let swipeGestureRecognizer = UISwipeGestureRecognizer()
+    let longPressGestureRecognizer = UILongPressGestureRecognizer()
+    let rotateGestureRecognizer = UIRotationGestureRecognizer()
+    let panGestureRecognizer = UIPanGestureRecognizer()
     
     // -------------------------
     // MARK: View Initialization
@@ -38,7 +43,6 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         super.viewDidLoad()
         
         self.initMeteor()
-        self.tapGestureRecognizer = UITapGestureRecognizer()
         
         self.session = OTSession(apiKey: APIKey, sessionId: SessionID, delegate: self)
         self.doConnect()
@@ -99,11 +103,11 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     func doSubscribe(stream: OTStream) {
         self.subscriber = OTSubscriber(stream: stream, delegate: self)
     
-//        var error : OTError? = nil
-//        self.session.subscribe(self.subscriber, error: &error)
-//        if (error != nil) {
-//            // self.showAlert
-//        }
+        var error : OTError? = nil
+        self.session.subscribe(self.subscriber, error: &error)
+        if (error != nil) {
+            // self.showAlert
+        }
     }
     
     func cleanupSubscriber() {
@@ -202,6 +206,7 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         
         self.meteorClient.callMethodName("createTap", parameters: [tapData], responseCallback: nil)
     }
+
 }
 
 
