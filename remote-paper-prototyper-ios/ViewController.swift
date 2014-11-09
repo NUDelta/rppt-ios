@@ -30,7 +30,7 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     let swipeGestureRecognizer = UISwipeGestureRecognizer()
     let longPressGestureRecognizer = UILongPressGestureRecognizer()
     let rotateGestureRecognizer = UIRotationGestureRecognizer()
-    let panGestureRecognizer = UIPanGestureRecognizer()
+    var panGestureRecognizer = UIPanGestureRecognizer()
     
     // -------------------------
     // MARK: View Initialization
@@ -43,6 +43,8 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         super.viewDidLoad()
         
         self.initMeteor()
+        self.panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "handlePan:")
+        self.view.addGestureRecognizer(self.panGestureRecognizer)
         
         self.session = OTSession(apiKey: APIKey, sessionId: SessionID, delegate: self)
         self.doConnect()
@@ -204,7 +206,21 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         var ycor = touchPoint?.y
         var tapData = ["x": Float(xcor!), "y": Float(ycor!)]
         
+        println("TAP: x: \(xcor); y: \(ycor)")
+        
         self.meteorClient.callMethodName("createTap", parameters: [tapData], responseCallback: nil)
+    }
+    
+    func handlePan(pan: UIPanGestureRecognizer) {
+        var motion = pan.translationInView(self.view) // gives relative position from original tap...
+        println("PAN: x: \(motion.x), y: \(motion.y)")
+        
+        let xcor = motion.x
+        let ycor = motion.y
+        let panData = ["x": Float(xcor), "y": Float(ycor)]
+        
+        println("PAN: x: \(xcor); y: \(ycor)")
+        self.meteorClient.callMethodName("panUpdate", parameters: [panData], responseCallback: nil)
     }
 
 }
