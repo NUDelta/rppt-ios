@@ -11,9 +11,15 @@ import MediaPlayer
 import MobileCoreServices
 
 class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate {
+    
+    // MARK: UI Elements
+    @IBOutlet weak var task: UITextField!
 
     // MARK: MeteorDDP Member
     var meteorClient = initializeMeteor("pre2", "ws://localhost:3000/websocket");
+//    var meteorMessages : M13OrderedDictionary {
+//        return self.meteorClient.collections["messages"] as M13OrderedDictionary
+//    }
 
     // MARK: OpenTok Streaming Member
     var session : OTSession!
@@ -48,6 +54,9 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         
         self.session = OTSession(apiKey: APIKey, sessionId: SessionID, delegate: self)
         self.doConnect()
+        
+        // bit not elegant...
+        let timer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "getNewTask", userInfo: nil, repeats: true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -61,6 +70,9 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     func initMeteor() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reportConnection", name: MeteorClientDidConnectNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reportDisconnection", name: MeteorClientDidDisconnectNotification, object: nil)
+        
+        self.meteorClient.addSubscription("messages")
+//        let timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "addMeteorObserver", userInfo: nil, repeats: false)
     }
     
     func reportConnection() {
@@ -70,6 +82,24 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     func reportDisconnection() {
         println("================> disconnected from server!")
     }
+    
+    func getNewTask() {
+        self.meteorClient.callMethodName("returnNewTask", parameters: nil, responseCallback: {(response, error) -> Void in
+            println("\(response)")
+            if (response != nil) {
+                self.task.text = response["result"] as String
+            }
+        })
+    }
+
+    // having some trouble with this...
+//    func addMeteorObserver() {
+//        self.meteorMessages.addObserver(self, forKeyPath: "newTaskSent", options: nil, context: nil)
+//    }
+//    
+//    func newTaskSent() {
+//        println("got a new task!")
+//    }
     
     // ----------------------------------------
     // MARK: OpenTok Initialization and Methods
