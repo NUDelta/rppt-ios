@@ -13,10 +13,10 @@ import MobileCoreServices
 class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate {
     
     // MARK: UI Elements
-    @IBOutlet weak var task: UITextField!
+    @IBOutlet weak var task: UILabel!
 
     // MARK: MeteorDDP Member
-    var meteorClient = initializeMeteor("pre2", "ws://localhost:3000/websocket");
+    var meteorClient = initializeMeteor("pre2", "ws://rppt.meteor.com/websocket");
 //    var meteorMessages : M13OrderedDictionary {
 //        return self.meteorClient.collections["messages"] as M13OrderedDictionary
 //    }
@@ -26,9 +26,9 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     var publisher: OTPublisher!
     var subscriber: OTSubscriber!
     
-    let APIKey = "45040222"
-    let SessionID = "2_MX40NTA0MDIyMn5-MTQxNDc3NTMzNjIzOX5JQ2hRNkhMZTlJQ1NOd2hNbzBwSGNmbU9-fg"
-    let Token = "T1==cGFydG5lcl9pZD00NTA0MDIyMiZzaWc9Y2IxMzM4YjBiMWJkYjNkZGZlNTg5ODEyNmU2ZGYyNTAyYTY1NTM4Yjpyb2xlPXN1YnNjcmliZXImc2Vzc2lvbl9pZD0yX01YNDBOVEEwTURJeU1uNS1NVFF4TkRjM05UTXpOakl6T1g1SlEyaFJOa2hNWlRsSlExTk9kMmhOYnpCd1NHTm1iVTktZmcmY3JlYXRlX3RpbWU9MTQxNTM0MzcxNSZub25jZT0wLjY2MTQ1MDA1MDgzNTE0MjMmZXhwaXJlX3RpbWU9MTQxNzkzNTY4NQ=="
+    let APIKey = "45090422"
+    let SessionID = "1_MX40NTA5MDQyMn5-MTQxNjU1Njk0OTM2M35pc296bHpCa1g2cUFBUFlNV2YvNDNCVWZ-fg"
+    let Token = "T1==cGFydG5lcl9pZD00NTA5MDQyMiZzaWc9MTlkNGRmODJkNzc5ZjYxNjVhM2RmNmJmZmY3NDViZmMwNjQ4M2Y1MTpyb2xlPXN1YnNjcmliZXImc2Vzc2lvbl9pZD0xX01YNDBOVEE1TURReU1uNS1NVFF4TmpVMU5qazBPVE0yTTM1cGMyOTZiSHBDYTFnMmNVRkJVRmxOVjJZdk5ETkNWV1otZmcmY3JlYXRlX3RpbWU9MTQxNjU1NzAwMiZub25jZT0wLjA4OTI0OTIxODQ5NTQ1MjA5JmV4cGlyZV90aW1lPTE0MTkxNDg5NDY="
     
     // MARK: Gesture Recognition Members
     let tapGestureRecognizer = UITapGestureRecognizer()
