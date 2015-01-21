@@ -16,19 +16,17 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     @IBOutlet weak var task: UILabel!
 
     // MARK: MeteorDDP Member
-    var meteorClient = initializeMeteor("pre2", "ws://rppt.meteor.com/websocket");
-//    var meteorMessages : M13OrderedDictionary {
-//        return self.meteorClient.collections["messages"] as M13OrderedDictionary
-//    }
+    var meteorClient = initializeMeteor("pre2", "ws://localhost:3000/websocket");
 
     // MARK: OpenTok Streaming Member
     var session : OTSession!
     var publisher: OTPublisher!
     var subscriber: OTSubscriber!
     
-    let APIKey = "45090422"
-    let SessionID = "1_MX40NTA5MDQyMn5-MTQxNjU1Njk0OTM2M35pc296bHpCa1g2cUFBUFlNV2YvNDNCVWZ-fg"
-    let Token = "T1==cGFydG5lcl9pZD00NTA5MDQyMiZzaWc9MTlkNGRmODJkNzc5ZjYxNjVhM2RmNmJmZmY3NDViZmMwNjQ4M2Y1MTpyb2xlPXN1YnNjcmliZXImc2Vzc2lvbl9pZD0xX01YNDBOVEE1TURReU1uNS1NVFF4TmpVMU5qazBPVE0yTTM1cGMyOTZiSHBDYTFnMmNVRkJVRmxOVjJZdk5ETkNWV1otZmcmY3JlYXRlX3RpbWU9MTQxNjU1NzAwMiZub25jZT0wLjA4OTI0OTIxODQ5NTQ1MjA5JmV4cGlyZV90aW1lPTE0MTkxNDg5NDY="
+    var syncCode = ""
+    var APIKey = ""
+    var SessionID = ""
+    var Token = ""
     
     // MARK: Gesture Recognition Members
     let tapGestureRecognizer = UITapGestureRecognizer()
@@ -52,11 +50,21 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         self.panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "handlePan:")
         self.view.addGestureRecognizer(self.panGestureRecognizer)
         
-        self.session = OTSession(apiKey: APIKey, sessionId: SessionID, delegate: self)
-        self.doConnect()
-        
         // bit not elegant...
         let timer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "getNewTask", userInfo: nil, repeats: true)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        var alert = UIAlertController(title: "Sync", message: "Enter the designer's sync code below", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+            self.syncCode = (alert.textFields![0] as UITextField).text
+            self.getSession()
+        }))
+        alert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+            textField.placeholder = ""
+            textField.secureTextEntry = true
+        })
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -72,7 +80,7 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reportDisconnection", name: MeteorClientDidDisconnectNotification, object: nil)
         
         self.meteorClient.addSubscription("messages")
-//        let timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "addMeteorObserver", userInfo: nil, repeats: false)
+        self.meteorClient.addSubscription("sessions")
     }
     
     func reportConnection() {
@@ -87,8 +95,19 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         self.meteorClient.callMethodName("returnNewTask", parameters: nil, responseCallback: {(response, error) -> Void in
             println("\(response)")
             if (response != nil) {
-                self.task.text = response["result"] as String
+                self.task.text = (response["result"] as String)
             }
+        })
+    }
+    
+    func getSession() {
+        self.meteorClient.callMethodName("getSession", parameters: ["subscriber"] as [AnyObject], responseCallback: {(response, error) -> Void in
+            println("[getSession]: \(response)")
+            self.SessionID = (response["result"] as Dictionary)["session"]!
+            self.APIKey = (response["result"] as Dictionary)["key"]!
+            self.session = OTSession(apiKey: self.APIKey, sessionId: self.SessionID, delegate: self)
+            self.Token = (response["result"] as Dictionary)["token"]!
+            self.doConnect()
         })
     }
 
@@ -111,7 +130,6 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         if (error != nil) {
             // self.showAlert
         }
-        
     }
     
     func doPublish() {
