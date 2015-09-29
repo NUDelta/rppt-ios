@@ -7,40 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6287C6CAADD5AF21E74FDF47 /* libPods-remote-paper-prototyper-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F713FE1CF715C02BC6D6439 /* libPods-remote-paper-prototyper-ios.a */; };
-		AA11A15919EB3A83008CFDEA /* demoVideo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = AA11A15819EB3A83008CFDEA /* demoVideo.mp4 */; };
+		2A43937BD2BBB3C538AD2EE1 /* libPods-remote-paper-prototyper-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F713FE1CF715C02BC6D6439 /* libPods-remote-paper-prototyper-ios.a */; };
 		AA11A15E19EB3FE9008CFDEA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA11A15C19EB3FE9008CFDEA /* Main.storyboard */; };
-		AA1ABF4119F8A7B200DF101B /* OpenTok.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1ABF4019F8A7B200DF101B /* OpenTok.framework */; };
-		AA1ABF4319F8A7D800DF101B /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1ABF4219F8A7D800DF101B /* GLKit.framework */; };
-		AA1ABF4519F8A7E000DF101B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1ABF4419F8A7E000DF101B /* SystemConfiguration.framework */; };
-		AA1ABF4719F8A7E700DF101B /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1ABF4619F8A7E700DF101B /* CoreTelephony.framework */; };
-		AA1ABF4919F8A84E00DF101B /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1ABF4819F8A84E00DF101B /* OpenGLES.framework */; };
-		AA1ABF4B19F8A85F00DF101B /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1ABF4A19F8A85F00DF101B /* CoreVideo.framework */; };
-		AA1ABF4D19F8A86500DF101B /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1ABF4C19F8A86500DF101B /* CoreMedia.framework */; };
-		AA1ABF4F19F8A86C00DF101B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1ABF4E19F8A86C00DF101B /* AudioToolbox.framework */; };
-		AA1ABF5119F8A87200DF101B /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1ABF5019F8A87200DF101B /* AVFoundation.framework */; };
-		AA1ABF5319F8A87B00DF101B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1ABF5219F8A87B00DF101B /* QuartzCore.framework */; };
-		AA1ABF5519F8A88100DF101B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1ABF5419F8A88100DF101B /* Foundation.framework */; };
-		AA1ABF5719F8A88800DF101B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1ABF5619F8A88800DF101B /* CoreGraphics.framework */; };
-		AA1ABF5919F8A88D00DF101B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1ABF5819F8A88D00DF101B /* UIKit.framework */; };
-		AA1ABF5B19F8A89700DF101B /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1ABF5A19F8A89700DF101B /* libstdc++.dylib */; };
-		AA1ABF5D19F8A89D00DF101B /* libstdc++.6.0.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1ABF5C19F8A89D00DF101B /* libstdc++.6.0.9.dylib */; };
-		AA1ABF5F19F8A8A800DF101B /* libpthread.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1ABF5E19F8A8A800DF101B /* libpthread.dylib */; };
-		AA1ABF6119F8A8B000DF101B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1ABF6019F8A8B000DF101B /* libsqlite3.dylib */; };
-		AA1ABF6319F8A8B800DF101B /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1ABF6219F8A8B800DF101B /* libxml2.dylib */; };
 		AA78AA6A1A0C20D100CA4B40 /* bridge.m in Sources */ = {isa = PBXBuildFile; fileRef = AA78AA691A0C20D100CA4B40 /* bridge.m */; };
 		AA881AB419DE6F88004F9DB1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA881AB319DE6F88004F9DB1 /* AppDelegate.swift */; };
 		AA881AB619DE6F88004F9DB1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA881AB519DE6F88004F9DB1 /* ViewController.swift */; };
 		AA881ABB19DE6F88004F9DB1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA881ABA19DE6F88004F9DB1 /* Images.xcassets */; };
 		AA881ABE19DE6F88004F9DB1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA881ABC19DE6F88004F9DB1 /* LaunchScreen.xib */; };
 		AA881ACA19DE6F88004F9DB1 /* remote_paper_prototyper_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA881AC919DE6F88004F9DB1 /* remote_paper_prototyper_iosTests.swift */; };
-		AA8C5B0919FA2B97002ED73E /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8C5B0819FA2B97002ED73E /* CFNetwork.framework */; };
 		AA8C5B0B19FA2BA3002ED73E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8C5B0A19FA2BA3002ED73E /* CoreLocation.framework */; };
-		AA8C5B0D19FA2BAB002ED73E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8C5B0C19FA2BAB002ED73E /* libz.dylib */; };
-		AA8C5B0F19FA2BB1002ED73E /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8C5B0E19FA2BB1002ED73E /* MobileCoreServices.framework */; };
-		AA8C5B1119FA2BC0002ED73E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8C5B1019FA2BC0002ED73E /* Security.framework */; };
-		AA8C5B1319FA2BC6002ED73E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8C5B1219FA2BC6002ED73E /* StoreKit.framework */; };
-		AA8C5B1519FA2EEB002ED73E /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8C5B1419FA2EEB002ED73E /* Bolts.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +31,6 @@
 /* Begin PBXFileReference section */
 		2F713FE1CF715C02BC6D6439 /* libPods-remote-paper-prototyper-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-remote-paper-prototyper-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA0208D219EC496C00180328 /* remote-paper-prototyper-ios-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "remote-paper-prototyper-ios-Bridging-Header.h"; sourceTree = "<group>"; };
-		AA11A15819EB3A83008CFDEA /* demoVideo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = demoVideo.mp4; sourceTree = "<group>"; };
 		AA11A15D19EB3FE9008CFDEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AA1ABF4019F8A7B200DF101B /* OpenTok.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenTok.framework; sourceTree = "<group>"; };
 		AA1ABF4219F8A7D800DF101B /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
@@ -92,7 +66,6 @@
 		AA8C5B0C19FA2BAB002ED73E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		AA8C5B0E19FA2BB1002ED73E /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		AA8C5B1019FA2BC0002ED73E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		AA8C5B1219FA2BC6002ED73E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		AA8C5B1419FA2EEB002ED73E /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "../Libraries/parse-library-1.4.1/Bolts.framework"; sourceTree = "<group>"; };
 		D2BD4816F10916153602D0E6 /* Pods-remote-paper-prototyper-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-remote-paper-prototyper-ios.release.xcconfig"; path = "Pods/Target Support Files/Pods-remote-paper-prototyper-ios/Pods-remote-paper-prototyper-ios.release.xcconfig"; sourceTree = "<group>"; };
 		D9AA9088DC0C386B87A6806A /* Pods-remote-paper-prototyper-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-remote-paper-prototyper-ios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-remote-paper-prototyper-ios/Pods-remote-paper-prototyper-ios.debug.xcconfig"; sourceTree = "<group>"; };
@@ -103,32 +76,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA8C5B1319FA2BC6002ED73E /* StoreKit.framework in Frameworks */,
-				AA8C5B1119FA2BC0002ED73E /* Security.framework in Frameworks */,
-				AA1ABF5319F8A87B00DF101B /* QuartzCore.framework in Frameworks */,
-				AA8C5B0F19FA2BB1002ED73E /* MobileCoreServices.framework in Frameworks */,
-				AA8C5B0D19FA2BAB002ED73E /* libz.dylib in Frameworks */,
 				AA8C5B0B19FA2BA3002ED73E /* CoreLocation.framework in Frameworks */,
-				AA8C5B0919FA2B97002ED73E /* CFNetwork.framework in Frameworks */,
-				AA8C5B1519FA2EEB002ED73E /* Bolts.framework in Frameworks */,
-				AA1ABF6319F8A8B800DF101B /* libxml2.dylib in Frameworks */,
-				AA1ABF6119F8A8B000DF101B /* libsqlite3.dylib in Frameworks */,
-				AA1ABF5F19F8A8A800DF101B /* libpthread.dylib in Frameworks */,
-				AA1ABF5D19F8A89D00DF101B /* libstdc++.6.0.9.dylib in Frameworks */,
-				AA1ABF5B19F8A89700DF101B /* libstdc++.dylib in Frameworks */,
-				AA1ABF5919F8A88D00DF101B /* UIKit.framework in Frameworks */,
-				AA1ABF5719F8A88800DF101B /* CoreGraphics.framework in Frameworks */,
-				AA1ABF5519F8A88100DF101B /* Foundation.framework in Frameworks */,
-				AA1ABF5119F8A87200DF101B /* AVFoundation.framework in Frameworks */,
-				AA1ABF4F19F8A86C00DF101B /* AudioToolbox.framework in Frameworks */,
-				AA1ABF4D19F8A86500DF101B /* CoreMedia.framework in Frameworks */,
-				AA1ABF4B19F8A85F00DF101B /* CoreVideo.framework in Frameworks */,
-				AA1ABF4919F8A84E00DF101B /* OpenGLES.framework in Frameworks */,
-				AA1ABF4719F8A7E700DF101B /* CoreTelephony.framework in Frameworks */,
-				AA1ABF4519F8A7E000DF101B /* SystemConfiguration.framework in Frameworks */,
-				AA1ABF4319F8A7D800DF101B /* GLKit.framework in Frameworks */,
-				AA1ABF4119F8A7B200DF101B /* OpenTok.framework in Frameworks */,
-				6287C6CAADD5AF21E74FDF47 /* libPods-remote-paper-prototyper-ios.a in Frameworks */,
+				2A43937BD2BBB3C538AD2EE1 /* libPods-remote-paper-prototyper-ios.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,7 +104,6 @@
 			isa = PBXGroup;
 			children = (
 				AA8C5B1419FA2EEB002ED73E /* Bolts.framework */,
-				AA8C5B1219FA2BC6002ED73E /* StoreKit.framework */,
 				AA8C5B1019FA2BC0002ED73E /* Security.framework */,
 				AA8C5B0E19FA2BB1002ED73E /* MobileCoreServices.framework */,
 				AA8C5B0C19FA2BAB002ED73E /* libz.dylib */,
@@ -211,7 +159,6 @@
 			isa = PBXGroup;
 			children = (
 				AA11A15C19EB3FE9008CFDEA /* Main.storyboard */,
-				AA11A15819EB3A83008CFDEA /* demoVideo.mp4 */,
 				AA881AB319DE6F88004F9DB1 /* AppDelegate.swift */,
 				AA881AB519DE6F88004F9DB1 /* ViewController.swift */,
 				AA881ABA19DE6F88004F9DB1 /* Images.xcassets */,
@@ -292,12 +239,19 @@
 		AA881AA619DE6F87004F9DB1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = aspin;
 				TargetAttributes = {
 					AA881AAD19DE6F87004F9DB1 = {
 						CreatedOnToolsVersion = 6.0.1;
 						DevelopmentTeam = W4E2C6X642;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+						};
 					};
 					AA881AC219DE6F88004F9DB1 = {
 						CreatedOnToolsVersion = 6.0.1;
@@ -329,7 +283,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA11A15919EB3A83008CFDEA /* demoVideo.mp4 in Resources */,
 				AA881ABE19DE6F88004F9DB1 /* LaunchScreen.xib in Resources */,
 				AA881ABB19DE6F88004F9DB1 /* Images.xcassets in Resources */,
 				AA11A15E19EB3FE9008CFDEA /* Main.storyboard in Resources */,
@@ -447,6 +400,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -466,6 +420,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VALID_ARCHS = "arm64 armv7 armv7s x86_64";
 			};
 			name = Debug;
 		};
@@ -501,6 +456,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "arm64 armv7 armv7s x86_64";
 			};
 			name = Release;
 		};
@@ -519,12 +475,24 @@
 				);
 				INFOPLIST_FILE = "remote-paper-prototyper-ios/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"icucore\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"Security\"",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.aspin.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "remote-paper-prototyper-ios-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Debug;
 		};
@@ -544,10 +512,22 @@
 				INFOPLIST_FILE = "remote-paper-prototyper-ios/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"icucore\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"Security\"",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.aspin.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "remote-paper-prototyper-ios-Bridging-Header.h";
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Release;
 		};
@@ -565,6 +545,7 @@
 				);
 				INFOPLIST_FILE = "remote-paper-prototyper-iosTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.aspin.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/remote-paper-prototyper-ios.app/remote-paper-prototyper-ios";
 			};
@@ -580,6 +561,7 @@
 				);
 				INFOPLIST_FILE = "remote-paper-prototyper-iosTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.aspin.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/remote-paper-prototyper-ios.app/remote-paper-prototyper-ios";
 			};

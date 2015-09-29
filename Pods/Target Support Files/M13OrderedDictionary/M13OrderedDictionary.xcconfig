@@ -1,0 +1,1 @@
+M__ORDEREDDICTIONARY_OTHER_LDFLAGS = -framework "Foundation"

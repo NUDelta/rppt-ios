@@ -16,7 +16,7 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     @IBOutlet weak var task: UILabel!
 
     // MARK: MeteorDDP Member
-    var meteorClient = initializeMeteor("pre2", "ws://localhost:3000/websocket");
+    var meteorClient = initializeMeteor("1", "ws://localhost:3000/websocket");
 
     // MARK: OpenTok Streaming Member
     var session : OTSession!
@@ -39,7 +39,7 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     // -------------------------
     // MARK: View Initialization
     // -------------------------
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -51,16 +51,16 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         self.view.addGestureRecognizer(self.panGestureRecognizer)
         
         // bit not elegant...
-        let timer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "getNewTask", userInfo: nil, repeats: true)
+        let _ = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "getNewTask", userInfo: nil, repeats: true)
     }
     
     override func viewDidAppear(animated: Bool) {
-        var alert = UIAlertController(title: "Sync", message: "Enter the designer's sync code below", preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: "Sync", message: "Enter the designer's sync code below", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-            self.syncCode = (alert.textFields![0] as UITextField).text
+            self.syncCode = (alert.textFields![0] as UITextField).text!
             self.getSession()
         }))
-        alert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+        alert.addTextFieldWithConfigurationHandler({(textField: UITextField) in
             textField.placeholder = ""
             textField.secureTextEntry = true
         })
@@ -84,29 +84,30 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     }
     
     func reportConnection() {
-        println("================> connected to server!")
+        print("================> connected to server!")
     }
     
     func reportDisconnection() {
-        println("================> disconnected from server!")
+        print("================> disconnected from server!")
     }
     
     func getNewTask() {
         self.meteorClient.callMethodName("returnNewTask", parameters: nil, responseCallback: {(response, error) -> Void in
-            println("\(response)")
+            print("\(response)")
             if (response != nil) {
-                self.task.text = (response["result"] as String)
+                self.task.text = (response["result"] as! String)
             }
         })
     }
     
     func getSession() {
         self.meteorClient.callMethodName("getSession", parameters: ["subscriber"] as [AnyObject], responseCallback: {(response, error) -> Void in
-            println("[getSession]: \(response)")
-            self.SessionID = (response["result"] as Dictionary)["session"]!
-            self.APIKey = (response["result"] as Dictionary)["key"]!
+            print("[getSession]: \(response)")
+            let result = response["result"] as! [String: String]
+            self.SessionID = result["session"]!
+            self.APIKey = result["key"]!
+            self.Token = result["token"]!
             self.session = OTSession(apiKey: self.APIKey, sessionId: self.SessionID, delegate: self)
-            self.Token = (response["result"] as Dictionary)["token"]!
             self.doConnect()
         })
     }
@@ -169,54 +170,54 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     // MARK: OTSession Delegate Callbacks
     // ----------------------------------
     func sessionDidConnect(session: OTSession!) {
-        println("sessionDidConnect \(session.sessionId)")
+        print("sessionDidConnect \(session.sessionId)")
         // self.doPublish()
     }
     
     func sessionDidDisconnect(session: OTSession!) {
-        var alert = "Session disconnected: \(session.sessionId)"
-        println("sessionDidDisconnect \(alert)")
+        let alert = "Session disconnected: \(session.sessionId)"
+        print("sessionDidDisconnect \(alert)")
     }
     
     func session(session: OTSession!, streamCreated stream: OTStream!) {
-        println("session streamCreated \(session.sessionId)")
+        print("session streamCreated \(session.sessionId)")
         self.doSubscribe(stream)
     }
     
     func session(session: OTSession!, streamDestroyed stream: OTStream!) {
-        println("session streamDestroyed \(stream.streamId)")
+        print("session streamDestroyed \(stream.streamId)")
         if (self.subscriber.stream.streamId == stream.streamId) {
             self.cleanupSubscriber()
         }
     }
     
     func session(session: OTSession!, connectionCreated connection: OTConnection!) {
-        println("session connectionCreated \(connection.connectionId)")
+        print("session connectionCreated \(connection.connectionId)")
     }
     
     func session(session: OTSession!, connectionDestroyed connection: OTConnection!) {
-        println("session connectionDestroyed \(connection.connectionId)")
+        print("session connectionDestroyed \(connection.connectionId)")
         if (self.subscriber.stream.connection.connectionId == connection.connectionId) {
             self.cleanupSubscriber()
         }
     }
     
     func session(session: OTSession!, didFailWithError error: OTError!) {
-        println("didFailWithError: \(error)")
+        print("didFailWithError: \(error)")
     }
    
     // -------------------------------------
     // MARK: OTSubscriber delegate callbacks
     // -------------------------------------
     func subscriberDidConnectToStream(subscriber: OTSubscriberKit!) {
-        println("subscriberDidConnectToStream \(subscriber.stream.connection.connectionId)")
+        print("subscriberDidConnectToStream \(subscriber.stream.connection.connectionId)")
         assert(subscriber == self.subscriber)
         self.subscriber.view.frame = CGRectMake(0, 20, 320, 460)
         self.view.addSubview(self.subscriber.view)
     }
     
     func subscriber(subscriber: OTSubscriberKit!, didFailWithError error: OTError!) {
-        println("")
+        print("")
     }
   
     // ------------------------------------
@@ -246,28 +247,28 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     // ---------------------------------
     // MARK: Gesture Recognition Methods
     // ---------------------------------
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        var touch: AnyObject? = event.allTouches()?.anyObject()
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        var touch: AnyObject? = event!.allTouches()?.first
         var touchPoint = touch?.locationInView(self.view)
         
         var xcor = touchPoint?.x
         var ycor = touchPoint?.y
         var tapData = ["x": Float(xcor!), "y": Float(ycor!)]
         
-        println("TAP: x: \(xcor); y: \(ycor)")
+        print("TAP: x: \(xcor); y: \(ycor)")
         
         self.meteorClient.callMethodName("createTap", parameters: [tapData], responseCallback: nil)
     }
     
     func handlePan(pan: UIPanGestureRecognizer) {
-        var motion = pan.translationInView(self.view) // gives relative position from original tap...
-        println("PAN: x: \(motion.x), y: \(motion.y)")
+        let motion = pan.translationInView(self.view) // gives relative position from original tap...
+        print("PAN: x: \(motion.x), y: \(motion.y)")
         
         let xcor = motion.x
         let ycor = motion.y
         let panData = ["x": Float(xcor), "y": Float(ycor)]
         
-        println("PAN: x: \(xcor); y: \(ycor)")
+        print("PAN: x: \(xcor); y: \(ycor)")
         self.meteorClient.callMethodName("panUpdate", parameters: [panData], responseCallback: nil)
     }
 

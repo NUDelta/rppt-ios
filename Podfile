@@ -6,6 +6,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 target 'remote-paper-prototyper-ios' do
 
 pod 'ObjectiveDDP', '~> 0.1.8'
+pod 'OpenTok'
 
 end
 

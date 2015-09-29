@@ -61,6 +61,14 @@ THE SOFTWARE.
 		</dict>
 		<dict>
 			<key>FooterText</key>
+			<string>https://tokbox.com/support/tos</string>
+			<key>Title</key>
+			<string>OpenTok</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
 			<string>
    Copyright 2012 Square Inc.
 
