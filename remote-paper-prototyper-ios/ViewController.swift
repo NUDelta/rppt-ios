@@ -73,11 +73,10 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         alert.addAction(UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
             self.syncCode = (alert.textFields![0] as UITextField).text!
             
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "whatever:", name: "messages_collection_added", object: nil)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "whatever3:", name: "messages_changed", object: nil)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "whatever2:", name: "messages_collection_changed", object: nil)
             let subscriptionParams = ["session": self.syncCode]
             self.meteorClient.addSubscription("messages", withParameters: [subscriptionParams])
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "messageChanged:", name: "messages_changed", object: nil)
+            
             self.initTask()
             // self.initStream()
         }))
@@ -88,19 +87,12 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
-    func whatever(notification: NSNotification) {
-        print("here")
-        print(notification)
-    }
-    
-    func whatever2(notification: NSNotification) {
-        print("here2")
-        print(notification)
-    }
-    
-    func whatever3(notification: NSNotification) {
-        print("here3")
-        print(notification)
+    func messageChanged(notification: NSNotification) {
+        if let result = notification.userInfo as? [String:String] {
+            if result["_id"] == self.messageId && result["type"] == "task" {
+                self.task.text = result["content"]
+            }
+        }
     }
     
     // --------------------------------------------
