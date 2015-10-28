@@ -10,12 +10,3 @@
 #import "MeteorClient.h"
 #import "ObjectiveDDP.h"
 #import <ObjectiveDDP/MeteorClient.h>
-
-
-MeteorClient* initializeMeteor(NSString* version, NSString* endpoint) {
-    MeteorClient *meteorClient = [[MeteorClient alloc] initWithDDPVersion:version];
-    ObjectiveDDP *ddp = [[ObjectiveDDP alloc] initWithURLString:endpoint delegate:meteorClient];
-    meteorClient.ddp = ddp;
-    [meteorClient.ddp connectWebSocket];
-    return meteorClient;
-}

@@ -7,34 +7,36 @@
 //
 
 import UIKit
-import MediaPlayer
-import MobileCoreServices
+import CoreLocation
 
-class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate {
+class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate, CLLocationManagerDelegate {
     
-    // MARK: UI Elements
+    // UI Elements
     @IBOutlet weak var task: UILabel!
 
-    // MARK: MeteorDDP Member
-    var meteorClient = initializeMeteor("1", "ws://localhost:3000/websocket");
+    // MeteorDDP Member
+    var meteorClient : MeteorClient!
 
-    // MARK: OpenTok Streaming Member
+    // OpenTok Streaming Member
     var session : OTSession!
     var publisher: OTPublisher!
     var subscriber: OTSubscriber!
     
     var syncCode = ""
-    var APIKey = ""
-    var SessionID = ""
-    var Token = ""
+    var apiKey = ""
+    var streamId = ""
+    var token = ""
+    var messageId = ""
     
-    // MARK: Gesture Recognition Members
+    // Gesture Recognition Members
     let tapGestureRecognizer = UITapGestureRecognizer()
     let pinchGestureRecognizer = UIPinchGestureRecognizer()
     let swipeGestureRecognizer = UISwipeGestureRecognizer()
     let longPressGestureRecognizer = UILongPressGestureRecognizer()
     let rotateGestureRecognizer = UIRotationGestureRecognizer()
     var panGestureRecognizer = UIPanGestureRecognizer()
+    
+    let locationManager = CLLocationManager()
     
     // -------------------------
     // MARK: View Initialization
@@ -50,15 +52,34 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         self.panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "handlePan:")
         self.view.addGestureRecognizer(self.panGestureRecognizer)
         
-        // bit not elegant...
-        let _ = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "getNewTask", userInfo: nil, repeats: true)
+        self.locationManager.delegate = self
+        self.locationManager.distanceFilter = kCLDistanceFilterNone
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        self.locationManager.requestWhenInUseAuthorization()
+        self.locationManager.startUpdatingLocation()
     }
     
     override func viewDidAppear(animated: Bool) {
-        let alert = UIAlertController(title: "Sync", message: "Enter the designer's sync code below", preferredStyle: UIAlertControllerStyle.Alert)
+        self.showSyncCodeAlert()
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    func showSyncCodeAlert() {
+        let alert = UIAlertController(title: "Sync", message: "Enter the sync code below", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
             self.syncCode = (alert.textFields![0] as UITextField).text!
-            self.getSession()
+            
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "whatever:", name: "messages_collection_added", object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "whatever3:", name: "messages_changed", object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "whatever2:", name: "messages_collection_changed", object: nil)
+            let subscriptionParams = ["session": self.syncCode]
+            self.meteorClient.addSubscription("messages", withParameters: [subscriptionParams])
+            self.initTask()
+            // self.initStream()
         }))
         alert.addTextFieldWithConfigurationHandler({(textField: UITextField) in
             textField.placeholder = ""
@@ -67,59 +88,51 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func whatever(notification: NSNotification) {
+        print("here")
+        print(notification)
+    }
+    
+    func whatever2(notification: NSNotification) {
+        print("here2")
+        print(notification)
+    }
+    
+    func whatever3(notification: NSNotification) {
+        print("here3")
+        print(notification)
     }
     
     // --------------------------------------------
     // MARK: MeteorDDP Initialization and Observers
     // --------------------------------------------
     func initMeteor() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reportConnection", name: MeteorClientDidConnectNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reportDisconnection", name: MeteorClientDidDisconnectNotification, object: nil)
-        
-        self.meteorClient.addSubscription("messages")
-        self.meteorClient.addSubscription("sessions")
+        self.meteorClient = (UIApplication.sharedApplication().delegate as! AppDelegate).meteorClient
+
     }
     
-    func reportConnection() {
-        print("================> connected to server!")
+    func initTask() {
+        self.meteorClient.callMethodName("getTaskId", parameters: [self.syncCode]) { (response, error) -> Void in
+            if let result = response["result"] as? [String: String] {
+                self.task.text = result["content"]
+                self.messageId = result["_id"]!
+            }
+        }
     }
     
-    func reportDisconnection() {
-        print("================> disconnected from server!")
-    }
-    
-    func getNewTask() {
-        self.meteorClient.callMethodName("returnNewTask", parameters: nil, responseCallback: {(response, error) -> Void in
-            print("\(response)")
-            if (response != nil) {
-                self.task.text = (response["result"] as! String)
+    func initStream() {
+        self.meteorClient.callMethodName("getStreamData", parameters: [self.syncCode, "subscriber"] as [AnyObject], responseCallback: {(response, error) -> Void in
+            if let result = response["result"] as? [String: String] {
+                self.streamId = result["session"]!
+                self.apiKey = result["key"]!
+                self.token = result["token"]!
+                self.session = OTSession(apiKey: self.apiKey, sessionId: self.streamId, delegate: self)
+                self.doConnect()
+            } else {
+                self.showSyncCodeAlert()
             }
         })
     }
-    
-    func getSession() {
-        self.meteorClient.callMethodName("getSession", parameters: ["subscriber"] as [AnyObject], responseCallback: {(response, error) -> Void in
-            print("[getSession]: \(response)")
-            let result = response["result"] as! [String: String]
-            self.SessionID = result["session"]!
-            self.APIKey = result["key"]!
-            self.Token = result["token"]!
-            self.session = OTSession(apiKey: self.APIKey, sessionId: self.SessionID, delegate: self)
-            self.doConnect()
-        })
-    }
-
-    // having some trouble with this...
-//    func addMeteorObserver() {
-//        self.meteorMessages.addObserver(self, forKeyPath: "newTaskSent", options: nil, context: nil)
-//    }
-//    
-//    func newTaskSent() {
-//        println("got a new task!")
-//    }
     
     // ----------------------------------------
     // MARK: OpenTok Initialization and Methods
@@ -127,28 +140,10 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     func doConnect() {
         var error : OTError? = nil
         
-        self.session.connectWithToken(Token, error: &error)
+        self.session.connectWithToken(token, error: &error)
         if (error != nil) {
             // self.showAlert
         }
-    }
-    
-    func doPublish() {
-//        self.publisher = OTPublisher(delegate: self, name: UIDevice.currentDevice().name)
-//
-//        var error : OTError? = nil
-//        self.session.publish(self.publisher, error: &error)
-//        if (error != nil) {
-//            // self.showAlert
-//        }
-//        
-//        // self.view.addSubview(self.publisher.view!)
-//        // self.publisher.view.frame = CGRectMake(0, 0, 320, 240)
-    }
-    
-    func cleanupPublisher() {
-//        self.publisher.view.removeFromSuperview()
-//        self.publisher = nil
     }
     
     func doSubscribe(stream: OTStream) {
@@ -171,7 +166,6 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     // ----------------------------------
     func sessionDidConnect(session: OTSession!) {
         print("sessionDidConnect \(session.sessionId)")
-        // self.doPublish()
     }
     
     func sessionDidDisconnect(session: OTSession!) {
@@ -231,11 +225,9 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         if (self.subscriber.stream.streamId == stream.streamId) {
             self.cleanupSubscriber()
         }
-        self.cleanupPublisher()
     }
     
     func publisher(publisher: OTPublisherKit!, didFailWithError: OTError!) {
-        self.cleanupPublisher()
     }
     
     func showAlert(string: String) {
@@ -248,12 +240,12 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     // MARK: Gesture Recognition Methods
     // ---------------------------------
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        var touch: AnyObject? = event!.allTouches()?.first
-        var touchPoint = touch?.locationInView(self.view)
+        let touch: AnyObject? = event!.allTouches()?.first
+        let touchPoint = touch?.locationInView(self.view)
         
-        var xcor = touchPoint?.x
-        var ycor = touchPoint?.y
-        var tapData = ["x": Float(xcor!), "y": Float(ycor!)]
+        let xcor = touchPoint?.x
+        let ycor = touchPoint?.y
+        let tapData = ["x": Float(xcor!), "y": Float(ycor!)]
         
         print("TAP: x: \(xcor); y: \(ycor)")
         
@@ -270,6 +262,14 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         
         print("PAN: x: \(xcor); y: \(ycor)")
         self.meteorClient.callMethodName("panUpdate", parameters: [panData], responseCallback: nil)
+    }
+    
+    // ---------------------------------
+    // MARK: CoreLocation Delegate
+    // ---------------------------------
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("got location")
     }
 
 }

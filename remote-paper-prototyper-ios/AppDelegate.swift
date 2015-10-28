@@ -12,9 +12,34 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var meteorClient: MeteorClient!
+    
+    let version = "1"
+    let endpoint = "ws://localhost:3000/websocket"
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        meteorClient = MeteorClient.init(DDPVersion: version)
+        let ddp = ObjectiveDDP.init(URLString: endpoint, delegate: meteorClient)
+        meteorClient.ddp = ddp
+        meteorClient.ddp.connectWebSocket()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reportConnection", name: MeteorClientDidConnectNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reportConnectionReady", name: MeteorClientConnectionReadyNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reportDisconnection", name: MeteorClientDidDisconnectNotification, object: nil)
+        
         return true
+    }
+    
+    func reportConnection() {
+        print("================> connected to server!")
+    }
+    
+    func reportConnectionReady() {
+        print("================> server connection ready!")
+    }
+    
+    func reportDisconnection() {
+        print("================> disconnected from server!")
     }
 
     func applicationWillResignActive(application: UIApplication) {
