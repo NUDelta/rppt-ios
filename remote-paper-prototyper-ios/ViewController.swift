@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import AVFoundation
 
 class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate, CLLocationManagerDelegate {
     
@@ -15,10 +16,10 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     @IBOutlet weak var task: UILabel!
 
     // MeteorDDP Member
-    var meteorClient : MeteorClient!
+    var meteorClient: MeteorClient!
 
     // OpenTok Streaming Member
-    var session : OTSession!
+    var session: OTSession!
     var publisher: OTPublisher!
     var subscriber: OTSubscriber!
     
@@ -29,12 +30,11 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     var messageId = ""
     
     // Gesture Recognition Members
-    let tapGestureRecognizer = UITapGestureRecognizer()
-    let pinchGestureRecognizer = UIPinchGestureRecognizer()
-    let swipeGestureRecognizer = UISwipeGestureRecognizer()
-    let longPressGestureRecognizer = UILongPressGestureRecognizer()
-    let rotateGestureRecognizer = UIRotationGestureRecognizer()
-    var panGestureRecognizer = UIPanGestureRecognizer()
+    var tapGestureRecognizer: UITapGestureRecognizer!
+    var panGestureRecognizer: UIPanGestureRecognizer!
+    
+    var lastX = Float(0)
+    var lastY = Float(0)
     
     let locationManager = CLLocationManager()
     
@@ -46,10 +46,13 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     }
     
     override func viewDidLoad() {
+        tapGestureRecognizer = UITapGestureRecognizer()
+        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "handlePan:")
+        
         super.viewDidLoad()
         
         self.initMeteor()
-        self.panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "handlePan:")
+
         self.view.addGestureRecognizer(self.panGestureRecognizer)
         
         self.locationManager.delegate = self
@@ -82,7 +85,6 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         }))
         alert.addTextFieldWithConfigurationHandler({(textField: UITextField) in
             textField.placeholder = ""
-            textField.secureTextEntry = true
         })
         self.presentViewController(alert, animated: true, completion: nil)
     }
@@ -91,6 +93,19 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         if let result = notification.userInfo as? [String:String] {
             if result["_id"] == self.messageId && result["type"] == "task" {
                 self.task.text = result["content"]
+                
+                // i don't work
+                let filePath = NSBundle.mainBundle().pathForResource("Tock", ofType: "caf")
+                let fileURL = NSURL(fileURLWithPath: filePath!)
+                var soundID: SystemSoundID = 0
+                AudioServicesCreateSystemSoundID(fileURL, &soundID)
+                AudioServicesPlaySystemSound(soundID)
+                
+//                let path = NSBundle.mainBundle().pathForResource("Tock", ofType: "aiff")
+//                var soundId = SystemSoundID()
+//                AudioServicesCreateSystemSoundID(NSURL(fileURLWithPath: path!), &soundId);
+//                AudioServicesPlaySystemSound(soundId)
+//                AudioServicesDisposeSystemSoundID(soundId)
             }
         }
     }
@@ -150,7 +165,7 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     
     func cleanupSubscriber() {
         self.subscriber.view.removeFromSuperview()
-        //self.subscriber = nil
+        self.subscriber = nil
     }
     
     // ----------------------------------
@@ -235,25 +250,20 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         let touch: AnyObject? = event!.allTouches()?.first
         let touchPoint = touch?.locationInView(self.view)
         
-        let xcor = touchPoint?.x
-        let ycor = touchPoint?.y
-        let tapData = ["x": Float(xcor!), "y": Float(ycor!)]
-        
-        print("TAP: x: \(xcor); y: \(ycor)")
-        
-        self.meteorClient.callMethodName("createTap", parameters: [tapData], responseCallback: nil)
+        self.lastX = Float((touchPoint?.x)!)
+        self.lastY = Float((touchPoint?.y)!)
+        self.sendTap(x: self.lastX, y: self.lastY)
     }
     
     func handlePan(pan: UIPanGestureRecognizer) {
         let motion = pan.translationInView(self.view) // gives relative position from original tap...
-        print("PAN: x: \(motion.x), y: \(motion.y)")
-        
-        let xcor = motion.x
-        let ycor = motion.y
-        let panData = ["x": Float(xcor), "y": Float(ycor)]
-        
-        print("PAN: x: \(xcor); y: \(ycor)")
-        self.meteorClient.callMethodName("panUpdate", parameters: [panData], responseCallback: nil)
+        self.sendTap(x: self.lastX + Float(motion.x), y: self.lastY + Float(motion.y))
+    }
+    
+    func sendTap(x x: Float, y: Float) {
+        if y < 500 {
+            self.meteorClient.callMethodName("createTap", parameters: [self.syncCode, x, y], responseCallback: nil)
+        }
     }
     
     // ---------------------------------
