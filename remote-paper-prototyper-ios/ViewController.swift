@@ -8,7 +8,6 @@
 
 import UIKit
 import CoreLocation
-import AVFoundation
 
 class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate, CLLocationManagerDelegate {
     
@@ -68,7 +67,6 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func showSyncCodeAlert() {
@@ -93,19 +91,7 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         if let result = notification.userInfo as? [String:String] {
             if result["_id"] == self.messageId && result["type"] == "task" {
                 self.task.text = result["content"]
-                
-                // i don't work
-                let filePath = NSBundle.mainBundle().pathForResource("Tock", ofType: "caf")
-                let fileURL = NSURL(fileURLWithPath: filePath!)
-                var soundID: SystemSoundID = 0
-                AudioServicesCreateSystemSoundID(fileURL, &soundID)
-                AudioServicesPlaySystemSound(soundID)
-                
-//                let path = NSBundle.mainBundle().pathForResource("Tock", ofType: "aiff")
-//                var soundId = SystemSoundID()
-//                AudioServicesCreateSystemSoundID(NSURL(fileURLWithPath: path!), &soundId);
-//                AudioServicesPlaySystemSound(soundId)
-//                AudioServicesDisposeSystemSoundID(soundId)
+                AudioServicesPlaySystemSound(1003)
             }
         }
     }
@@ -149,7 +135,7 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         
         self.session.connectWithToken(token, error: &error)
         if (error != nil) {
-            // self.showAlert
+             self.showAlert(error!.localizedDescription)
         }
     }
     
@@ -159,7 +145,7 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         var error : OTError? = nil
         self.session.subscribe(self.subscriber, error: &error)
         if (error != nil) {
-            // self.showAlert
+             self.showAlert(error!.localizedDescription)
         }
     }
     
@@ -238,9 +224,8 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     }
     
     func showAlert(string: String) {
-//        dispatch_async(dispatch_get_main_queue(), {
-//            var alert : UIAlertView = UIAlertView(title: "OTError", message: string, delegate: self, cancelButtonTitle: "OK", otherButtonTitles: nil)
-//            }, alert.show())
+        let alert = UIAlertController(title: "OpenTok Error", message: string, preferredStyle: UIAlertControllerStyle.Alert)
+        self.presentViewController(alert, animated: true, completion: nil)
     }
 
     // ---------------------------------
