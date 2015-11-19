@@ -13,3 +13,6 @@ These are needed for each web video stream.
 ## iOS Application Setup
 ** WIP **
 
+## To-do
+ * [ ] Scale to multiple iPhone sizes
+ * [ ] Add component to select web URL to connect to

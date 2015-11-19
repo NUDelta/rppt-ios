@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import AVFoundation
 
 class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate, CLLocationManagerDelegate {
     
@@ -79,7 +80,7 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "messageChanged:", name: "messages_changed", object: nil)
             
             self.initTask()
-            // self.initStream()
+            self.initStream()
         }))
         alert.addTextFieldWithConfigurationHandler({(textField: UITextField) in
             textField.placeholder = ""
@@ -190,7 +191,7 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     }
     
     func session(session: OTSession!, didFailWithError error: OTError!) {
-        print("didFailWithError: \(error)")
+        print("didFailWithError: \(error.localizedDescription)")
     }
    
     // -------------------------------------
@@ -199,12 +200,13 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     func subscriberDidConnectToStream(subscriber: OTSubscriberKit!) {
         print("subscriberDidConnectToStream \(subscriber.stream.connection.connectionId)")
         assert(subscriber == self.subscriber)
-        self.subscriber.view.frame = CGRectMake(0, 20, 320, 460)
+        let screenRect = UIScreen.mainScreen().bounds
+        self.subscriber.view.frame = CGRectMake(0, 20, screenRect.width, screenRect.width * 1.4375)
         self.view.addSubview(self.subscriber.view)
     }
     
     func subscriber(subscriber: OTSubscriberKit!, didFailWithError error: OTError!) {
-        print("")
+        print("didFailWithError: \(error.localizedDescription)")
     }
   
     // ------------------------------------
@@ -241,14 +243,22 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     }
     
     func handlePan(pan: UIPanGestureRecognizer) {
-        let motion = pan.translationInView(self.view) // gives relative position from original tap...
+        let motion = pan.translationInView(self.view)
         self.sendTap(x: self.lastX + Float(motion.x), y: self.lastY + Float(motion.y))
     }
     
     func sendTap(x x: Float, y: Float) {
-        if y < 500 {
-            self.meteorClient.callMethodName("createTap", parameters: [self.syncCode, x, y], responseCallback: nil)
+        let (scaledX, scaledY) = scale(x: x, y: y)
+        if scaledY < 500 {
+            self.meteorClient.callMethodName("createTap", parameters: [self.syncCode, scaledX, scaledY], responseCallback: nil)
         }
+    }
+    
+    func scale(x x: Float, y: Float) -> (Float, Float) {
+        let screenRect = UIScreen.mainScreen().bounds,
+            scaledX = x * 320 / Float(screenRect.width),
+            scaledY = y * 460 / Float(screenRect.width * 1.4375)
+        return (scaledX, scaledY)
     }
     
     // ---------------------------------
