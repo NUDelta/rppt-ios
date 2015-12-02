@@ -268,6 +268,14 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("got location")
     }
+    
+    func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
+        print("here?")
+    }
+    
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        print("erred")
+    }
 
 }
 
