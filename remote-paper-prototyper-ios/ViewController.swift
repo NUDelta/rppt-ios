@@ -97,6 +97,23 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         }
     }
     
+    func resetStreams() {
+        if let sess = session {
+            var error : OTError? = nil
+            sess.disconnect(&error)
+            subscriber.view.removeFromSuperview()
+            
+        }
+    }
+    
+    @IBAction func stopButtonTapped(sender: AnyObject) {
+        resetStreams()
+    }
+    
+    @IBAction func resyncButtonTapped(sender: AnyObject) {
+        resetStreams()
+        showSyncCodeAlert()
+    }
     // --------------------------------------------
     // MARK: MeteorDDP Initialization and Observers
     // --------------------------------------------
