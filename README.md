@@ -14,5 +14,5 @@ These are needed for each web video stream.
 ** WIP **
 
 ## To-do
- * [ ] Scale to multiple iPhone sizes
+ * [x] Scale to multiple iPhone sizes
  * [ ] Add component to select web URL to connect to
