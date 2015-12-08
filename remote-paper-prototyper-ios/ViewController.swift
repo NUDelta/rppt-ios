@@ -51,19 +51,19 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         
         super.viewDidLoad()
         
-        self.initMeteor()
+        initMeteor()
 
-        self.view.addGestureRecognizer(self.panGestureRecognizer)
+        self.view.addGestureRecognizer(panGestureRecognizer)
         
-        self.locationManager.delegate = self
-        self.locationManager.distanceFilter = kCLDistanceFilterNone
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        self.locationManager.requestWhenInUseAuthorization()
-        self.locationManager.startUpdatingLocation()
+        locationManager.delegate = self
+        locationManager.distanceFilter = kCLDistanceFilterNone
+        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
     }
     
     override func viewDidAppear(animated: Bool) {
-        self.showSyncCodeAlert()
+        showSyncCodeAlert()
     }
     
     override func didReceiveMemoryWarning() {
@@ -85,13 +85,13 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         alert.addTextFieldWithConfigurationHandler({(textField: UITextField) in
             textField.placeholder = ""
         })
-        self.presentViewController(alert, animated: true, completion: nil)
+        presentViewController(alert, animated: true, completion: nil)
     }
     
     func messageChanged(notification: NSNotification) {
         if let result = notification.userInfo as? [String:String] {
             if result["_id"] == self.messageId && result["type"] == "task" {
-                self.task.text = result["content"]
+                task.text = result["content"]
                 AudioServicesPlaySystemSound(1003)
             }
         }
@@ -101,7 +101,7 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     // MARK: MeteorDDP Initialization and Observers
     // --------------------------------------------
     func initMeteor() {
-        self.meteorClient = (UIApplication.sharedApplication().delegate as! AppDelegate).meteorClient
+        meteorClient = (UIApplication.sharedApplication().delegate as! AppDelegate).meteorClient
 
     }
     
@@ -116,7 +116,9 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     
     func initStream() {
         self.meteorClient.callMethodName("getStreamData", parameters: [self.syncCode, "subscriber"] as [AnyObject], responseCallback: {(response, error) -> Void in
-            if let result = response["result"] as? [String: String] {
+            if let err = error {
+                print("\(err.localizedDescription)")
+            } else if let result = response["result"] as? [String: String] {
                 self.streamId = result["session"]!
                 self.apiKey = result["key"]!
                 self.token = result["token"]!
@@ -136,23 +138,23 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         
         self.session.connectWithToken(token, error: &error)
         if (error != nil) {
-             self.showAlert(error!.localizedDescription)
+             showAlert(error!.localizedDescription)
         }
     }
     
     func doSubscribe(stream: OTStream) {
-        self.subscriber = OTSubscriber(stream: stream, delegate: self)
+        subscriber = OTSubscriber(stream: stream, delegate: self)
     
         var error : OTError? = nil
-        self.session.subscribe(self.subscriber, error: &error)
+        session.subscribe(self.subscriber, error: &error)
         if (error != nil) {
-             self.showAlert(error!.localizedDescription)
+             showAlert(error!.localizedDescription)
         }
     }
     
     func cleanupSubscriber() {
-        self.subscriber.view.removeFromSuperview()
-        self.subscriber = nil
+        subscriber.view.removeFromSuperview()
+        subscriber = nil
     }
     
     // ----------------------------------
@@ -169,13 +171,13 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     
     func session(session: OTSession!, streamCreated stream: OTStream!) {
         print("session streamCreated \(session.sessionId)")
-        self.doSubscribe(stream)
+        doSubscribe(stream)
     }
     
     func session(session: OTSession!, streamDestroyed stream: OTStream!) {
         print("session streamDestroyed \(stream.streamId)")
-        if (self.subscriber.stream.streamId == stream.streamId) {
-            self.cleanupSubscriber()
+        if (subscriber.stream.streamId == stream.streamId) {
+            cleanupSubscriber()
         }
     }
     
@@ -185,8 +187,8 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     
     func session(session: OTSession!, connectionDestroyed connection: OTConnection!) {
         print("session connectionDestroyed \(connection.connectionId)")
-        if (self.subscriber.stream.connection.connectionId == connection.connectionId) {
-            self.cleanupSubscriber()
+        if (subscriber.stream.connection.connectionId == connection.connectionId) {
+            cleanupSubscriber()
         }
     }
     
@@ -213,12 +215,12 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     // MARK: OTPublisher delegate callbacks
     // ------------------------------------
     func publisher(publisher: OTPublisherKit!, streamCreated stream: OTStream!) {
-        self.doSubscribe(stream)
+        doSubscribe(stream)
     }
     
     func publisher(publisher: OTPublisherKit!, streamDestroyed stream: OTStream!) {
-        if (self.subscriber.stream.streamId == stream.streamId) {
-            self.cleanupSubscriber()
+        if (subscriber.stream.streamId == stream.streamId) {
+            cleanupSubscriber()
         }
     }
     
@@ -227,7 +229,7 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     
     func showAlert(string: String) {
         let alert = UIAlertController(title: "OpenTok Error", message: string, preferredStyle: UIAlertControllerStyle.Alert)
-        self.presentViewController(alert, animated: true, completion: nil)
+        presentViewController(alert, animated: true, completion: nil)
     }
 
     // ---------------------------------
@@ -237,20 +239,20 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         let touch: AnyObject? = event!.allTouches()?.first
         let touchPoint = touch?.locationInView(self.view)
         
-        self.lastX = Float((touchPoint?.x)!)
-        self.lastY = Float((touchPoint?.y)!)
-        self.sendTap(x: self.lastX, y: self.lastY)
+        lastX = Float((touchPoint?.x)!)
+        lastY = Float((touchPoint?.y)!)
+        sendTap(x: self.lastX, y: self.lastY)
     }
     
     func handlePan(pan: UIPanGestureRecognizer) {
         let motion = pan.translationInView(self.view)
-        self.sendTap(x: self.lastX + Float(motion.x), y: self.lastY + Float(motion.y))
+        sendTap(x: lastX + Float(motion.x), y: lastY + Float(motion.y))
     }
     
     func sendTap(x x: Float, y: Float) {
         let (scaledX, scaledY) = scale(x: x, y: y)
         if scaledY < 500 {
-            self.meteorClient.callMethodName("createTap", parameters: [self.syncCode, scaledX, scaledY], responseCallback: nil)
+            meteorClient.callMethodName("createTap", parameters: [syncCode, scaledX, scaledY], responseCallback: nil)
         }
     }
     
@@ -266,15 +268,15 @@ class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     // ---------------------------------
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("got location")
-    }
-    
-    func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
-        print("here?")
+        if (self.syncCode != "") {
+            let location = locations[0].coordinate, lat = location.latitude, lng = location.longitude
+            let params = ["lat": lat, "lng": lng, "session": syncCode]
+            meteorClient.callMethodName("/locations/insert", parameters: [params] , responseCallback: nil)
+        }
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        print("erred")
+        print("\(error.localizedDescription)")
     }
 
 }
