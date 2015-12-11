@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:remote-paper-prototyper-ios.xcodeproj">
+      location = "group:/Users/aspin/rppt-ios/RPPT.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

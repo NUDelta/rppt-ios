@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 import AVFoundation
 
-class ViewController: UIViewController, OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate, CLLocationManagerDelegate {
+class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate, CLLocationManagerDelegate {
     
     // UI Elements
     @IBOutlet weak var task: UILabel!
