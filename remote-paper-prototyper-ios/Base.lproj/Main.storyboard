@@ -26,14 +26,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HAF-q5-hun">
-                                <rect key="frame" x="113" y="234" width="150" height="200"/>
+                                <rect key="frame" x="150" y="284" width="75" height="100"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="GHI-Fk-XGs"/>
-                                    <constraint firstAttribute="width" constant="150" id="Nbf-jw-1rQ"/>
+                                    <constraint firstAttribute="height" constant="100" id="GHI-Fk-XGs"/>
+                                    <constraint firstAttribute="width" constant="75" id="Nbf-jw-1rQ"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <inset key="titleEdgeInsets" minX="0.0" minY="150" maxX="0.0" maxY="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <inset key="titleEdgeInsets" minX="0.0" minY="65" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" title="Resync" backgroundImage="refresh">
                                     <color key="titleColor" red="0.047058823529411764" green="0.37254901960784315" blue="0.98039215686274506" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
@@ -42,7 +42,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YzM-0Z-vHB">
-                                <rect key="frame" x="329" y="600" width="30" height="30"/>
+                                <rect key="frame" x="329" y="30" width="30" height="30"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="30" id="TKB-9u-wnH"/>
@@ -64,10 +64,12 @@
                             <constraint firstItem="YzM-0Z-vHB" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="140" id="gdJ-U6-MOD"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="BJK-5S-Q8a" secondAttribute="bottom" constant="40" id="mln-IL-JSZ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="YzM-0Z-vHB" secondAttribute="trailing" id="o5t-0f-IbS"/>
+                            <constraint firstItem="YzM-0Z-vHB" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="10" id="tSv-Cr-9vM"/>
                             <constraint firstItem="YzM-0Z-vHB" firstAttribute="top" secondItem="HAF-q5-hun" secondAttribute="bottom" constant="36" id="wi5-yM-4nm"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="FJk-EM-Lze"/>
                                 <exclude reference="gdJ-U6-MOD"/>
                                 <exclude reference="wi5-yM-4nm"/>
                             </mask>
@@ -75,6 +77,8 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="reSyncButton" destination="HAF-q5-hun" id="bYQ-PM-FaZ"/>
+                        <outlet property="stopButton" destination="YzM-0Z-vHB" id="1Hv-xx-e4u"/>
                         <outlet property="task" destination="BJK-5S-Q8a" id="uh8-iL-KSq"/>
                     </connections>
                 </viewController>

@@ -14,6 +14,8 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     
     // UI Elements
     @IBOutlet weak var task: UILabel!
+    @IBOutlet weak var stopButton: UIButton!
+    @IBOutlet weak var reSyncButton: UIButton!
 
     // MeteorDDP Member
     var meteorClient: MeteorClient!
@@ -59,7 +61,6 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         locationManager.distanceFilter = kCLDistanceFilterNone
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -134,17 +135,25 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     func initStream() {
         self.meteorClient.callMethodName("getStreamData", parameters: [self.syncCode, "subscriber"] as [AnyObject], responseCallback: {(response, error) -> Void in
             if let err = error {
+                self.showAlertWithMessage("Could not stream session keys.", message: "Try refreshing your web client and entering in a new sync code.")
                 print("\(err.localizedDescription)")
             } else if let result = response["result"] as? [String: String] {
                 self.streamId = result["session"]!
                 self.apiKey = result["key"]!
                 self.token = result["token"]!
                 self.session = OTSession(apiKey: self.apiKey, sessionId: self.streamId, delegate: self)
+                
+                self.locationManager.startUpdatingLocation()
                 self.doConnect()
             } else {
                 self.showSyncCodeAlert()
             }
         })
+    }
+    
+    func showAlertWithMessage(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        presentViewController(alertController, animated: true, completion: nil)
     }
     
     // ----------------------------------------
@@ -222,6 +231,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         let screenRect = UIScreen.mainScreen().bounds
         self.subscriber.view.frame = CGRectMake(0, 20, screenRect.width, screenRect.width * 1.4375)
         self.view.addSubview(self.subscriber.view)
+        self.view.bringSubviewToFront(stopButton)
     }
     
     func subscriber(subscriber: OTSubscriberKit!, didFailWithError error: OTError!) {
@@ -245,8 +255,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     }
     
     func showAlert(string: String) {
-        let alert = UIAlertController(title: "OpenTok Error", message: string, preferredStyle: UIAlertControllerStyle.Alert)
-        presentViewController(alert, animated: true, completion: nil)
+        showAlertWithMessage("OpenTok Error", message: string)
     }
 
     // ---------------------------------
