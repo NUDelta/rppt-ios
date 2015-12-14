@@ -76,8 +76,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         alert.addAction(UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
             self.syncCode = (alert.textFields![0] as UITextField).text!
             
-            let subscriptionParams = ["session": self.syncCode]
-            self.meteorClient.addSubscription("messages", withParameters: [subscriptionParams])
+            self.meteorClient.addSubscription("messages", withParameters: [self.syncCode ])
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "messageChanged:", name: "messages_changed", object: nil)
             
             self.initTask()
@@ -135,7 +134,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     func initStream() {
         self.meteorClient.callMethodName("getStreamData", parameters: [self.syncCode, "subscriber"] as [AnyObject], responseCallback: {(response, error) -> Void in
             if let err = error {
-                self.showAlertWithMessage("Could not stream session keys.", message: "Try refreshing your web client and entering in a new sync code.")
+                self.showAlertWithMessage("Could not get stream key.", message: "Try refreshing your web client and entering in a new sync code.")
                 print("\(err.localizedDescription)")
             } else if let result = response["result"] as? [String: String] {
                 self.streamId = result["session"]!
@@ -153,6 +152,8 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     
     func showAlertWithMessage(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+        alertController.addAction(okAction)
         presentViewController(alertController, animated: true, completion: nil)
     }
     
