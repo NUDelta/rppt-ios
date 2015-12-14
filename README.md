@@ -1,23 +1,25 @@
-RPPT: iOS Application
-===========================
-Authored by [Kevin Chen](http://kevinchen.ninja).
+# RPPT iOS
+Authored by [Kevin Chen](http://kevinchen.ninja), 2015.
 
-## What is RPPT?
-Remote Paper Prototype Testing, or RPPT, is a [DTR](http://dtr.meteor.com) project from [Delta Lab](https://delta.northwestern.edu) that takes a new approach to lo-fidelity prototype evaluation. Traditional advances in prototyping or design methods lean toward quickly developing more complex and fleshed out demos, which often means creating many predefined interactions for designers to customize and insert. RPPT instead focuses on making low fidelity paper prototyping, which has no such restrictions, more accessible, powerful, and able to be conducted remotely. For further information, take a look at [our CHI publication.](http://dl.acm.org/citation.cfm?id=2702423)
+Master repository located at [remote-paper-prototype-testing](https://github.com/NUDelta/remote-paper-prototype-testing). See that README for more extensive physical setup information.
 
+## Requirements
+This iOS application should work out of the box, though it has not been tested for < iOS 8.0. Do any sort of device provisioning as needed.
 
 ## Icons
-Refresh by Mani Cheng from the Noun Project
-Close by Leyla Jacqueline from the Noun Project
+*from the Noun Project*
+* Refresh by Mani Cheng
+* Close by Leyla Jacqueline
 
-## Component Applications
-These are needed for each web video stream.
- * [Google Glass](https://github.com/NUDelta/remote-paper-prototyper-gdk)
- * [Web](https://github.com/NUDelta/remote-paper-prototyper-web)
+## Usage
+Enter in the sync code displayed on the web control center to start the stream of the paper prototype. Any gestures (tap + pan) you make will be overlayed on the web stream.
 
-## iOS Application Setup
-** WIP **
+You can stop the stream by hitting the `x` in the top right and reconnect (or to a different session) by clicking the `Resync` button in the center.
 
-## To-do
- * [x] Scale to multiple iPhone sizes
- * [ ] Add component to select web URL to connect to
+Any task updates are displayed below the video stream.
+
+## Next Steps
+Enterprise or App Store release and in-app server URL customization are features that will eventually be worked on.
+
+## Contact
+[kevinchen2016@u.northwestern.edu](mailto:kevinchen2016@u.northwestern.edu)
