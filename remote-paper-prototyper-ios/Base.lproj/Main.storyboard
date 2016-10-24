@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A320" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Controller-->
+        <scene sceneID="ufC-wZ-h7g">
+            <objects>
+                <viewController id="vXZ-lx-hvc" customClass="RPPTController" customModule="RPPT" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
+                        <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS" customClass="VideoStreamingOverlayView" customModule="RPPT" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connecting..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BJK-5S-Q8a">
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HAF-q5-hun">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="GHI-Fk-XGs"/>
+                                    <constraint firstAttribute="width" constant="75" id="Nbf-jw-1rQ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <inset key="titleEdgeInsets" minX="0.0" minY="65" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="Resync" backgroundImage="refresh">
+                                    <color key="titleColor" red="0.047058823529411764" green="0.37254901960784315" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="resyncButtonTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="FJB-cf-i7G"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YzM-0Z-vHB">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="TKB-9u-wnH"/>
+                                    <constraint firstAttribute="height" constant="30" id="l6K-tE-vHb"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="exit"/>
+                                <connections>
+                                    <action selector="stopButtonTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="i40-ul-nXa"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="HAF-q5-hun" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="7JT-0b-7kL"/>
+                            <constraint firstItem="YzM-0Z-vHB" firstAttribute="centerY" secondItem="BJK-5S-Q8a" secondAttribute="centerY" id="FJk-EM-Lze"/>
+                            <constraint firstAttribute="centerX" secondItem="BJK-5S-Q8a" secondAttribute="centerX" id="OuS-U1-vWf"/>
+                            <constraint firstItem="HAF-q5-hun" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="bGj-S2-8gY"/>
+                            <constraint firstItem="YzM-0Z-vHB" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="140" id="gdJ-U6-MOD"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="BJK-5S-Q8a" secondAttribute="bottom" constant="40" id="mln-IL-JSZ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="YzM-0Z-vHB" secondAttribute="trailing" id="o5t-0f-IbS"/>
+                            <constraint firstItem="YzM-0Z-vHB" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="10" id="tSv-Cr-9vM"/>
+                            <constraint firstItem="YzM-0Z-vHB" firstAttribute="top" secondItem="HAF-q5-hun" secondAttribute="bottom" constant="36" id="wi5-yM-4nm"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="FJk-EM-Lze"/>
+                                <exclude reference="gdJ-U6-MOD"/>
+                                <exclude reference="wi5-yM-4nm"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="reSyncButton" destination="HAF-q5-hun" id="bYQ-PM-FaZ"/>
+                        <outlet property="stopButton" destination="YzM-0Z-vHB" id="1Hv-xx-e4u"/>
+                        <outlet property="task" destination="BJK-5S-Q8a" id="uh8-iL-KSq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="140.5" y="115.5"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="exit" width="600" height="600"/>
+        <image name="refresh" width="531" height="700"/>
+    </resources>
+</document>
