@@ -1,0 +1,19 @@
+PODS:
+  - M13OrderedDictionary (1.0.4)
+  - ObjectiveDDP (0.1.8):
+    - M13OrderedDictionary
+    - SocketRocket (= 0.3.1-beta2)
+  - OpenTok (2.6.0)
+  - SocketRocket (0.3.1-beta2)
+
+DEPENDENCIES:
+  - ObjectiveDDP (~> 0.1.8)
+  - OpenTok
+
+SPEC CHECKSUMS:
+  M13OrderedDictionary: 452636ca4340833b5709711a3ba1e99d9bf0b3b0
+  ObjectiveDDP: 87609d002487bdb2e81b460de707b684551c04de
+  OpenTok: 2b99bd75055554f4028735fa84e4242e4932d245
+  SocketRocket: 7284ab9370a06c99aba92b2fe3a32aedd0f9a6fa
+
+COCOAPODS: 0.38.2
