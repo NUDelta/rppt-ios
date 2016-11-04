@@ -9,6 +9,10 @@
 import UIKit
 
 class VideoStreamingOverlayView: UIView, UIKeyInput {
+    
+    var message = ""
+    
+    var meteorClient = (UIApplication.shared.delegate as! AppDelegate).meteorClient
 
     override var canBecomeFirstResponder: Bool {
         return true
@@ -17,10 +21,20 @@ class VideoStreamingOverlayView: UIView, UIKeyInput {
     var hasText: Bool = true;
     
     func insertText(_ text: String) {
-        // Do something with the typed character
+        if (text == "\n") {
+            sendMessage()
+        }
+        message += text
     }
     
     func deleteBackward() {
-    // Handle the delete key
+        message = message.substring(with: message.startIndex..<message.index(message.endIndex, offsetBy: -1))
     }
+    
+    func sendMessage() {
+        print(((UIApplication.shared.delegate as! AppDelegate).syncCode)!)
+        print(message)
+        (UIApplication.shared.delegate as! AppDelegate).meteorClient.callMethodName("printKeyboardMessage", parameters: [((UIApplication.shared.delegate as! AppDelegate).syncCode!), message], responseCallback: nil)
+    }
+
 }

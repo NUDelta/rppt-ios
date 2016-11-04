@@ -42,6 +42,8 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     
     let locationManager = CLLocationManager()
     
+    let picker = UIImagePickerController()
+    
     // -------------------------
     // MARK: View Initialization
     // -------------------------
@@ -63,6 +65,8 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         locationManager.distanceFilter = kCLDistanceFilterNone
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager.requestWhenInUseAuthorization()
+        
+        setUpCamera()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -80,7 +84,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
             
             self.meteorClient.addSubscription("messages", withParameters: [self.syncCode])
             NotificationCenter.default.addObserver(self, selector: #selector(RPPTController.messageChanged), name: NSNotification.Name(rawValue: "messages_changed"), object: nil)
-            
+            (UIApplication.shared.delegate as! AppDelegate).syncCode = self.syncCode
             self.initTask()
             self.initStream()
         }))
@@ -90,13 +94,11 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         present(alert, animated: true, completion: nil)
     }
     
-    func displayCamera() {
-        let picker = UIImagePickerController()
+    func setUpCamera() {
         if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)) {
             if let mediaTypes = UIImagePickerController.availableMediaTypes(for: UIImagePickerControllerSourceType.camera) {
                 picker.sourceType = .camera
                 picker.mediaTypes = [kUTTypeImage as String]
-                self.present(picker, animated: true, completion: nil)
             }
         }
     }
@@ -106,13 +108,18 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
             if result["_id"] == self.messageId && result["type"] == "task" {
                 task.text = result["content"]
                 AudioServicesPlaySystemSound(1003)
-                displayCamera()
             }
             if result["keyboard"] == "show" {
                 self.view.becomeFirstResponder()
             }
             else if result["keyboard"] == "hide" {
                 self.view.resignFirstResponder()
+            }
+            if result["camera"] == "show" {
+                self.present(picker, animated: true, completion: nil)
+            }
+            else if result["camera"] == "hide" {
+                picker.dismiss(animated: true, completion: nil)
             }
         }
     }
@@ -326,7 +333,6 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("\(error.localizedDescription)")
     }
-
 }
 
 
