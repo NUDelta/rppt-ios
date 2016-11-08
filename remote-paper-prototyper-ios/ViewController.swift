@@ -270,16 +270,6 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     // ------------------------------------
     // MARK: OTPublisher delegate callbacks
     // ------------------------------------
-//    func publisher(publisher: OTPublisherKit!, streamCreated stream: OTStream!) {
-//        doSubscribe(stream: stream)
-//    }
-//    
-//    func publisher(publisher: OTPublisherKit!, streamDestroyed stream: OTStream!) {
-//        if (subscriber.stream.streamId == stream.streamId) {
-//            cleanupSubscriber()
-//        }
-//    }
-    
     func publisher(_ publisher: OTPublisherKit!, didFailWithError: OTError!) {
     }
     
