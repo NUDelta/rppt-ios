@@ -23,6 +23,7 @@ class VideoStreamingOverlayView: UIView, UIKeyInput {
     func insertText(_ text: String) {
         if (text == "\n") {
             sendMessage()
+            message = ""
         }
         message += text
     }
