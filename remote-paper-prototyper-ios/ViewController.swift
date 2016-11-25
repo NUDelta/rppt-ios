@@ -70,7 +70,9 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        showSyncCodeAlert()
+        if (session == nil) {
+            showSyncCodeAlert()
+        }
     }
     
     override func didReceiveMemoryWarning() {
