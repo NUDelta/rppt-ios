@@ -44,6 +44,8 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     
     let picker = UIImagePickerController()
     
+    var textfield = UITextField()
+    
     // -------------------------
     // MARK: View Initialization
     // -------------------------
@@ -109,11 +111,11 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
                 task.text = result["content"]
                 AudioServicesPlaySystemSound(1003)
             }
-            if result["keyboard"] == "show" {
-                self.view.becomeFirstResponder()
+            if result["keyboard"] == "show" && result["keyboard_x"] != nil && result["keyboard_y"] != nil && result["keyboard_height"] != nil && result["keyboard_width"] != nil {
+                self.setTextfield(x: CGFloat(Double(result["keyboard_x"]!)!), y: CGFloat(Double(result["keyboard_y"]!)!), width: CGFloat(Double(result["keyboard_width"]!)!), height: CGFloat(Double(result["keyboard_height"]!)!))
             }
             else if result["keyboard"] == "hide" {
-                self.view.resignFirstResponder()
+                self.textfield.resignFirstResponder()
             }
             if result["camera"] == "show" {
                 self.present(picker, animated: true, completion: nil)
@@ -122,6 +124,12 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
                 picker.dismiss(animated: true, completion: nil)
             }
         }
+    }
+    
+    func setTextfield(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat) {
+        textfield.frame = CGRect(x: x, y: y, width: width, height: height)
+        self.view.addSubview(textfield)
+        self.textfield.becomeFirstResponder()
     }
     
     func resetStreams() {
