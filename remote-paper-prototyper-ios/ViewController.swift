@@ -11,7 +11,7 @@ import CoreLocation
 import AVFoundation
 import MobileCoreServices
 
-class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate, CLLocationManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate, CLLocationManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
 
     
     // UI Elements
@@ -41,11 +41,8 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     var lastY = Float(0)
     
     let locationManager = CLLocationManager()
-    
     let picker = UIImagePickerController()
-    
     var textfield = UITextField()
-    
     var photoArray = [UIImage]()
     
     // -------------------------
@@ -70,7 +67,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager.requestWhenInUseAuthorization()
         
-        picker.delegate = self
+        textfield.delegate = self
         
         setUpCamera()
     }
@@ -106,6 +103,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)) {
             picker.sourceType = .camera
             picker.mediaTypes = [kUTTypeImage as String]
+            picker.delegate = self
         }
     }
 
@@ -138,6 +136,10 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         textfield.frame = CGRect(x: x, y: y, width: width, height: height)
         self.view.addSubview(textfield)
         self.textfield.becomeFirstResponder()
+    }
+    
+    func sendMessage() {
+        meteorClient.callMethodName("printKeyboardMessage", parameters: [syncCode, textfield.text], responseCallback: nil)
     }
     
     func resetStreams() {
@@ -325,11 +327,21 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     }
     
     // ---------------------------------
-    // MARK: UIImagePickerController Delegate Callbacks
+    // MARK: UIImagePickerController Delegate
     // ---------------------------------
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         photoArray.append(info[UIImagePickerControllerOriginalImage] as! UIImage)
         picker.dismiss(animated: true, completion: nil)
+    }
+    
+    // ---------------------------------
+    // MARK: UITextField Delegate
+    // ---------------------------------
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        sendMessage()
+        textfield.text = ""
+        return true
     }
     
     // ---------------------------------
