@@ -43,6 +43,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     let locationManager = CLLocationManager()
     let picker = UIImagePickerController()
     var textfield = UITextField()
+    var imageView = UIImageView()
     var photoArray = [UIImage]()
     
     // -------------------------
@@ -89,7 +90,6 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
             
             self.meteorClient.addSubscription("messages", withParameters: [self.syncCode])
             NotificationCenter.default.addObserver(self, selector: #selector(RPPTController.messageChanged), name: NSNotification.Name(rawValue: "messages_changed"), object: nil)
-            (UIApplication.shared.delegate as! AppDelegate).syncCode = self.syncCode
             self.initTask()
             self.initStream()
         }))
@@ -119,6 +119,12 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
             else if result["keyboard"] == "hide" {
                 self.textfield.resignFirstResponder()
             }
+            if result["photo_x"] != nil && result["photo_y"] != nil && result["photo_height"] != nil && result["photo_width"] != nil && result["photo_index"] != nil {
+                self.setImageView(x: CGFloat(Double(result["photo_x"]!)!), y: CGFloat(Double(result["photo_y"]!)!), width: CGFloat(Double(result["photo_width"]!)!), height: CGFloat(Double(result["photo_height"]!)!), index: Int(result["photo_index"]!)!)
+            }
+            else if result["keyboard"] == "hide" {
+                self.textfield.resignFirstResponder()
+            }
             if result["camera"] == "show" {
                 if (!(picker.isViewLoaded && picker.view.window != nil)) {
                     self.present(picker, animated: true, completion: nil)
@@ -136,6 +142,12 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         textfield.frame = CGRect(x: x, y: y, width: width, height: height)
         self.view.addSubview(textfield)
         self.textfield.becomeFirstResponder()
+    }
+    
+    func setImageView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, index: Int) {
+        imageView.frame = CGRect(x: x, y: y, width: width, height: height)
+        imageView.image = photoArray[index]
+        self.view.addSubview(imageView)
     }
     
     func sendMessage() {
@@ -332,6 +344,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         photoArray.append(info[UIImagePickerControllerOriginalImage] as! UIImage)
         picker.dismiss(animated: true, completion: nil)
+        setImageView(x: 50, y: 50, width: 50, height: 50, index: 0)
     }
     
     // ---------------------------------
