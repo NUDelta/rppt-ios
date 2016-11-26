@@ -11,7 +11,7 @@ import CoreLocation
 import AVFoundation
 import MobileCoreServices
 
-class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate, CLLocationManagerDelegate, UIImagePickerControllerDelegate {
+class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate, CLLocationManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     
     // UI Elements
@@ -46,6 +46,8 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     
     var textfield = UITextField()
     
+    var photoArray = [UIImage]()
+    
     // -------------------------
     // MARK: View Initialization
     // -------------------------
@@ -67,6 +69,8 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         locationManager.distanceFilter = kCLDistanceFilterNone
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager.requestWhenInUseAuthorization()
+        
+        picker.delegate = self
         
         setUpCamera()
     }
@@ -100,13 +104,11 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     
     func setUpCamera() {
         if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)) {
-            if let mediaTypes = UIImagePickerController.availableMediaTypes(for: UIImagePickerControllerSourceType.camera) {
-                picker.sourceType = .camera
-                picker.mediaTypes = [kUTTypeImage as String]
-            }
+            picker.sourceType = .camera
+            picker.mediaTypes = [kUTTypeImage as String]
         }
     }
-    
+
     func messageChanged(notification: NSNotification) {
         if let result = notification.userInfo as? [String:String] {
             if result["_id"] == self.messageId && result["type"] == "task" {
@@ -120,10 +122,14 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
                 self.textfield.resignFirstResponder()
             }
             if result["camera"] == "show" {
-                self.present(picker, animated: true, completion: nil)
+                if (!(picker.isViewLoaded && picker.view.window != nil)) {
+                    self.present(picker, animated: true, completion: nil)
+                }
             }
             else if result["camera"] == "hide" {
-                picker.dismiss(animated: true, completion: nil)
+                if (self.presentingViewController == picker) {
+                    picker.dismiss(animated: true, completion: nil)
+                }
             }
         }
     }
@@ -316,6 +322,14 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
             scaledX = x * 320 / Float(screenRect.width),
             scaledY = y * 460 / Float(screenRect.width * 1.4375)
         return (scaledX, scaledY)
+    }
+    
+    // ---------------------------------
+    // MARK: UIImagePickerController Delegate Callbacks
+    // ---------------------------------
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        photoArray.append(info[UIImagePickerControllerOriginalImage] as! UIImage)
+        picker.dismiss(animated: true, completion: nil)
     }
     
     // ---------------------------------
