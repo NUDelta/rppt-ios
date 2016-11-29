@@ -113,16 +113,14 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
                 task.text = result["content"]
                 AudioServicesPlaySystemSound(1003)
             }
-            if result["keyboard"] == "show" && result["keyboard_x"] != nil && result["keyboard_y"] != nil && result["keyboard_height"] != nil && result["keyboard_width"] != nil {
+            if result["keyboard_x"] != nil && result["keyboard_y"] != nil && result["keyboard_height"] != nil && result["keyboard_width"] != nil {
                 self.setTextfield(x: CGFloat(Double(result["keyboard_x"]!)!), y: CGFloat(Double(result["keyboard_y"]!)!), width: CGFloat(Double(result["keyboard_width"]!)!), height: CGFloat(Double(result["keyboard_height"]!)!))
-            }
-            else if result["keyboard"] == "hide" {
+            } else {
                 self.textfield.resignFirstResponder()
             }
             if result["photo_x"] != nil && result["photo_y"] != nil && result["photo_height"] != nil && result["photo_width"] != nil && result["photo_index"] != nil {
                 self.setImageView(x: CGFloat(Double(result["photo_x"]!)!), y: CGFloat(Double(result["photo_y"]!)!), width: CGFloat(Double(result["photo_width"]!)!), height: CGFloat(Double(result["photo_height"]!)!), index: Int(result["photo_index"]!)!)
-            }
-            else if result["keyboard"] == "hide" {
+            } else {
                 self.textfield.resignFirstResponder()
             }
             if result["camera"] == "show" {
