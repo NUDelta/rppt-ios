@@ -11,7 +11,7 @@ import CoreLocation
 import AVFoundation
 import MobileCoreServices
 
-class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate, CLLocationManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate, CLLocationManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
 
     
     // UI Elements
@@ -42,7 +42,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     
     let locationManager = CLLocationManager()
     let picker = UIImagePickerController()
-    var textfield = UITextField()
+    var textview = UITextView()
     var imageView = UIImageView()
     var photoArray = [UIImage]()
     
@@ -68,7 +68,8 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager.requestWhenInUseAuthorization()
         
-        textfield.delegate = self
+        textview.delegate = self
+        textview.backgroundColor = UIColor.clear
         
         setUpCamera()
     }
@@ -114,14 +115,14 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
                 AudioServicesPlaySystemSound(1003)
             }
             if result["keyboard_x"] != nil && result["keyboard_y"] != nil && result["keyboard_height"] != nil && result["keyboard_width"] != nil {
-                self.setTextfield(x: CGFloat(Double(result["keyboard_x"]!)!), y: CGFloat(Double(result["keyboard_y"]!)!), width: CGFloat(Double(result["keyboard_width"]!)!), height: CGFloat(Double(result["keyboard_height"]!)!))
+                self.setTextview(x: CGFloat(Double(result["keyboard_x"]!)!), y: CGFloat(Double(result["keyboard_y"]!)!), width: CGFloat(Double(result["keyboard_width"]!)!), height: CGFloat(Double(result["keyboard_height"]!)!))
             } else {
-                self.textfield.resignFirstResponder()
+                self.textview.resignFirstResponder()
             }
             if result["photo_x"] != nil && result["photo_y"] != nil && result["photo_height"] != nil && result["photo_width"] != nil && result["photo_index"] != nil {
                 self.setImageView(x: CGFloat(Double(result["photo_x"]!)!), y: CGFloat(Double(result["photo_y"]!)!), width: CGFloat(Double(result["photo_width"]!)!), height: CGFloat(Double(result["photo_height"]!)!), index: Int(result["photo_index"]!)!)
             } else {
-                self.textfield.resignFirstResponder()
+                self.imageView.resignFirstResponder()
             }
             if result["camera"] == "show" {
                 if (!(picker.isViewLoaded && picker.view.window != nil)) {
@@ -136,20 +137,20 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         }
     }
     
-    func setTextfield(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat) {
-        textfield.frame = CGRect(x: x, y: y, width: width, height: height)
-        self.view.addSubview(textfield)
-        self.textfield.becomeFirstResponder()
+    func setTextview(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat) {
+        textview.frame = CGRect(x: x, y: y, width: width, height: height)
+        self.view.addSubview(textview)
+        self.textview.becomeFirstResponder()
     }
     
     func setImageView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, index: Int) {
         imageView.frame = CGRect(x: x, y: y, width: width, height: height)
-        imageView.image = photoArray[index]
+        imageView.image = photoArray.last!
         self.view.addSubview(imageView)
     }
     
     func sendMessage() {
-        meteorClient.callMethodName("printKeyboardMessage", parameters: [syncCode, textfield.text], responseCallback: nil)
+        meteorClient.callMethodName("printKeyboardMessage", parameters: [syncCode, textview.text], responseCallback: nil)
     }
     
     func resetStreams() {
@@ -289,6 +290,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         self.subscriber.view.frame = CGRect(x: 0, y: 20, width: screenRect.width, height: screenRect.width * 1.4375)
         self.view.addSubview(self.subscriber.view)
         self.view.bringSubview(toFront: stopButton)
+        setTextview(x: 50, y: 50, width: 100, height: 200)
     }
     
     func subscriber(_ subscriber: OTSubscriberKit!, didFailWithError error: OTError!) {
@@ -346,13 +348,14 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     }
     
     // ---------------------------------
-    // MARK: UITextField Delegate
+    // MARK: UITextView Delegate
     // ---------------------------------
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        sendMessage()
-        textfield.text = ""
-        return true
+    func textViewDidChange(_ textView: UITextView) {
+        if (textview.text.characters.last) == "\n" {
+            sendMessage()
+            textview.text = ""
+        }
     }
     
     // ---------------------------------
