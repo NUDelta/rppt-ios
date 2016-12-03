@@ -290,7 +290,6 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         self.subscriber.view.frame = CGRect(x: 0, y: 20, width: screenRect.width, height: screenRect.width * 1.4375)
         self.view.addSubview(self.subscriber.view)
         self.view.bringSubview(toFront: stopButton)
-        setTextview(x: 50, y: 50, width: 100, height: 200)
     }
     
     func subscriber(_ subscriber: OTSubscriberKit!, didFailWithError error: OTError!) {
