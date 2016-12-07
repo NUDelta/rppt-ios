@@ -11,7 +11,7 @@ import CoreLocation
 import AVFoundation
 import MobileCoreServices
 
-class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate, CLLocationManagerDelegate, UIImagePickerControllerDelegate {
+class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate, CLLocationManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
 
     
     // UI Elements
@@ -41,8 +41,10 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     var lastY = Float(0)
     
     let locationManager = CLLocationManager()
-    
     let picker = UIImagePickerController()
+    var textview = UITextView()
+    var imageView = UIImageView()
+    var photoArray = [UIImage]()
     
     // -------------------------
     // MARK: View Initialization
@@ -66,6 +68,9 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager.requestWhenInUseAuthorization()
         
+        textview.delegate = self
+        textview.backgroundColor = UIColor.clear
+        
         setUpCamera()
     }
     
@@ -86,7 +91,6 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
             
             self.meteorClient.addSubscription("messages", withParameters: [self.syncCode])
             NotificationCenter.default.addObserver(self, selector: #selector(RPPTController.messageChanged), name: NSNotification.Name(rawValue: "messages_changed"), object: nil)
-            (UIApplication.shared.delegate as! AppDelegate).syncCode = self.syncCode
             self.initTask()
             self.initStream()
         }))
@@ -98,32 +102,58 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     
     func setUpCamera() {
         if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)) {
-            if let mediaTypes = UIImagePickerController.availableMediaTypes(for: UIImagePickerControllerSourceType.camera) {
-                picker.sourceType = .camera
-                picker.mediaTypes = [kUTTypeImage as String]
-            }
+            picker.sourceType = .camera
+            picker.mediaTypes = [kUTTypeImage as String]
+            picker.delegate = self
         }
     }
-    
+
     func messageChanged(notification: NSNotification) {
         if let result = notification.userInfo as? [String:String] {
             if result["_id"] == self.messageId && result["type"] == "task" {
                 task.text = result["content"]
                 AudioServicesPlaySystemSound(1003)
             }
-            if result["keyboard"] == "show" {
-                self.view.becomeFirstResponder()
+            if Double(result["keyboard_x"]!) != -999 && Double(result["keyboard_y"]!) != -999 && Double(result["keyboard_height"]!) != -999 && Double(result["keyboard_width"]!) != -999 {
+                self.setTextview(x: CGFloat(Double(result["keyboard_x"]!)!), y: CGFloat(Double(result["keyboard_y"]!)!), width: CGFloat(Double(result["keyboard_width"]!)!), height: CGFloat(Double(result["keyboard_height"]!)!))
+            } else {
+                self.textview.resignFirstResponder()
+                self.textview.removeFromSuperview()
             }
-            else if result["keyboard"] == "hide" {
-                self.view.resignFirstResponder()
+            if Double(result["photo_x"]!) != -999 && Double(result["photo_y"]!) != -999 && Double(result["photo_height"]!) != -999 && Double(result["photo_width"]!) != -999 {
+                self.setImageView(x: CGFloat(Double(result["photo_x"]!)!), y: CGFloat(Double(result["photo_y"]!)!), width: CGFloat(Double(result["photo_width"]!)!), height: CGFloat(Double(result["photo_height"]!)!), index: 0)
+            } else {
+                self.imageView.removeFromSuperview()
             }
             if result["camera"] == "show" {
-                self.present(picker, animated: true, completion: nil)
+                if (!(picker.isViewLoaded && picker.view.window != nil)) {
+                    self.present(picker, animated: true, completion: nil)
+                }
             }
             else if result["camera"] == "hide" {
-                picker.dismiss(animated: true, completion: nil)
+                if (self.presentingViewController == picker) {
+                    picker.dismiss(animated: true, completion: nil)
+                }
             }
         }
+    }
+    
+    func setTextview(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat) {
+        textview.frame = CGRect(x: x, y: y, width: width, height: height)
+        self.view.addSubview(textview)
+        self.textview.becomeFirstResponder()
+    }
+    
+    func setImageView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, index: Int) {
+        if (photoArray.count != 0) {
+            imageView.frame = CGRect(x: x, y: y, width: width, height: height)
+            imageView.image = photoArray.last!
+            self.view.addSubview(imageView)
+        }
+    }
+    
+    func sendMessage() {
+        meteorClient.callMethodName("printKeyboardMessage", parameters: [syncCode, textview.text], responseCallback: nil)
     }
     
     func resetStreams() {
@@ -308,6 +338,25 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
             scaledX = x * 320 / Float(screenRect.width),
             scaledY = y * 460 / Float(screenRect.width * 1.4375)
         return (scaledX, scaledY)
+    }
+    
+    // ---------------------------------
+    // MARK: UIImagePickerController Delegate
+    // ---------------------------------
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        photoArray.append(info[UIImagePickerControllerOriginalImage] as! UIImage)
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    // ---------------------------------
+    // MARK: UITextView Delegate
+    // ---------------------------------
+    
+    func textViewDidChange(_ textView: UITextView) {
+        if (textview.text.characters.last) == "\n" {
+            sendMessage()
+            textview.text = ""
+        }
     }
     
     // ---------------------------------

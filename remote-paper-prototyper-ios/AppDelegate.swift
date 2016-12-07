@@ -16,7 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     let version = "1"
     let endpoint = "ws://rppt.meteorapp.com/websocket"
-    var syncCode : String?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         meteorClient = MeteorClient.init(ddpVersion: version)

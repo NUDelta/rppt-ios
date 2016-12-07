@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		3F004E6525CE1B62CAA3013A /* libPods-RPPT.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DF3BC8466D49D160A6B834D /* libPods-RPPT.a */; };
-		94D9D5811DA448F1000F8E36 /* VideoStreamingOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D9D5801DA448F1000F8E36 /* VideoStreamingOverlayView.swift */; };
 		AA11A15E19EB3FE9008CFDEA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA11A15C19EB3FE9008CFDEA /* Main.storyboard */; };
 		AA78AA6A1A0C20D100CA4B40 /* bridge.m in Sources */ = {isa = PBXBuildFile; fileRef = AA78AA691A0C20D100CA4B40 /* bridge.m */; };
 		AA881AB419DE6F88004F9DB1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA881AB319DE6F88004F9DB1 /* AppDelegate.swift */; };
@@ -32,7 +31,6 @@
 /* Begin PBXFileReference section */
 		2DF3BC8466D49D160A6B834D /* libPods-RPPT.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RPPT.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A96B63459611DECDA8A473F /* Pods-RPPT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RPPT.release.xcconfig"; path = "Pods/Target Support Files/Pods-RPPT/Pods-RPPT.release.xcconfig"; sourceTree = "<group>"; };
-		94D9D5801DA448F1000F8E36 /* VideoStreamingOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoStreamingOverlayView.swift; sourceTree = "<group>"; };
 		AA0208D219EC496C00180328 /* remote-paper-prototyper-ios-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "remote-paper-prototyper-ios-Bridging-Header.h"; sourceTree = "<group>"; };
 		AA11A15D19EB3FE9008CFDEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AA1ABF4019F8A7B200DF101B /* OpenTok.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenTok.framework; sourceTree = "<group>"; };
@@ -152,7 +150,6 @@
 			isa = PBXGroup;
 			children = (
 				AA11A15C19EB3FE9008CFDEA /* Main.storyboard */,
-				94D9D5801DA448F1000F8E36 /* VideoStreamingOverlayView.swift */,
 				AA881AB319DE6F88004F9DB1 /* AppDelegate.swift */,
 				AA881AB519DE6F88004F9DB1 /* ViewController.swift */,
 				AA881ABA19DE6F88004F9DB1 /* Images.xcassets */,
@@ -357,7 +354,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94D9D5811DA448F1000F8E36 /* VideoStreamingOverlayView.swift in Sources */,
 				AA78AA6A1A0C20D100CA4B40 /* bridge.m in Sources */,
 				AA881AB619DE6F88004F9DB1 /* ViewController.swift in Sources */,
 				AA881AB419DE6F88004F9DB1 /* AppDelegate.swift in Sources */,
