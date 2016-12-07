@@ -114,15 +114,16 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
                 task.text = result["content"]
                 AudioServicesPlaySystemSound(1003)
             }
-            if result["keyboard_x"] != nil && result["keyboard_y"] != nil && result["keyboard_height"] != nil && result["keyboard_width"] != nil {
+            if Double(result["keyboard_x"]!) != -999 && Double(result["keyboard_y"]!) != -999 && Double(result["keyboard_height"]!) != -999 && Double(result["keyboard_width"]!) != -999 {
                 self.setTextview(x: CGFloat(Double(result["keyboard_x"]!)!), y: CGFloat(Double(result["keyboard_y"]!)!), width: CGFloat(Double(result["keyboard_width"]!)!), height: CGFloat(Double(result["keyboard_height"]!)!))
             } else {
                 self.textview.resignFirstResponder()
+                self.textview.removeFromSuperview()
             }
-            if result["photo_x"] != nil && result["photo_y"] != nil && result["photo_height"] != nil && result["photo_width"] != nil && result["photo_index"] != nil {
-                self.setImageView(x: CGFloat(Double(result["photo_x"]!)!), y: CGFloat(Double(result["photo_y"]!)!), width: CGFloat(Double(result["photo_width"]!)!), height: CGFloat(Double(result["photo_height"]!)!), index: Int(result["photo_index"]!)!)
+            if Double(result["photo_x"]!) != -999 && Double(result["photo_y"]!) != -999 && Double(result["photo_height"]!) != -999 && Double(result["photo_width"]!) != -999 {
+                self.setImageView(x: CGFloat(Double(result["photo_x"]!)!), y: CGFloat(Double(result["photo_y"]!)!), width: CGFloat(Double(result["photo_width"]!)!), height: CGFloat(Double(result["photo_height"]!)!), index: 0)
             } else {
-                self.imageView.resignFirstResponder()
+                self.imageView.removeFromSuperview()
             }
             if result["camera"] == "show" {
                 if (!(picker.isViewLoaded && picker.view.window != nil)) {
@@ -144,9 +145,11 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     }
     
     func setImageView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, index: Int) {
-        imageView.frame = CGRect(x: x, y: y, width: width, height: height)
-        imageView.image = photoArray.last!
-        self.view.addSubview(imageView)
+        if (photoArray.count != 0) {
+            imageView.frame = CGRect(x: x, y: y, width: width, height: height)
+            imageView.image = photoArray.last!
+            self.view.addSubview(imageView)
+        }
     }
     
     func sendMessage() {
@@ -343,7 +346,6 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         photoArray.append(info[UIImagePickerControllerOriginalImage] as! UIImage)
         picker.dismiss(animated: true, completion: nil)
-        setImageView(x: 50, y: 50, width: 50, height: 50, index: 0)
     }
     
     // ---------------------------------
