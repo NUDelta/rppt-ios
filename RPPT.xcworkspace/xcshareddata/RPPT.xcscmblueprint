@@ -4,11 +4,13 @@
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "45F723D7622A5077FBED910FE5A2DFCBA035F37F" : 9223372036854775807,
     "82058294C65197DC795A8A0BD956D03DB758A489" : 9223372036854775807,
     "2A36E8CA75548CF8947EB69D3AE99DA6FB031C64" : 9223372036854775807
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "520EC2EC-198D-47DF-AB80-D18717606D9E",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "45F723D7622A5077FBED910FE5A2DFCBA035F37F" : "",
     "82058294C65197DC795A8A0BD956D03DB758A489" : "rppt-ios\/",
     "2A36E8CA75548CF8947EB69D3AE99DA6FB031C64" : "ObjectiveDDP\/"
   },
@@ -20,6 +22,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/boundsj\/ObjectiveDDP.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2A36E8CA75548CF8947EB69D3AE99DA6FB031C64"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/NUDelta\/remote-paper-prototype-testing.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "45F723D7622A5077FBED910FE5A2DFCBA035F37F"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/NUDelta\/rppt-ios.git",

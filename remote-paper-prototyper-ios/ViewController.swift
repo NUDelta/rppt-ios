@@ -26,6 +26,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     var session: OTSession!
     var publisher: OTPublisher!
     var subscriber: OTSubscriber!
+    var capturer: ScreenCapturer!
     
     var syncCode = ""
     var apiKey = ""
@@ -243,42 +244,65 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         subscriber = nil
     }
     
+    func doPublish() {
+        let settings = OTPublisherSettings()
+        settings.name = UIDevice.current.name
+        publisher = OTPublisher(delegate: self, settings: settings)
+        publisher.videoType = .screen
+        publisher.audioFallbackEnabled = false
+        
+        capturer = ScreenCapturer(withView: view)
+        publisher.videoCapture = capturer
+        
+        var error : OTError? = nil
+        session.publish(self.publisher, error: &error)
+        
+        if (error != nil) {
+            showAlert(string: error!.localizedDescription)
+        }
+    }
+    
+    func cleanupPublisher() {
+        publisher = nil
+    }
+    
     // ----------------------------------
     // MARK: OTSession Delegate Callbacks
     // ----------------------------------
-    func sessionDidConnect(_ session: OTSession!) {
+    func sessionDidConnect(_ session: OTSession) {
         print("sessionDidConnect \(session.sessionId)")
     }
     
-    func sessionDidDisconnect(_ session: OTSession!) {
+    func sessionDidDisconnect(_ session: OTSession) {
         let alert = "Session disconnected: \(session.sessionId)"
         print("sessionDidDisconnect \(alert)")
     }
     
-    func session(_ session: OTSession!, streamCreated stream: OTStream!) {
+    func session(_ session: OTSession, streamCreated stream: OTStream) {
         print("session streamCreated \(session.sessionId)")
         doSubscribe(stream: stream)
+        doPublish()
     }
     
-    func session(_ session: OTSession!, streamDestroyed stream: OTStream!) {
+    func session(_ session: OTSession, streamDestroyed stream: OTStream) {
         print("session streamDestroyed \(stream.streamId)")
-        if (subscriber.stream.streamId == stream.streamId) {
+        if (subscriber.stream!.streamId == stream.streamId) {
             cleanupSubscriber()
         }
     }
     
-    func session(_ session: OTSession!, connectionCreated connection: OTConnection!) {
+    func session(_ session: OTSession, connectionCreated connection: OTConnection) {
         print("session connectionCreated \(connection.connectionId)")
     }
     
-    func session(_ session: OTSession!, connectionDestroyed connection: OTConnection!) {
+    func session(_ session: OTSession, connectionDestroyed connection: OTConnection) {
         print("session connectionDestroyed \(connection.connectionId)")
-        if (subscriber.stream.connection.connectionId == connection.connectionId) {
+        if (subscriber.stream!.connection.connectionId == connection.connectionId) {
             cleanupSubscriber()
         }
     }
     
-    func session(_ session: OTSession!, didFailWithError error: OTError!) {
+    func session(_ session: OTSession, didFailWithError error: OTError) {
         print("didFailWithError: \(error.localizedDescription)")
     }
    
@@ -286,8 +310,8 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     // MARK: OTSubscriber delegate callbacks
     // -------------------------------------
     
-    public func subscriberDidConnect(toStream subscriber: OTSubscriberKit!) {
-        print("subscriberDidConnectToStream \(subscriber.stream.connection.connectionId)")
+    public func subscriberDidConnect(toStream subscriber: OTSubscriberKit) {
+        print("subscriberDidConnectToStream \(subscriber.stream!.connection.connectionId)")
         assert(subscriber == self.subscriber)
         let screenRect = UIScreen.main.bounds
         self.subscriber.view.frame = CGRect(x: 0, y: 20, width: screenRect.width, height: screenRect.width * 1.4375)
@@ -295,14 +319,22 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         self.view.bringSubview(toFront: stopButton)
     }
     
-    func subscriber(_ subscriber: OTSubscriberKit!, didFailWithError error: OTError!) {
+    func subscriber(_ subscriber: OTSubscriberKit, didFailWithError error: OTError) {
         print("didFailWithError: \(error.localizedDescription)")
     }
   
     // ------------------------------------
     // MARK: OTPublisher delegate callbacks
     // ------------------------------------
-    func publisher(_ publisher: OTPublisherKit!, didFailWithError: OTError!) {
+    func publisher(_ publisher: OTPublisherKit, didFailWithError: OTError) {
+    }
+    
+    func publisher(_ publisher: OTPublisherKit!, streamCreated: OTError!)  {
+        print("Now publishing.")
+    }
+    
+    func publisher(_ publisher: OTPublisherKit!, streamDestroyed: OTError!)  {
+        cleanupPublisher()
     }
     
     func showAlert(string: String) {

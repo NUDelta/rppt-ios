@@ -3,7 +3,7 @@ PODS:
   - ObjectiveDDP (0.2.0):
     - M13OrderedDictionary
     - SocketRocket (= 0.4.1)
-  - OpenTok (2.9.2)
+  - OpenTok (2.10.0)
   - SocketRocket (0.4.1)
 
 DEPENDENCIES:
@@ -17,7 +17,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   M13OrderedDictionary: 6e157fe9c82aa6b3cd7198f5c5c30c7a6834c4a6
   ObjectiveDDP: c2225f6896d671977b7046afc0530967cd141f90
-  OpenTok: aa00296d8c48972cbbd18e2e3954955ea6fb9501
+  OpenTok: 0b4d35b08b126e960484579a0d851f1a02f1d643
   SocketRocket: ee0b5c34182d37bb4f1f8d628bbe737718126daa
 
 PODFILE CHECKSUM: 108d92e7e6c14ae08edf073c87848b7470dad41d
