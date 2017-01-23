@@ -204,6 +204,9 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
                 
                 self.locationManager.startUpdatingLocation()
                 self.doConnect()
+                self.meteorClient.callMethodName("getStreamData", parameters: [self.syncCode as AnyObject, "publisher" as AnyObject] as [AnyObject], responseCallback: {(response, error) -> Void in
+                    print(response)
+                })
             } else {
                 self.showSyncCodeAlert()
             }
@@ -259,6 +262,10 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         
         if (error != nil) {
             showAlert(string: error!.localizedDescription)
+        }
+        
+        if (session.capabilities?.canPublish)! {
+            print("can")
         }
     }
     
