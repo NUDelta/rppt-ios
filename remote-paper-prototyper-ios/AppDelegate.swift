@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var meteorClient: MeteorClient!
     
     let version = "1"
-    let endpoint = "ws://localhost:3000/websocket"
+    let endpoint = "ws://rppt.meteorapp.com/websocket"
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         meteorClient = MeteorClient.init(ddpVersion: version)
