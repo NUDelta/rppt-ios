@@ -11,7 +11,7 @@ import CoreLocation
 import AVFoundation
 import MobileCoreServices
 
-class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate, CLLocationManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
+class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherKitDelegate, CLLocationManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
 
     
     // UI Elements
@@ -23,15 +23,13 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     var meteorClient: MeteorClient!
 
     // OpenTok Streaming Member
-    var session: OTSession!
-    var publisher: OTPublisher!
+    var subscribingSession: OTSession!
+    var publishingSession: OTSession!
+    var publisher: OTPublisherKit!
     var subscriber: OTSubscriber!
     var capturer: ScreenCapturer!
     
     var syncCode = ""
-    var apiKey = ""
-    var streamId = ""
-    var token = ""
     var messageId = ""
     
     // Gesture Recognition Members
@@ -76,7 +74,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if (session == nil) {
+        if (subscribingSession == nil || publishingSession == nil) {
             showSyncCodeAlert()
         }
     }
@@ -115,16 +113,11 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
                 task.text = result["content"]
                 AudioServicesPlaySystemSound(1003)
             }
-            if Double(result["keyboard_x"]!) != -999 && Double(result["keyboard_y"]!) != -999 && Double(result["keyboard_height"]!) != -999 && Double(result["keyboard_width"]!) != -999 {
-                self.setTextview(x: CGFloat(Double(result["keyboard_x"]!)!), y: CGFloat(Double(result["keyboard_y"]!)!), width: CGFloat(Double(result["keyboard_width"]!)!), height: CGFloat(Double(result["keyboard_height"]!)!))
-            } else {
+            if result["keyboard"] == "show" {
+                self.setTextview(x: 20, y: 20, width: 20, height: 20)
+            } else if result["keyboard"] == "hide" {
                 self.textview.resignFirstResponder()
                 self.textview.removeFromSuperview()
-            }
-            if Double(result["photo_x"]!) != -999 && Double(result["photo_y"]!) != -999 && Double(result["photo_height"]!) != -999 && Double(result["photo_width"]!) != -999 {
-                self.setImageView(x: CGFloat(Double(result["photo_x"]!)!), y: CGFloat(Double(result["photo_y"]!)!), width: CGFloat(Double(result["photo_width"]!)!), height: CGFloat(Double(result["photo_height"]!)!), index: 0)
-            } else {
-                self.imageView.removeFromSuperview()
             }
             if result["camera"] == "show" {
                 if (!(picker.isViewLoaded && picker.view.window != nil)) {
@@ -135,6 +128,20 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
                 if (self.presentingViewController == picker) {
                     picker.dismiss(animated: true, completion: nil)
                 }
+            }
+            if let keyboardX = result["keyboard_x"] as? Double, let keyboardY = result["keyboard_y"] as? Double, let keyboardWidth = result["keyboard_width"] as? Double, let keyboardHeight = result["keyboard_height"] as? Double {
+                if keyboardX != -999 && keyboardY != -999 && keyboardWidth != -999 && keyboardHeight != -999 {
+                    self.setTextview(x: CGFloat(keyboardX), y: CGFloat(keyboardY), width: CGFloat(keyboardWidth), height: CGFloat(keyboardHeight))
+                    self.textview.resignFirstResponder()
+                    self.textview.removeFromSuperview()
+                }
+            }
+            if let photoX = result["photo_x"] as? Double, let photoY = result["photo_y"] as? Double, let photoWidth = result["photo_width"] as? Double, let photoHeight = result["photo_height"] as? Double {
+                if photoX != -999 && photoY != -999 && photoWidth != -999 && photoHeight != -999 {
+                    self.setImageView(x: CGFloat(photoX), y: CGFloat(photoY), width: CGFloat(photoWidth), height: CGFloat(photoHeight), index: 0)
+                }
+            } else {
+                self.imageView.removeFromSuperview()
             }
         }
     }
@@ -158,7 +165,8 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     }
     
     func resetStreams() {
-        if let sess = session {
+        //To fix
+        if let sess = subscribingSession {
             var error : OTError? = nil
             sess.disconnect(&error)
             subscriber.view.removeFromSuperview()
@@ -197,18 +205,27 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
                 self.showAlertWithMessage(title: "Could not get stream key.", message: "Try refreshing your web client and entering in a new sync code.")
                 print("\(err.localizedDescription)")
             } else if let result = response?["result"] as? [String: String] {
-                self.streamId = result["session"]!
-                self.apiKey = result["key"]!
-                self.token = result["token"]!
-                self.session = OTSession(apiKey: self.apiKey, sessionId: self.streamId, delegate: self)
+                var streamId = result["session"]!
+                var apiKey = result["key"]!
+                var token = result["token"]!
+                self.subscribingSession = OTSession(apiKey: apiKey, sessionId: streamId, delegate: self)
                 
                 self.locationManager.startUpdatingLocation()
-                self.doConnect()
-                self.meteorClient.callMethodName("getStreamData", parameters: [self.syncCode as AnyObject, "publisher" as AnyObject] as [AnyObject], responseCallback: {(response, error) -> Void in
-                    print(response)
-                })
+                self.doConnect(session: self.subscribingSession, token: token)
             } else {
                 self.showSyncCodeAlert()
+            }
+        })
+        self.meteorClient.callMethodName("getStreamData", parameters: [self.syncCode as AnyObject, "publisher" as AnyObject] as [AnyObject], responseCallback: {(response, error) -> Void in
+            if let err = error {
+                print("\(err.localizedDescription)")
+            } else if let result = response?["result"] as? [String: String] {
+                var streamId = result["session"]!
+                var apiKey = result["key"]!
+                var token = result["token"]!
+                self.publishingSession = OTSession(apiKey: apiKey, sessionId: streamId, delegate: self)
+                
+                self.doConnect(session: self.publishingSession, token: token)
             }
         })
     }
@@ -223,10 +240,10 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     // ----------------------------------------
     // MARK: OpenTok Initialization and Methods
     // ----------------------------------------
-    func doConnect() {
+    func doConnect(session: OTSession, token: String) {
         var error : OTError? = nil
         
-        self.session.connect(withToken: token, error: &error)
+        session.connect(withToken: token, error: &error)
         if (error != nil) {
              showAlert(string: error!.localizedDescription)
         }
@@ -236,7 +253,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         subscriber = OTSubscriber(stream: stream, delegate: self)
     
         var error : OTError? = nil
-        session.subscribe(self.subscriber, error: &error)
+        subscribingSession.subscribe(self.subscriber, error: &error)
         if (error != nil) {
              showAlert(string: error!.localizedDescription)
         }
@@ -250,7 +267,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     func doPublish() {
         let settings = OTPublisherSettings()
         settings.name = UIDevice.current.name
-        publisher = OTPublisher(delegate: self, settings: settings)
+        publisher = OTPublisherKit(delegate: self, settings: settings)
         publisher.videoType = .screen
         publisher.audioFallbackEnabled = false
         
@@ -258,14 +275,10 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         publisher.videoCapture = capturer
         
         var error : OTError? = nil
-        session.publish(self.publisher, error: &error)
+        publishingSession.publish(self.publisher, error: &error)
         
         if (error != nil) {
             showAlert(string: error!.localizedDescription)
-        }
-        
-        if (session.capabilities?.canPublish)! {
-            print("can")
         }
     }
     
@@ -278,6 +291,9 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     // ----------------------------------
     func sessionDidConnect(_ session: OTSession) {
         print("sessionDidConnect \(session.sessionId)")
+        if (session.capabilities?.canPublish)! {
+            doPublish()
+        }
     }
     
     func sessionDidDisconnect(_ session: OTSession) {
@@ -288,13 +304,14 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     func session(_ session: OTSession, streamCreated stream: OTStream) {
         print("session streamCreated \(session.sessionId)")
         doSubscribe(stream: stream)
-        doPublish()
     }
     
     func session(_ session: OTSession, streamDestroyed stream: OTStream) {
         print("session streamDestroyed \(stream.streamId)")
         if (subscriber.stream!.streamId == stream.streamId) {
             cleanupSubscriber()
+        } else if (publisher.stream!.streamId == stream.streamId) {
+            cleanupPublisher()
         }
     }
     
@@ -306,15 +323,17 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         print("session connectionDestroyed \(connection.connectionId)")
         if (subscriber.stream!.connection.connectionId == connection.connectionId) {
             cleanupSubscriber()
+        } else if (publisher.stream!.connection.connectionId == connection.connectionId) {
+            cleanupPublisher()
         }
     }
-    
+
     func session(_ session: OTSession, didFailWithError error: OTError) {
         print("didFailWithError: \(error.localizedDescription)")
     }
    
     // -------------------------------------
-    // MARK: OTSubscriber delegate callbacks
+    // MARK: OTSubscriberKitDelegate callbacks
     // -------------------------------------
     
     public func subscriberDidConnect(toStream subscriber: OTSubscriberKit) {
@@ -331,17 +350,19 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     }
   
     // ------------------------------------
-    // MARK: OTPublisher delegate callbacks
+    // MARK: OTPublisherKitDelegate callbacks
     // ------------------------------------
-    func publisher(_ publisher: OTPublisherKit, didFailWithError: OTError) {
-    }
     
-    func publisher(_ publisher: OTPublisherKit!, streamCreated: OTError!)  {
+    func publisher(_ publisher: OTPublisherKit, streamCreated stream: OTStream) {
         print("Now publishing.")
     }
     
-    func publisher(_ publisher: OTPublisherKit!, streamDestroyed: OTError!)  {
+    func publisher(_ publisher: OTPublisherKit, streamDestroyed stream: OTStream) {
         cleanupPublisher()
+    }
+    
+    func publisher(_ publisher: OTPublisherKit, didFailWithError error: OTError) {
+        print("Publisher failed: \(error.localizedDescription)")
     }
     
     func showAlert(string: String) {
