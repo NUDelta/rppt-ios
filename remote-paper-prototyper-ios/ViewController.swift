@@ -114,17 +114,6 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
                 task.text = result["content"]
                 AudioServicesPlaySystemSound(1003)
             }
-            if Double(result["keyboard_x"]!) != -999 && Double(result["keyboard_y"]!) != -999 && Double(result["keyboard_height"]!) != -999 && Double(result["keyboard_width"]!) != -999 {
-                self.setTextview(x: CGFloat(Double(result["keyboard_x"]!)!), y: CGFloat(Double(result["keyboard_y"]!)!), width: CGFloat(Double(result["keyboard_width"]!)!), height: CGFloat(Double(result["keyboard_height"]!)!))
-            } else {
-                self.textview.resignFirstResponder()
-                self.textview.removeFromSuperview()
-            }
-            if Double(result["photo_x"]!) != -999 && Double(result["photo_y"]!) != -999 && Double(result["photo_height"]!) != -999 && Double(result["photo_width"]!) != -999 {
-                self.setImageView(x: CGFloat(Double(result["photo_x"]!)!), y: CGFloat(Double(result["photo_y"]!)!), width: CGFloat(Double(result["photo_width"]!)!), height: CGFloat(Double(result["photo_height"]!)!), index: 0)
-            } else {
-                self.imageView.removeFromSuperview()
-            }
             if result["camera"] == "show" {
                 if (!(picker.isViewLoaded && picker.view.window != nil)) {
                     self.present(picker, animated: true, completion: nil)
@@ -134,6 +123,20 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
                 if (self.presentingViewController == picker) {
                     picker.dismiss(animated: true, completion: nil)
                 }
+            }
+            if let keyboardX = result["keyboard_x"] as? Double, let keyboardY = result["keyboard_y"] as? Double, let keyboardWidth = result["keyboard_width"] as? Double, let keyboardHeight = result["keyboard_height"] as? Double {
+                if keyboardX != -999 && keyboardY != -999 && keyboardWidth != -999 && keyboardHeight != -999 {
+                    self.setTextview(x: CGFloat(keyboardX), y: CGFloat(keyboardY), width: CGFloat(keyboardWidth), height: CGFloat(keyboardHeight))
+                    self.textview.resignFirstResponder()
+                    self.textview.removeFromSuperview()
+                }
+            }
+            if let photoX = result["photo_x"] as? Double, let photoY = result["photo_y"] as? Double, let photoWidth = result["photo_width"] as? Double, let photoHeight = result["photo_height"] as? Double {
+                if photoX != -999 && photoY != -999 && photoWidth != -999 && photoHeight != -999 {
+                    self.setImageView(x: CGFloat(photoX), y: CGFloat(photoY), width: CGFloat(photoWidth), height: CGFloat(photoHeight), index: 0)
+                }
+            } else {
+                self.imageView.removeFromSuperview()
             }
         }
     }
