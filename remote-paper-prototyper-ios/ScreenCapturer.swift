@@ -28,7 +28,9 @@ class ScreenCapturer: NSObject, OTVideoCapture {
     }
     fileprivate func screenShoot() -> UIImage {
         UIGraphicsBeginImageContextWithOptions(captureView.bounds.size, false, 0.0)
-        captureView.drawHierarchy(in: captureView.bounds, afterScreenUpdates: false)
+        for var view in UIApplication.shared.windows {
+            view.drawHierarchy(in: captureView.bounds, afterScreenUpdates: false)
+        }
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return image!
