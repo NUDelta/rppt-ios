@@ -109,6 +109,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
 
     func messageChanged(notification: NSNotification) {
         if let result = notification.userInfo as? [String:String] {
+            print(result)
             if result["_id"] == self.messageId && result["type"] == "task" {
                 task.text = result["content"]
                 AudioServicesPlaySystemSound(1003)
@@ -123,20 +124,19 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
                 if (!(picker.isViewLoaded && picker.view.window != nil)) {
                     self.present(picker, animated: true, completion: nil)
                 }
-            }
-            else if result["camera"] == "hide" {
+            } else if result["camera"] == "hide" {
                 if (self.presentingViewController == picker) {
                     picker.dismiss(animated: true, completion: nil)
                 }
             }
-            if let keyboardX = result["keyboard_x"] as? Double, let keyboardY = result["keyboard_y"] as? Double, let keyboardWidth = result["keyboard_width"] as? Double, let keyboardHeight = result["keyboard_height"] as? Double {
+            if let keyboardX = Double(result["keyboard_x"]!), let keyboardY = Double(result["keyboard_y"]!), let keyboardWidth = Double(result["keyboard_width"]!), let keyboardHeight = Double(result["keyboard_height"]!) {
                 if keyboardX != -999 && keyboardY != -999 && keyboardWidth != -999 && keyboardHeight != -999 {
                     self.setTextview(x: CGFloat(keyboardX), y: CGFloat(keyboardY), width: CGFloat(keyboardWidth), height: CGFloat(keyboardHeight))
                     self.textview.resignFirstResponder()
                     self.textview.removeFromSuperview()
                 }
             }
-            if let photoX = result["photo_x"] as? Double, let photoY = result["photo_y"] as? Double, let photoWidth = result["photo_width"] as? Double, let photoHeight = result["photo_height"] as? Double {
+            if let photoX = Double(result["photo_x"]!), let photoY = Double(result["photo_y"]!), let photoWidth = Double(result["photo_width"]!), let photoHeight = Double(result["photo_height"]!) {
                 if photoX != -999 && photoY != -999 && photoWidth != -999 && photoHeight != -999 {
                     self.setImageView(x: CGFloat(photoX), y: CGFloat(photoY), width: CGFloat(photoWidth), height: CGFloat(photoHeight), index: 0)
                 }

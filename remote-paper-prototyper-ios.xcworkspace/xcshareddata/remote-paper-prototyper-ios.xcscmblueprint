@@ -1,16 +1,16 @@
 {
-  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "5327A1CE0D7749D4A68F190C9A7755330A20709B",
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "82058294C65197DC795A8A0BD956D03DB758A489",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
-    "2A36E8CA75548CF8947EB69D3AE99DA6FB031C64" : 9223372036854775807,
-    "5327A1CE0D7749D4A68F190C9A7755330A20709B" : 9223372036854775807
+    "82058294C65197DC795A8A0BD956D03DB758A489" : 9223372036854775807,
+    "2A36E8CA75548CF8947EB69D3AE99DA6FB031C64" : 9223372036854775807
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "6FA639F6-6411-485F-B37D-093D0E25AEC4",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "2A36E8CA75548CF8947EB69D3AE99DA6FB031C64" : "ObjectiveDDP\/",
-    "5327A1CE0D7749D4A68F190C9A7755330A20709B" : "rppt-ios\/"
+    "82058294C65197DC795A8A0BD956D03DB758A489" : "rppt-ios\/",
+    "2A36E8CA75548CF8947EB69D3AE99DA6FB031C64" : "ObjectiveDDP\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "remote-paper-prototyper-ios",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
@@ -24,7 +24,7 @@
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/NUDelta\/rppt-ios.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5327A1CE0D7749D4A68F190C9A7755330A20709B"
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "82058294C65197DC795A8A0BD956D03DB758A489"
     }
   ]
 }
