@@ -129,16 +129,25 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
                     picker.dismiss(animated: true, completion: nil)
                 }
             }
-            if let keyboardX = Double(result["keyboard_x"]!), let keyboardY = Double(result["keyboard_y"]!), let keyboardWidth = Double(result["keyboard_width"]!), let keyboardHeight = Double(result["keyboard_height"]!) {
+            print("about to unwrap")
+            if let keyboardXString = result["keyboard_x"], let keyboardYString = result["keyboard_y"], let keyboardWidthString = result["keyboard_width"], let keyboardHeightString = result["keyboard_height"] {
+                let keyboardX = Double(keyboardXString)
+                let keyboardY = Double(keyboardYString)
+                let keyboardHeight = Double(keyboardHeightString)
+                let keyboardWidth = Double(keyboardWidthString)
                 if keyboardX != -999 && keyboardY != -999 && keyboardWidth != -999 && keyboardHeight != -999 {
-                    self.setTextview(x: CGFloat(keyboardX), y: CGFloat(keyboardY), width: CGFloat(keyboardWidth), height: CGFloat(keyboardHeight))
+                    self.setTextview(x: CGFloat(keyboardX!), y: CGFloat(keyboardY!), width: CGFloat(keyboardWidth!), height: CGFloat(keyboardHeight!))
                     self.textview.resignFirstResponder()
                     self.textview.removeFromSuperview()
                 }
             }
-            if let photoX = Double(result["photo_x"]!), let photoY = Double(result["photo_y"]!), let photoWidth = Double(result["photo_width"]!), let photoHeight = Double(result["photo_height"]!) {
+            if let photoXString = result["photo_x"], let photoYString = result["photo_y"], let photoWidthString = result["photo_width"], let photoHeightString = result["photo_height"] {
+                let photoX = Double(photoXString)
+                let photoY = Double(photoYString)
+                let photoHeight = Double(photoHeightString)
+                let photoWidth = Double(photoWidthString)
                 if photoX != -999 && photoY != -999 && photoWidth != -999 && photoHeight != -999 {
-                    self.setImageView(x: CGFloat(photoX), y: CGFloat(photoY), width: CGFloat(photoWidth), height: CGFloat(photoHeight), index: 0)
+                    self.setImageView(x: CGFloat(photoX!), y: CGFloat(photoY!), width: CGFloat(photoWidth!), height: CGFloat(photoHeight!), index: 0)
                 }
             } else {
                 self.imageView.removeFromSuperview()
