@@ -43,6 +43,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     let picker = UIImagePickerController()
     var textview = UITextView()
     var imageView = UIImageView()
+    var overlayedImageView = UIImageView()
     var photoArray = [UIImage]()
     
     // -------------------------
@@ -129,7 +130,9 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
                     picker.dismiss(animated: true, completion: nil)
                 }
             }
-            print("about to unwrap")
+            if let imageEncoding = result["overlayedImage"] {
+                self.overlayImage(imageEncoding: imageEncoding)
+            }
             if let keyboardXString = result["keyboard_x"], let keyboardYString = result["keyboard_y"], let keyboardWidthString = result["keyboard_width"], let keyboardHeightString = result["keyboard_height"] {
                 let keyboardX = Double(keyboardXString)
                 let keyboardY = Double(keyboardYString)
@@ -167,6 +170,14 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
             imageView.image = photoArray.last!
             self.view.addSubview(imageView)
         }
+    }
+    
+    func overlayImage(imageEncoding: String) {
+        let dataDecoded = Data(base64Encoded: imageEncoding, options: .ignoreUnknownCharacters)
+        let decodedimage = UIImage(data: dataDecoded!)
+        overlayedImageView.frame = subscriber.view.frame
+        overlayedImageView.image = decodedimage
+        self.view.addSubview(overlayedImageView)
     }
     
     func sendMessage() {
