@@ -10,6 +10,7 @@ import UIKit
 import CoreLocation
 import AVFoundation
 import MobileCoreServices
+import MapKit
 
 class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherKitDelegate, CLLocationManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
 
@@ -44,6 +45,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     var textview = UITextView()
     var imageView = UIImageView()
     var overlayedImageView = UIImageView()
+    var mapView = MKMapView()
     var photoArray = [UIImage]()
     
     // -------------------------
@@ -116,7 +118,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
                 AudioServicesPlaySystemSound(1003)
             }
             if result["keyboard"] == "show" {
-                self.setTextview(x: 20, y: 20, width: 20, height: 20)
+                self.setTextview(x: 50, y: self.view.frame.height - 256, width: self.view.frame.width - 10, height: 40)
             } else if result["keyboard"] == "hide" {
                 self.textview.resignFirstResponder()
                 self.textview.removeFromSuperview()
@@ -130,18 +132,35 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
                     picker.dismiss(animated: true, completion: nil)
                 }
             }
-            if let imageEncoding = result["overlayedImage"] {
-                self.overlayImage(imageEncoding: imageEncoding)
+            if let overlayedImageXString = result["overlayedImage_x"], let overlayedImageYString = result["overlayedImage_y"], let overlayedImageHeightString = result["overlayedImage_height"], let overlayedImageWidthString = result["overlayedImage_width"], let imageEncoding = result["overlayedImage"]{
+                let overlayedImageX = Double(overlayedImageXString)
+                let overlayedImageY = Double(overlayedImageYString)
+                let overlayedImageHeight = Double(overlayedImageHeightString)
+                let overlayedImageWidth = Double(overlayedImageWidthString)
+                if overlayedImageX != -999 && overlayedImageY != -999 && overlayedImageWidth != -999 && overlayedImageHeight != -999 {
+                    self.overlayImage(x: CGFloat(overlayedImageX!), y: CGFloat(overlayedImageY!), height: CGFloat(overlayedImageHeight!), width: CGFloat(overlayedImageWidth!), imageEncoding: imageEncoding)
+                }
             }
-            if let keyboardXString = result["keyboard_x"], let keyboardYString = result["keyboard_y"], let keyboardWidthString = result["keyboard_width"], let keyboardHeightString = result["keyboard_height"] {
-                let keyboardX = Double(keyboardXString)
-                let keyboardY = Double(keyboardYString)
-                let keyboardHeight = Double(keyboardHeightString)
-                let keyboardWidth = Double(keyboardWidthString)
-                if keyboardX != -999 && keyboardY != -999 && keyboardWidth != -999 && keyboardHeight != -999 {
-                    self.setTextview(x: CGFloat(keyboardX!), y: CGFloat(keyboardY!), width: CGFloat(keyboardWidth!), height: CGFloat(keyboardHeight!))
-                    self.textview.resignFirstResponder()
-                    self.textview.removeFromSuperview()
+//            if let keyboardXString = result["keyboard_x"], let keyboardYString = result["keyboard_y"], let keyboardWidthString = result["keyboard_width"], let keyboardHeightString = result["keyboard_height"] {
+//                let keyboardX = Double(keyboardXString)
+//                let keyboardY = Double(keyboardYString)
+//                let keyboardHeight = Double(keyboardHeightString)
+//                let keyboardWidth = Double(keyboardWidthString)
+//                if keyboardX != -999 && keyboardY != -999 && keyboardWidth != -999 && keyboardHeight != -999 {
+//                    self.setTextview(x: CGFloat(keyboardX!), y: CGFloat(keyboardY!), width: CGFloat(keyboardWidth!), height: CGFloat(keyboardHeight!))
+//                    self.textview.resignFirstResponder()
+//                    self.textview.removeFromSuperview()
+//                }
+//            }
+            if let mapXString = result["map_x"], let mapYString = result["map_y"], let mapWidthString = result["map_width"], let mapHeightString = result["map_height"] {
+                let mapX = Double(mapXString)
+                let mapY = Double(mapYString)
+                let mapHeight = Double(mapHeightString)
+                let mapWidth = Double(mapWidthString)
+                if mapX != -999 && mapY != -999 && mapWidth != -999 && mapHeight != -999 {
+                    self.setMapView(x: CGFloat(mapX!), y: CGFloat(mapY!), width: CGFloat(mapWidth!), height: CGFloat(mapHeight!), index: 0)
+                } else {
+                    self.mapView.removeFromSuperview()
                 }
             }
             if let photoXString = result["photo_x"], let photoYString = result["photo_y"], let photoWidthString = result["photo_width"], let photoHeightString = result["photo_height"] {
@@ -151,9 +170,9 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
                 let photoWidth = Double(photoWidthString)
                 if photoX != -999 && photoY != -999 && photoWidth != -999 && photoHeight != -999 {
                     self.setImageView(x: CGFloat(photoX!), y: CGFloat(photoY!), width: CGFloat(photoWidth!), height: CGFloat(photoHeight!), index: 0)
+                } else {
+                    self.imageView.removeFromSuperview()
                 }
-            } else {
-                self.imageView.removeFromSuperview()
             }
         }
     }
@@ -164,6 +183,12 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         self.textview.becomeFirstResponder()
     }
     
+    func setMapView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, index: Int) {
+        mapView.frame = CGRect(x: x, y: y, width: width, height: height)
+        self.view.addSubview(mapView)
+        mapView.showsUserLocation = true
+    }
+    
     func setImageView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, index: Int) {
         if (photoArray.count != 0) {
             imageView.frame = CGRect(x: x, y: y, width: width, height: height)
@@ -172,10 +197,10 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         }
     }
     
-    func overlayImage(imageEncoding: String) {
+    func overlayImage(x: CGFloat, y: CGFloat, height: CGFloat, width: CGFloat, imageEncoding: String) {
         let dataDecoded = Data(base64Encoded: imageEncoding, options: .ignoreUnknownCharacters)
         let decodedimage = UIImage(data: dataDecoded!)
-        overlayedImageView.frame = subscriber.view.frame
+        overlayedImageView.frame = CGRect(x: x, y: y, width: width, height: height)
         overlayedImageView.image = decodedimage
         self.view.addSubview(overlayedImageView)
     }
