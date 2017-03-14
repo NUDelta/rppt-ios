@@ -187,13 +187,22 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         mapView.frame = CGRect(x: x, y: y, width: width, height: height)
         self.view.addSubview(mapView)
         mapView.showsUserLocation = true
+        if overlayedImageView.isDescendant(of: self.view) {
+            self.view.insertSubview(mapView, belowSubview: overlayedImageView)
+        } else {
+            self.view.addSubview(mapView)
+        }
     }
     
     func setImageView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, index: Int) {
         if (photoArray.count != 0) {
             imageView.frame = CGRect(x: x, y: y, width: width, height: height)
             imageView.image = photoArray.last!
-            self.view.addSubview(imageView)
+            if overlayedImageView.isDescendant(of: self.view) {
+                self.view.insertSubview(imageView, belowSubview: overlayedImageView)
+            } else {
+                self.view.addSubview(imageView)
+            }
         }
     }
     
@@ -203,6 +212,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         overlayedImageView.frame = CGRect(x: x, y: y, width: width, height: height)
         overlayedImageView.image = decodedimage
         self.view.addSubview(overlayedImageView)
+        self.view.bringSubview(toFront: overlayedImageView)
     }
     
     func sendMessage() {
