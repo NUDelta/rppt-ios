@@ -141,17 +141,6 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
                     self.overlayImage(x: CGFloat(overlayedImageX!), y: CGFloat(overlayedImageY!), height: CGFloat(overlayedImageHeight!), width: CGFloat(overlayedImageWidth!), imageEncoding: imageEncoding)
                 }
             }
-//            if let keyboardXString = result["keyboard_x"], let keyboardYString = result["keyboard_y"], let keyboardWidthString = result["keyboard_width"], let keyboardHeightString = result["keyboard_height"] {
-//                let keyboardX = Double(keyboardXString)
-//                let keyboardY = Double(keyboardYString)
-//                let keyboardHeight = Double(keyboardHeightString)
-//                let keyboardWidth = Double(keyboardWidthString)
-//                if keyboardX != -999 && keyboardY != -999 && keyboardWidth != -999 && keyboardHeight != -999 {
-//                    self.setTextview(x: CGFloat(keyboardX!), y: CGFloat(keyboardY!), width: CGFloat(keyboardWidth!), height: CGFloat(keyboardHeight!))
-//                    self.textview.resignFirstResponder()
-//                    self.textview.removeFromSuperview()
-//                }
-//            }
             if let mapXString = result["map_x"], let mapYString = result["map_y"], let mapWidthString = result["map_width"], let mapHeightString = result["map_height"] {
                 let mapX = Double(mapXString)
                 let mapY = Double(mapYString)
@@ -186,7 +175,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     func setMapView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, index: Int) {
         mapView.frame = CGRect(x: x, y: y, width: width, height: height)
         self.view.addSubview(mapView)
-        mapView.showsUserLocation = true
+//        mapView.showsUserLocation = true
         if overlayedImageView.isDescendant(of: self.view) {
             self.view.insertSubview(mapView, belowSubview: overlayedImageView)
         } else {
@@ -209,10 +198,16 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     func overlayImage(x: CGFloat, y: CGFloat, height: CGFloat, width: CGFloat, imageEncoding: String) {
         let dataDecoded = Data(base64Encoded: imageEncoding, options: .ignoreUnknownCharacters)
         let decodedimage = UIImage(data: dataDecoded!)
-        overlayedImageView.frame = CGRect(x: x, y: y, width: width, height: height)
         overlayedImageView.image = decodedimage
-        self.view.addSubview(overlayedImageView)
-        self.view.bringSubview(toFront: overlayedImageView)
+        // Not the best way to do this - not sure why it isn't saying picker is presenting VC
+        if (Int(x) == 0 && Int(y) == 0 && Int(height) == 0 && Int(width) == 0) {
+            overlayedImageView.frame = (subscriber.view?.frame)!
+            picker.cameraOverlayView = overlayedImageView
+        } else {
+            overlayedImageView.frame = CGRect(x: x, y: y, width: width, height: height)
+            self.view.addSubview(overlayedImageView)
+            self.view.bringSubview(toFront: overlayedImageView)
+        }
     }
     
     func sendMessage() {
@@ -224,7 +219,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         if let sess = subscribingSession {
             var error : OTError? = nil
             sess.disconnect(&error)
-            subscriber.view.removeFromSuperview()
+            subscriber.view?.removeFromSuperview()
             
         }
     }
@@ -315,7 +310,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     }
     
     func cleanupSubscriber() {
-        subscriber.view.removeFromSuperview()
+        subscriber.view?.removeFromSuperview()
         subscriber = nil
     }
     
@@ -395,8 +390,8 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         print("subscriberDidConnectToStream \(subscriber.stream!.connection.connectionId)")
         assert(subscriber == self.subscriber)
         let screenRect = UIScreen.main.bounds
-        self.subscriber.view.frame = CGRect(x: 0, y: 20, width: screenRect.width, height: screenRect.width * 1.4375)
-        self.view.addSubview(self.subscriber.view)
+        self.subscriber.view?.frame = CGRect(x: 0, y: 20, width: screenRect.width, height: screenRect.width * 1.4375)
+        self.view.addSubview(self.subscriber.view!)
         self.view.bringSubview(toFront: stopButton)
     }
     

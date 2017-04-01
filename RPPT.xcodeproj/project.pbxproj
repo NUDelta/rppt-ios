@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3F004E6525CE1B62CAA3013A /* libPods-RPPT.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DF3BC8466D49D160A6B834D /* libPods-RPPT.a */; };
 		94449CCC1E2367CC0033430C /* ScreenCapturer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94449CCB1E2367CC0033430C /* ScreenCapturer.swift */; };
+		94A2A744DF1D49F5D68E13ED /* libPods-RPPT.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D648DADD84CFEF0C1CDC5BB /* libPods-RPPT.a */; };
 		AA11A15E19EB3FE9008CFDEA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA11A15C19EB3FE9008CFDEA /* Main.storyboard */; };
 		AA78AA6A1A0C20D100CA4B40 /* bridge.m in Sources */ = {isa = PBXBuildFile; fileRef = AA78AA691A0C20D100CA4B40 /* bridge.m */; };
 		AA881AB419DE6F88004F9DB1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA881AB319DE6F88004F9DB1 /* AppDelegate.swift */; };
@@ -30,8 +30,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2DF3BC8466D49D160A6B834D /* libPods-RPPT.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RPPT.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7A96B63459611DECDA8A473F /* Pods-RPPT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RPPT.release.xcconfig"; path = "Pods/Target Support Files/Pods-RPPT/Pods-RPPT.release.xcconfig"; sourceTree = "<group>"; };
+		6D648DADD84CFEF0C1CDC5BB /* libPods-RPPT.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RPPT.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94449CCB1E2367CC0033430C /* ScreenCapturer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenCapturer.swift; sourceTree = "<group>"; };
 		AA0208D219EC496C00180328 /* remote-paper-prototyper-ios-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "remote-paper-prototyper-ios-Bridging-Header.h"; sourceTree = "<group>"; };
 		AA11A15D19EB3FE9008CFDEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -70,7 +69,8 @@
 		AA8C5B0E19FA2BB1002ED73E /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		AA8C5B1019FA2BC0002ED73E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		AA8C5B1419FA2EEB002ED73E /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "../Libraries/parse-library-1.4.1/Bolts.framework"; sourceTree = "<group>"; };
-		F8959ADB93817E76846F9330 /* Pods-RPPT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RPPT.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RPPT/Pods-RPPT.debug.xcconfig"; sourceTree = "<group>"; };
+		AFC979B52F055A9F2DD1F3CD /* Pods-RPPT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RPPT.release.xcconfig"; path = "Pods/Target Support Files/Pods-RPPT/Pods-RPPT.release.xcconfig"; sourceTree = "<group>"; };
+		BAC4D294E94F714B7D5A2ADD /* Pods-RPPT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RPPT.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RPPT/Pods-RPPT.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +79,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA8C5B0B19FA2BA3002ED73E /* CoreLocation.framework in Frameworks */,
-				3F004E6525CE1B62CAA3013A /* libPods-RPPT.a in Frameworks */,
+				94A2A744DF1D49F5D68E13ED /* libPods-RPPT.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,6 +93,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		288A570B4F2917BC96AA0FFD /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BAC4D294E94F714B7D5A2ADD /* Pods-RPPT.debug.xcconfig */,
+				AFC979B52F055A9F2DD1F3CD /* Pods-RPPT.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		AA0208CF19EC489100180328 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,7 +130,7 @@
 				AA1ABF4419F8A7E000DF101B /* SystemConfiguration.framework */,
 				AA1ABF4219F8A7D800DF101B /* GLKit.framework */,
 				AA1ABF4019F8A7B200DF101B /* OpenTok.framework */,
-				2DF3BC8466D49D160A6B834D /* libPods-RPPT.a */,
+				6D648DADD84CFEF0C1CDC5BB /* libPods-RPPT.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -135,7 +144,7 @@
 				AA881AC619DE6F88004F9DB1 /* remote-paper-prototyper-iosTests */,
 				AA881AAF19DE6F88004F9DB1 /* Products */,
 				AA0208D219EC496C00180328 /* remote-paper-prototyper-ios-Bridging-Header.h */,
-				F1C488FB84399F8AD312C423 /* Pods */,
+				288A570B4F2917BC96AA0FFD /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -187,15 +196,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		F1C488FB84399F8AD312C423 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				F8959ADB93817E76846F9330 /* Pods-RPPT.debug.xcconfig */,
-				7A96B63459611DECDA8A473F /* Pods-RPPT.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -203,12 +203,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AA881ACD19DE6F88004F9DB1 /* Build configuration list for PBXNativeTarget "RPPT" */;
 			buildPhases = (
-				A1F41FE39B338E58D7445EA7 /* [CP] Check Pods Manifest.lock */,
+				5E47DDF3ECE7D6C905E2B8CC /* [CP] Check Pods Manifest.lock */,
 				AA881AAA19DE6F87004F9DB1 /* Sources */,
 				AA881AAB19DE6F87004F9DB1 /* Frameworks */,
 				AA881AAC19DE6F87004F9DB1 /* Resources */,
-				EDDBA9B3A58BD4235D91F488 /* [CP] Embed Pods Frameworks */,
-				A485A2A637BAA5B117A2C3CC /* [CP] Copy Pods Resources */,
+				2B128E36470D3A72284C28F3 /* [CP] Embed Pods Frameworks */,
+				8EC950F9E126FE16F7976E6D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -305,7 +305,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		A1F41FE39B338E58D7445EA7 /* [CP] Check Pods Manifest.lock */ = {
+		2B128E36470D3A72284C28F3 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RPPT/Pods-RPPT-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5E47DDF3ECE7D6C905E2B8CC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -320,7 +335,7 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		A485A2A637BAA5B117A2C3CC /* [CP] Copy Pods Resources */ = {
+		8EC950F9E126FE16F7976E6D /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -333,21 +348,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RPPT/Pods-RPPT-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EDDBA9B3A58BD4235D91F488 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RPPT/Pods-RPPT-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -491,7 +491,7 @@
 		};
 		AA881ACE19DE6F88004F9DB1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F8959ADB93817E76846F9330 /* Pods-RPPT.debug.xcconfig */;
+			baseConfigurationReference = BAC4D294E94F714B7D5A2ADD /* Pods-RPPT.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -530,7 +530,7 @@
 		};
 		AA881ACF19DE6F88004F9DB1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7A96B63459611DECDA8A473F /* Pods-RPPT.release.xcconfig */;
+			baseConfigurationReference = AFC979B52F055A9F2DD1F3CD /* Pods-RPPT.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

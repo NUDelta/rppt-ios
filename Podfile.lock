@@ -3,12 +3,12 @@ PODS:
   - ObjectiveDDP (0.2.0):
     - M13OrderedDictionary
     - SocketRocket (= 0.4.1)
-  - OpenTok (2.10.0)
+  - OpenTok (2.10.2)
   - SocketRocket (0.4.1)
 
 DEPENDENCIES:
   - ObjectiveDDP (from `../ObjectiveDDP/ObjectiveDDP.podspec`)
-  - OpenTok
+  - OpenTok (~> 2.10)
 
 EXTERNAL SOURCES:
   ObjectiveDDP:
@@ -17,9 +17,9 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   M13OrderedDictionary: 6e157fe9c82aa6b3cd7198f5c5c30c7a6834c4a6
   ObjectiveDDP: c2225f6896d671977b7046afc0530967cd141f90
-  OpenTok: 0b4d35b08b126e960484579a0d851f1a02f1d643
+  OpenTok: 9f0909068d6ed69acffa77a4610b47924926f79e
   SocketRocket: ee0b5c34182d37bb4f1f8d628bbe737718126daa
 
-PODFILE CHECKSUM: 108d92e7e6c14ae08edf073c87848b7470dad41d
+PODFILE CHECKSUM: 72e311aa9bd5a9c6ba57f5532e70282f7be094a0
 
 COCOAPODS: 1.2.0.rc.1

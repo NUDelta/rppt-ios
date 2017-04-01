@@ -69,7 +69,7 @@ class ScreenCapturer: NSObject, OTVideoCapture {
         
         videoFrame.timestamp = time
         //videoFrame?.format.estimatedFramesPerSecond =
-        videoFrame.format.estimatedCaptureDelay = 100
+        videoFrame.format?.estimatedCaptureDelay = 100
         videoFrame.orientation = .up
         
         videoFrame.clearPlanes()
@@ -213,17 +213,17 @@ extension ScreenCapturer {
     }
     
     fileprivate func checkSize(forImage img: CGImage) {
-        if (videoFrame.format.imageHeight == UInt32(img.height) &&
-            videoFrame.format.imageWidth == UInt32(img.width))
+        if (videoFrame.format?.imageHeight == UInt32(img.height) &&
+            videoFrame.format?.imageWidth == UInt32(img.width))
         {
             // don't rock the boat. if nothing has changed, don't update anything.
             return
         }
         
-        videoFrame.format.bytesPerRow.removeAllObjects()
-        videoFrame.format.bytesPerRow.addObjects(from: [img.width * 4])
-        videoFrame.format.imageWidth = UInt32(img.width)
-        videoFrame.format.imageHeight = UInt32(img.height)
+        videoFrame.format?.bytesPerRow.removeAllObjects()
+        videoFrame.format?.bytesPerRow.addObjects(from: [img.width * 4])
+        videoFrame.format?.imageWidth = UInt32(img.width)
+        videoFrame.format?.imageHeight = UInt32(img.height)
         
         let frameSize = CGSize(width: img.width, height: img.height)
         let options: Dictionary<String, Bool> = [

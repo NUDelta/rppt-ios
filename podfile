@@ -6,7 +6,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 target 'RPPT' do
 
 pod 'ObjectiveDDP', :path => '../ObjectiveDDP/ObjectiveDDP.podspec'
-pod 'OpenTok'
+pod ‘OpenTok’, ‘~> 2.10’
 
 end
 
