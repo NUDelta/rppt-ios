@@ -132,13 +132,17 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
                     picker.dismiss(animated: true, completion: nil)
                 }
             }
-            if let overlayedImageXString = result["overlayedImage_x"], let overlayedImageYString = result["overlayedImage_y"], let overlayedImageHeightString = result["overlayedImage_height"], let overlayedImageWidthString = result["overlayedImage_width"], let imageEncoding = result["overlayedImage"]{
+            if let imageFullEncoding = result["overlayedFullImage"] {
+                self.overlayFullImage(imageEncoding: imageFullEncoding)
+            }
+            if let overlayedImageXString = result["overlayedImage_x"], let overlayedImageYString = result["overlayedImage_y"], let overlayedImageHeightString = result["overlayedImage_height"], let overlayedImageWidthString = result["overlayedImage_width"], let imageEncoding = result["overlayedImage"] {
                 let overlayedImageX = Double(overlayedImageXString)
                 let overlayedImageY = Double(overlayedImageYString)
                 let overlayedImageHeight = Double(overlayedImageHeightString)
                 let overlayedImageWidth = Double(overlayedImageWidthString)
+                let isCameraOverlay = (result["isCameraOverlay"] == "true") ? true : false
                 if overlayedImageX != -999 && overlayedImageY != -999 && overlayedImageWidth != -999 && overlayedImageHeight != -999 {
-                    self.overlayImage(x: CGFloat(overlayedImageX!), y: CGFloat(overlayedImageY!), height: CGFloat(overlayedImageHeight!), width: CGFloat(overlayedImageWidth!), imageEncoding: imageEncoding)
+                    self.overlayImage(x: CGFloat(overlayedImageX!), y: CGFloat(overlayedImageY!), height: CGFloat(overlayedImageHeight!), width: CGFloat(overlayedImageWidth!), imageEncoding: imageEncoding, isCameraOverlay: isCameraOverlay)
                 }
             }
             if let mapXString = result["map_x"], let mapYString = result["map_y"], let mapWidthString = result["map_width"], let mapHeightString = result["map_height"] {
@@ -195,16 +199,24 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         }
     }
     
-    func overlayImage(x: CGFloat, y: CGFloat, height: CGFloat, width: CGFloat, imageEncoding: String) {
+    func overlayFullImage(imageEncoding: String) {
+        let dataDecoded = Data(base64Encoded: imageEncoding, options: .ignoreUnknownCharacters)
+        let decodedimage = UIImage(data: dataDecoded!)
+        overlayedImageView.frame = (subscriber.view?.frame)!
+        overlayedImageView.image = decodedimage
+        self.view.addSubview(overlayedImageView)
+        self.view.bringSubview(toFront: overlayedImageView)
+    }
+    
+    func overlayImage(x: CGFloat, y: CGFloat, height: CGFloat, width: CGFloat, imageEncoding: String, isCameraOverlay: Bool) {
         let dataDecoded = Data(base64Encoded: imageEncoding, options: .ignoreUnknownCharacters)
         let decodedimage = UIImage(data: dataDecoded!)
         overlayedImageView.image = decodedimage
-        // Not the best way to do this - not sure why it isn't saying picker is presenting VC
-        if (Int(x) == 0 && Int(y) == 0 && Int(height) == 0 && Int(width) == 0) {
-            overlayedImageView.frame = (subscriber.view?.frame)!
+        overlayedImageView.frame = CGRect(x: x, y: y, width: width, height: height)
+        if (isCameraOverlay) {
+            picker.showsCameraControls = false
             picker.cameraOverlayView = overlayedImageView
         } else {
-            overlayedImageView.frame = CGRect(x: x, y: y, width: width, height: height)
             self.view.addSubview(overlayedImageView)
             self.view.bringSubview(toFront: overlayedImageView)
         }
