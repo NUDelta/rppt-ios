@@ -48,6 +48,9 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     var mapView = MKMapView()
     var photoArray = [UIImage]()
     
+    // I hate myself
+    var pickerIsVisible = false;
+    
     // -------------------------
     // MARK: View Initialization
     // -------------------------
@@ -124,12 +127,14 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
                 self.textview.removeFromSuperview()
             }
             if result["camera"] == "show" {
-                if (!(picker.isViewLoaded && picker.view.window != nil)) {
+                if (!pickerIsVisible) {
                     self.present(picker, animated: true, completion: nil)
+                    pickerIsVisible = true;
                 }
             } else if result["camera"] == "hide" {
-                if (self.presentingViewController == picker) {
+                if (pickerIsVisible) {
                     picker.dismiss(animated: true, completion: nil)
+                    pickerIsVisible = false;
                 }
             }
             if let imageFullEncoding = result["overlayedFullImage"] {
