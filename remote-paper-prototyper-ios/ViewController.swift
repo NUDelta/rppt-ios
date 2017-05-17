@@ -115,7 +115,6 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
 
     func messageChanged(notification: NSNotification) {
         if let result = notification.userInfo as? [String:String] {
-            print(result)
             if result["_id"] == self.messageId && result["type"] == "task" {
                 task.text = result["content"]
                 AudioServicesPlaySystemSound(1003)
@@ -183,8 +182,6 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     
     func setMapView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, index: Int) {
         mapView.frame = CGRect(x: x, y: y, width: width, height: height)
-        self.view.addSubview(mapView)
-//        mapView.showsUserLocation = true
         if overlayedImageView.isDescendant(of: self.view) {
             self.view.insertSubview(mapView, belowSubview: overlayedImageView)
         } else {
@@ -495,6 +492,10 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
             let location = locations[0].coordinate, lat = location.latitude, lng = location.longitude
             let params = ["lat": lat, "lng": lng, "session": syncCode] as [String : Any]
             meteorClient.callMethodName("/locations/insert", parameters: [params] , responseCallback: nil)
+            // hardcoded mapSpan could eventually become a wizard input
+            let mapSpan = MKCoordinateSpan.init(latitudeDelta: 0.015, longitudeDelta: 0.015)
+            let mapCoordinateRegion = MKCoordinateRegion.init(center: location, span: mapSpan)
+            mapView.region = mapCoordinateRegion
         }
     }
     
