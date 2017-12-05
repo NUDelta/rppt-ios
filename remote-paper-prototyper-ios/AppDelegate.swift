@@ -32,6 +32,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func reportConnection() {
         print("================> connected to server!")
+
+        // If connected, make sure screen doesn't turn off
+        UIApplication.shared.isIdleTimerDisabled = true
     }
     
     func reportConnectionReady() {
@@ -40,6 +43,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func reportDisconnection() {
         print("================> disconnected from server!")
+
+        // If disconnected, make sure screens can turn off so battery isn't wasted.
+        UIApplication.shared.isIdleTimerDisabled = false
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
