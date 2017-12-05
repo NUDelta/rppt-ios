@@ -12,7 +12,7 @@ import AVFoundation
 import MobileCoreServices
 import MapKit
 
-class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherKitDelegate, CLLocationManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
+class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherKitDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
 
     
     // UI Elements
@@ -40,7 +40,6 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     var lastX = Float(0)
     var lastY = Float(0)
     
-    let locationManager = CLLocationManager()
     let picker = UIImagePickerController()
     var textview = UITextView()
     var imageView = UIImageView()
@@ -50,7 +49,10 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     
     // I hate myself
     var pickerIsVisible = false;
-    
+
+
+    let locationManager = RPPTLocationManager()
+
     // -------------------------
     // MARK: View Initialization
     // -------------------------
@@ -68,10 +70,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
 
         self.view.addGestureRecognizer(panGestureRecognizer)
         
-        locationManager.delegate = self
-        locationManager.distanceFilter = kCLDistanceFilterNone
-        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locationManager.requestWhenInUseAuthorization()
+        
         
         textview.delegate = self
         textview.backgroundColor = UIColor.clear
@@ -273,7 +272,8 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
                 var apiKey = result["key"]!
                 var token = result["token"]!
                 self.subscribingSession = OTSession(apiKey: apiKey, sessionId: streamId, delegate: self)
-                
+
+
                 self.locationManager.startUpdatingLocation()
                 self.doConnect(session: self.subscribingSession, token: token)
             } else {
@@ -487,21 +487,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     // MARK: CoreLocation Delegate
     // ---------------------------------
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if (self.syncCode != "") {
-            let location = locations[0].coordinate, lat = location.latitude, lng = location.longitude
-            let params = ["lat": lat, "lng": lng, "session": syncCode] as [String : Any]
-            meteorClient.callMethodName("/locations/insert", parameters: [params] , responseCallback: nil)
-            // hardcoded mapSpan could eventually become a wizard input
-            let mapSpan = MKCoordinateSpan.init(latitudeDelta: 0.015, longitudeDelta: 0.015)
-            let mapCoordinateRegion = MKCoordinateRegion.init(center: location, span: mapSpan)
-            mapView.region = mapCoordinateRegion
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("\(error.localizedDescription)")
-    }
+
 }
 
 
