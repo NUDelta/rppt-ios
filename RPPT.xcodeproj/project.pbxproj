@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		142001481FD74BC000D21F94 /* RPPTController+Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142001471FD74BC000D21F94 /* RPPTController+Location.swift */; };
+		1420014A1FD74F0500D21F94 /* RPPTLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142001491FD74F0500D21F94 /* RPPTLocationManager.swift */; };
 		94449CCC1E2367CC0033430C /* ScreenCapturer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94449CCB1E2367CC0033430C /* ScreenCapturer.swift */; };
 		94A2A744DF1D49F5D68E13ED /* libPods-RPPT.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D648DADD84CFEF0C1CDC5BB /* libPods-RPPT.a */; };
 		AA11A15E19EB3FE9008CFDEA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA11A15C19EB3FE9008CFDEA /* Main.storyboard */; };
 		AA78AA6A1A0C20D100CA4B40 /* bridge.m in Sources */ = {isa = PBXBuildFile; fileRef = AA78AA691A0C20D100CA4B40 /* bridge.m */; };
 		AA881AB419DE6F88004F9DB1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA881AB319DE6F88004F9DB1 /* AppDelegate.swift */; };
-		AA881AB619DE6F88004F9DB1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA881AB519DE6F88004F9DB1 /* ViewController.swift */; };
+		AA881AB619DE6F88004F9DB1 /* RPPTController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA881AB519DE6F88004F9DB1 /* RPPTController.swift */; };
 		AA881ABB19DE6F88004F9DB1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA881ABA19DE6F88004F9DB1 /* Images.xcassets */; };
 		AA881ABE19DE6F88004F9DB1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA881ABC19DE6F88004F9DB1 /* LaunchScreen.xib */; };
-		AA881ACA19DE6F88004F9DB1 /* remote_paper_prototyper_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA881AC919DE6F88004F9DB1 /* remote_paper_prototyper_iosTests.swift */; };
-		AA8C5B0B19FA2BA3002ED73E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8C5B0A19FA2BA3002ED73E /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,45 +30,21 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		142001471FD74BC000D21F94 /* RPPTController+Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RPPTController+Location.swift"; sourceTree = "<group>"; };
+		142001491FD74F0500D21F94 /* RPPTLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPPTLocationManager.swift; sourceTree = "<group>"; };
 		6D648DADD84CFEF0C1CDC5BB /* libPods-RPPT.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RPPT.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94449CCB1E2367CC0033430C /* ScreenCapturer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenCapturer.swift; sourceTree = "<group>"; };
 		AA0208D219EC496C00180328 /* remote-paper-prototyper-ios-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "remote-paper-prototyper-ios-Bridging-Header.h"; sourceTree = "<group>"; };
 		AA11A15D19EB3FE9008CFDEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AA1ABF4019F8A7B200DF101B /* OpenTok.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenTok.framework; sourceTree = "<group>"; };
-		AA1ABF4219F8A7D800DF101B /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
-		AA1ABF4419F8A7E000DF101B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		AA1ABF4619F8A7E700DF101B /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
-		AA1ABF4819F8A84E00DF101B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
-		AA1ABF4A19F8A85F00DF101B /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
-		AA1ABF4C19F8A86500DF101B /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
-		AA1ABF4E19F8A86C00DF101B /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		AA1ABF5019F8A87200DF101B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		AA1ABF5219F8A87B00DF101B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		AA1ABF5419F8A88100DF101B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		AA1ABF5619F8A88800DF101B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		AA1ABF5819F8A88D00DF101B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		AA1ABF5A19F8A89700DF101B /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
-		AA1ABF5C19F8A89D00DF101B /* libstdc++.6.0.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.0.9.dylib"; path = "usr/lib/libstdc++.6.0.9.dylib"; sourceTree = SDKROOT; };
-		AA1ABF5E19F8A8A800DF101B /* libpthread.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpthread.dylib; path = usr/lib/libpthread.dylib; sourceTree = SDKROOT; };
-		AA1ABF6019F8A8B000DF101B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		AA1ABF6219F8A8B800DF101B /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		AA78AA691A0C20D100CA4B40 /* bridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = bridge.m; sourceTree = SOURCE_ROOT; };
 		AA881AAE19DE6F88004F9DB1 /* RPPT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RPPT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA881AB219DE6F88004F9DB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA881AB319DE6F88004F9DB1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		AA881AB519DE6F88004F9DB1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		AA881AB519DE6F88004F9DB1 /* RPPTController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPPTController.swift; sourceTree = "<group>"; };
 		AA881ABA19DE6F88004F9DB1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		AA881ABD19DE6F88004F9DB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		AA881AC319DE6F88004F9DB1 /* RPPT.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RPPT.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		AA881AC819DE6F88004F9DB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AA881AC919DE6F88004F9DB1 /* remote_paper_prototyper_iosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = remote_paper_prototyper_iosTests.swift; sourceTree = "<group>"; };
-		AA8C5B0619FA2B7B002ED73E /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = "../Libraries/parse-library-1.4.1/Parse.framework"; sourceTree = "<group>"; };
-		AA8C5B0819FA2B97002ED73E /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
-		AA8C5B0A19FA2BA3002ED73E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		AA8C5B0C19FA2BAB002ED73E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		AA8C5B0E19FA2BB1002ED73E /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		AA8C5B1019FA2BC0002ED73E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		AA8C5B1419FA2EEB002ED73E /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "../Libraries/parse-library-1.4.1/Bolts.framework"; sourceTree = "<group>"; };
 		AFC979B52F055A9F2DD1F3CD /* Pods-RPPT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RPPT.release.xcconfig"; path = "Pods/Target Support Files/Pods-RPPT/Pods-RPPT.release.xcconfig"; sourceTree = "<group>"; };
 		BAC4D294E94F714B7D5A2ADD /* Pods-RPPT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RPPT.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RPPT/Pods-RPPT.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -78,7 +54,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA8C5B0B19FA2BA3002ED73E /* CoreLocation.framework in Frameworks */,
 				94A2A744DF1D49F5D68E13ED /* libPods-RPPT.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -105,30 +80,6 @@
 		AA0208CF19EC489100180328 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AA8C5B1419FA2EEB002ED73E /* Bolts.framework */,
-				AA8C5B1019FA2BC0002ED73E /* Security.framework */,
-				AA8C5B0E19FA2BB1002ED73E /* MobileCoreServices.framework */,
-				AA8C5B0C19FA2BAB002ED73E /* libz.dylib */,
-				AA8C5B0A19FA2BA3002ED73E /* CoreLocation.framework */,
-				AA8C5B0819FA2B97002ED73E /* CFNetwork.framework */,
-				AA8C5B0619FA2B7B002ED73E /* Parse.framework */,
-				AA1ABF6219F8A8B800DF101B /* libxml2.dylib */,
-				AA1ABF6019F8A8B000DF101B /* libsqlite3.dylib */,
-				AA1ABF5E19F8A8A800DF101B /* libpthread.dylib */,
-				AA1ABF5C19F8A89D00DF101B /* libstdc++.6.0.9.dylib */,
-				AA1ABF5A19F8A89700DF101B /* libstdc++.dylib */,
-				AA1ABF5819F8A88D00DF101B /* UIKit.framework */,
-				AA1ABF5619F8A88800DF101B /* CoreGraphics.framework */,
-				AA1ABF5419F8A88100DF101B /* Foundation.framework */,
-				AA1ABF5219F8A87B00DF101B /* QuartzCore.framework */,
-				AA1ABF5019F8A87200DF101B /* AVFoundation.framework */,
-				AA1ABF4E19F8A86C00DF101B /* AudioToolbox.framework */,
-				AA1ABF4C19F8A86500DF101B /* CoreMedia.framework */,
-				AA1ABF4A19F8A85F00DF101B /* CoreVideo.framework */,
-				AA1ABF4819F8A84E00DF101B /* OpenGLES.framework */,
-				AA1ABF4619F8A7E700DF101B /* CoreTelephony.framework */,
-				AA1ABF4419F8A7E000DF101B /* SystemConfiguration.framework */,
-				AA1ABF4219F8A7D800DF101B /* GLKit.framework */,
 				AA1ABF4019F8A7B200DF101B /* OpenTok.framework */,
 				6D648DADD84CFEF0C1CDC5BB /* libPods-RPPT.a */,
 			);
@@ -141,7 +92,6 @@
 				AA78AA691A0C20D100CA4B40 /* bridge.m */,
 				AA0208CF19EC489100180328 /* Frameworks */,
 				AA881AB019DE6F88004F9DB1 /* remote-paper-prototyper-ios */,
-				AA881AC619DE6F88004F9DB1 /* remote-paper-prototyper-iosTests */,
 				AA881AAF19DE6F88004F9DB1 /* Products */,
 				AA0208D219EC496C00180328 /* remote-paper-prototyper-ios-Bridging-Header.h */,
 				288A570B4F2917BC96AA0FFD /* Pods */,
@@ -162,7 +112,9 @@
 			children = (
 				AA11A15C19EB3FE9008CFDEA /* Main.storyboard */,
 				AA881AB319DE6F88004F9DB1 /* AppDelegate.swift */,
-				AA881AB519DE6F88004F9DB1 /* ViewController.swift */,
+				AA881AB519DE6F88004F9DB1 /* RPPTController.swift */,
+				142001471FD74BC000D21F94 /* RPPTController+Location.swift */,
+				142001491FD74F0500D21F94 /* RPPTLocationManager.swift */,
 				94449CCB1E2367CC0033430C /* ScreenCapturer.swift */,
 				AA881ABA19DE6F88004F9DB1 /* Images.xcassets */,
 				AA881ABC19DE6F88004F9DB1 /* LaunchScreen.xib */,
@@ -175,23 +127,6 @@
 			isa = PBXGroup;
 			children = (
 				AA881AB219DE6F88004F9DB1 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		AA881AC619DE6F88004F9DB1 /* remote-paper-prototyper-iosTests */ = {
-			isa = PBXGroup;
-			children = (
-				AA881AC919DE6F88004F9DB1 /* remote_paper_prototyper_iosTests.swift */,
-				AA881AC719DE6F88004F9DB1 /* Supporting Files */,
-			);
-			path = "remote-paper-prototyper-iosTests";
-			sourceTree = "<group>";
-		};
-		AA881AC719DE6F88004F9DB1 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				AA881AC819DE6F88004F9DB1 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -360,10 +295,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1420014A1FD74F0500D21F94 /* RPPTLocationManager.swift in Sources */,
 				AA78AA6A1A0C20D100CA4B40 /* bridge.m in Sources */,
 				94449CCC1E2367CC0033430C /* ScreenCapturer.swift in Sources */,
-				AA881AB619DE6F88004F9DB1 /* ViewController.swift in Sources */,
+				AA881AB619DE6F88004F9DB1 /* RPPTController.swift in Sources */,
 				AA881AB419DE6F88004F9DB1 /* AppDelegate.swift in Sources */,
+				142001481FD74BC000D21F94 /* RPPTController+Location.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,7 +308,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA881ACA19DE6F88004F9DB1 /* remote_paper_prototyper_iosTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
