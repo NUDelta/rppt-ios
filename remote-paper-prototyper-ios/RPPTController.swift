@@ -12,7 +12,7 @@ import AVFoundation
 import MobileCoreServices
 import MapKit
 
-class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherKitDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
+class RPPTController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
 
     
     // UI Elements
@@ -23,11 +23,9 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     // MeteorDDP Member
     var meteorClient: MeteorClient!
 
-    // OpenTok Streaming Member
-    var subscribingSession: OTSession!
-    var publishingSession: OTSession!
-    var publisher: OTPublisherKit!
-    var subscriber: OTSubscriber!
+    let sessionManager = RPPTSessionManager()
+
+
     var capturer: ScreenCapturer!
     
     var syncCode = ""
@@ -79,7 +77,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if (subscribingSession == nil || publishingSession == nil) {
+        if !sessionManager.isConnected {
             showSyncCodeAlert()
         }
     }
@@ -203,7 +201,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     func overlayFullImage(imageEncoding: String) {
         let dataDecoded = Data(base64Encoded: imageEncoding, options: .ignoreUnknownCharacters)
         let decodedimage = UIImage(data: dataDecoded!)
-        overlayedImageView.frame = (subscriber.view?.frame)!
+//        overlayedImageView.frame = (subscriber.view?.frame)!
         overlayedImageView.image = decodedimage
         self.view.addSubview(overlayedImageView)
         self.view.bringSubview(toFront: overlayedImageView)
@@ -229,12 +227,13 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
     
     func resetStreams() {
         //To fix
-        if let sess = subscribingSession {
-            var error : OTError? = nil
-            sess.disconnect(&error)
-            subscriber.view?.removeFromSuperview()
-            
-        }
+        // TODO: I GUESS FIX??
+//        if let sess = subscribingSession {
+//            var error : OTError? = nil
+//            sess.disconnect(&error)
+//            subscriber.view?.removeFromSuperview()
+//
+//        }
     }
     
     @IBAction func stopButtonTapped(sender: AnyObject) {
@@ -268,14 +267,10 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
                 self.showAlertWithMessage(title: "Could not get stream key.", message: "Try refreshing your web client and entering in a new sync code.")
                 print("\(err.localizedDescription)")
             } else if let result = response?["result"] as? [String: String] {
-                var streamId = result["session"]!
-                var apiKey = result["key"]!
-                var token = result["token"]!
-                self.subscribingSession = OTSession(apiKey: apiKey, sessionId: streamId, delegate: self)
-
-
+                self.sessionManager.connect(withProperties: result, asPublisher: false, completion: { error in
+                    print("Failed to connect with error: \(String(describing: error))")
+                })
                 self.locationManager.startUpdatingLocation()
-                self.doConnect(session: self.subscribingSession, token: token)
             } else {
                 self.showSyncCodeAlert()
             }
@@ -284,12 +279,9 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
             if let err = error {
                 print("\(err.localizedDescription)")
             } else if let result = response?["result"] as? [String: String] {
-                var streamId = result["session"]!
-                var apiKey = result["key"]!
-                var token = result["token"]!
-                self.publishingSession = OTSession(apiKey: apiKey, sessionId: streamId, delegate: self)
-                
-                self.doConnect(session: self.publishingSession, token: token)
+                self.sessionManager.connect(withProperties: result, asPublisher: true, completion: { error in
+                    print("Failed to connect with error: \(String(describing: error))")
+                })
             }
         })
     }
@@ -301,137 +293,7 @@ class RPPTController: UIViewController, OTSessionDelegate, OTSubscriberKitDelega
         present(alertController, animated: true, completion: nil)
     }
     
-    // ----------------------------------------
-    // MARK: OpenTok Initialization and Methods
-    // ----------------------------------------
-    func doConnect(session: OTSession, token: String) {
-        var error : OTError? = nil
-        
-        session.connect(withToken: token, error: &error)
-        if (error != nil) {
-             showAlert(string: error!.localizedDescription)
-        }
-    }
-    
-    func doSubscribe(stream: OTStream) {
-        subscriber = OTSubscriber(stream: stream, delegate: self)
-    
-        var error : OTError? = nil
-        subscribingSession.subscribe(self.subscriber, error: &error)
-        if (error != nil) {
-             showAlert(string: error!.localizedDescription)
-        }
-    }
-    
-    func cleanupSubscriber() {
-        subscriber.view?.removeFromSuperview()
-        subscriber = nil
-    }
-    
-    func doPublish() {
-        let settings = OTPublisherSettings()
-        settings.name = UIDevice.current.name
-        publisher = OTPublisherKit(delegate: self, settings: settings)
-        publisher.videoType = .screen
-        publisher.audioFallbackEnabled = false
-        
-        capturer = ScreenCapturer(withView: view)
-        publisher.videoCapture = capturer
-        
-        var error : OTError? = nil
-        publishingSession.publish(self.publisher, error: &error)
-        
-        if (error != nil) {
-            showAlert(string: error!.localizedDescription)
-        }
-    }
-    
-    func cleanupPublisher() {
-        publisher = nil
-    }
-    
-    // ----------------------------------
-    // MARK: OTSession Delegate Callbacks
-    // ----------------------------------
-    func sessionDidConnect(_ session: OTSession) {
-        print("sessionDidConnect \(session.sessionId)")
-        if (session.capabilities?.canPublish)! {
-            doPublish()
-        }
-    }
-    
-    func sessionDidDisconnect(_ session: OTSession) {
-        let alert = "Session disconnected: \(session.sessionId)"
-        print("sessionDidDisconnect \(alert)")
-    }
-    
-    func session(_ session: OTSession, streamCreated stream: OTStream) {
-        print("session streamCreated \(session.sessionId)")
-        doSubscribe(stream: stream)
-    }
-    
-    func session(_ session: OTSession, streamDestroyed stream: OTStream) {
-        print("session streamDestroyed \(stream.streamId)")
-        if (subscriber.stream!.streamId == stream.streamId) {
-            cleanupSubscriber()
-        } else if (publisher.stream!.streamId == stream.streamId) {
-            cleanupPublisher()
-        }
-    }
-    
-    func session(_ session: OTSession, connectionCreated connection: OTConnection) {
-        print("session connectionCreated \(connection.connectionId)")
-    }
-    
-    func session(_ session: OTSession, connectionDestroyed connection: OTConnection) {
-        print("session connectionDestroyed \(connection.connectionId)")
-        if (subscriber.stream!.connection.connectionId == connection.connectionId) {
-            cleanupSubscriber()
-        } else if (publisher.stream!.connection.connectionId == connection.connectionId) {
-            cleanupPublisher()
-        }
-    }
 
-    func session(_ session: OTSession, didFailWithError error: OTError) {
-        print("didFailWithError: \(error.localizedDescription)")
-    }
-   
-    // -------------------------------------
-    // MARK: OTSubscriberKitDelegate callbacks
-    // -------------------------------------
-    
-    public func subscriberDidConnect(toStream subscriber: OTSubscriberKit) {
-        print("subscriberDidConnectToStream \(subscriber.stream!.connection.connectionId)")
-        assert(subscriber == self.subscriber)
-        let screenRect = UIScreen.main.bounds
-        self.subscriber.view?.frame = CGRect(x: 0, y: 20, width: screenRect.width, height: screenRect.width * 1.4375)
-        self.view.addSubview(self.subscriber.view!)
-        self.view.bringSubview(toFront: stopButton)
-    }
-    
-    func subscriber(_ subscriber: OTSubscriberKit, didFailWithError error: OTError) {
-        print("didFailWithError: \(error.localizedDescription)")
-    }
-  
-    // ------------------------------------
-    // MARK: OTPublisherKitDelegate callbacks
-    // ------------------------------------
-    
-    func publisher(_ publisher: OTPublisherKit, streamCreated stream: OTStream) {
-        print("Now publishing.")
-    }
-    
-    func publisher(_ publisher: OTPublisherKit, streamDestroyed stream: OTStream) {
-        cleanupPublisher()
-    }
-    
-    func publisher(_ publisher: OTPublisherKit, didFailWithError error: OTError) {
-        print("Publisher failed: \(error.localizedDescription)")
-    }
-    
-    func showAlert(string: String) {
-        showAlertWithMessage(title: "OpenTok Error", message: string)
-    }
 
     // ---------------------------------
     // MARK: Gesture Recognition Methods

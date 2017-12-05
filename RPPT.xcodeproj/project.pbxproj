@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		142001481FD74BC000D21F94 /* RPPTController+Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142001471FD74BC000D21F94 /* RPPTController+Location.swift */; };
 		1420014A1FD74F0500D21F94 /* RPPTLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142001491FD74F0500D21F94 /* RPPTLocationManager.swift */; };
+		1420014E1FD74FE600D21F94 /* RPPTSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1420014D1FD74FE600D21F94 /* RPPTSessionManager.swift */; };
+		142001501FD75B7F00D21F94 /* RPPTController+Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1420014F1FD75B7F00D21F94 /* RPPTController+Session.swift */; };
 		94449CCC1E2367CC0033430C /* ScreenCapturer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94449CCB1E2367CC0033430C /* ScreenCapturer.swift */; };
 		94A2A744DF1D49F5D68E13ED /* libPods-RPPT.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D648DADD84CFEF0C1CDC5BB /* libPods-RPPT.a */; };
 		AA11A15E19EB3FE9008CFDEA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA11A15C19EB3FE9008CFDEA /* Main.storyboard */; };
@@ -32,6 +34,8 @@
 /* Begin PBXFileReference section */
 		142001471FD74BC000D21F94 /* RPPTController+Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RPPTController+Location.swift"; sourceTree = "<group>"; };
 		142001491FD74F0500D21F94 /* RPPTLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPPTLocationManager.swift; sourceTree = "<group>"; };
+		1420014D1FD74FE600D21F94 /* RPPTSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPPTSessionManager.swift; sourceTree = "<group>"; };
+		1420014F1FD75B7F00D21F94 /* RPPTController+Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RPPTController+Session.swift"; sourceTree = "<group>"; };
 		6D648DADD84CFEF0C1CDC5BB /* libPods-RPPT.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RPPT.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94449CCB1E2367CC0033430C /* ScreenCapturer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenCapturer.swift; sourceTree = "<group>"; };
 		AA0208D219EC496C00180328 /* remote-paper-prototyper-ios-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "remote-paper-prototyper-ios-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -113,8 +117,10 @@
 				AA11A15C19EB3FE9008CFDEA /* Main.storyboard */,
 				AA881AB319DE6F88004F9DB1 /* AppDelegate.swift */,
 				AA881AB519DE6F88004F9DB1 /* RPPTController.swift */,
+				1420014F1FD75B7F00D21F94 /* RPPTController+Session.swift */,
 				142001471FD74BC000D21F94 /* RPPTController+Location.swift */,
 				142001491FD74F0500D21F94 /* RPPTLocationManager.swift */,
+				1420014D1FD74FE600D21F94 /* RPPTSessionManager.swift */,
 				94449CCB1E2367CC0033430C /* ScreenCapturer.swift */,
 				AA881ABA19DE6F88004F9DB1 /* Images.xcassets */,
 				AA881ABC19DE6F88004F9DB1 /* LaunchScreen.xib */,
@@ -295,7 +301,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1420014E1FD74FE600D21F94 /* RPPTSessionManager.swift in Sources */,
 				1420014A1FD74F0500D21F94 /* RPPTLocationManager.swift in Sources */,
+				142001501FD75B7F00D21F94 /* RPPTController+Session.swift in Sources */,
 				AA78AA6A1A0C20D100CA4B40 /* bridge.m in Sources */,
 				94449CCC1E2367CC0033430C /* ScreenCapturer.swift in Sources */,
 				AA881AB619DE6F88004F9DB1 /* RPPTController.swift in Sources */,

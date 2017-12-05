@@ -10,6 +10,8 @@ import MapKit
 
 extension RPPTController {
 
+    // MARK: - RPPTLocationManager
+
     func setupLocationManager() {
 
         locationManager.onError = { error in

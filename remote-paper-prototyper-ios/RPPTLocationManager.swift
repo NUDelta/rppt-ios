@@ -6,7 +6,7 @@
 //  Copyright © 2017 aspin. All rights reserved.
 //
 
-import Foundation
+import CoreLocation
 
 class RPPTLocationManager: NSObject, CLLocationManagerDelegate {
 
