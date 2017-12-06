@@ -62,7 +62,7 @@ class RPPTController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         if !client.isConnected {
-            showSyncCodeAlert()
+            promptForSyncCode()
         }
     }
 
@@ -92,7 +92,7 @@ class RPPTController: UIViewController {
                                                object: nil)
     }
 
-    func showSyncCodeAlert() {
+    func promptForSyncCode() {
         let alert = UIAlertController(title: "Sync",
                                       message: "Enter the sync code below",
                                       preferredStyle: .alert)
@@ -276,7 +276,7 @@ class RPPTController: UIViewController {
 
     @IBAction func resyncButtonTapped() {
         resetStreams()
-        showSyncCodeAlert()
+        promptForSyncCode()
     }
 
     func showAlert(withTitle: String, message: String) {

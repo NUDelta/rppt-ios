@@ -61,7 +61,7 @@ class RPPTScreenCapturer: NSObject, OTVideoCapture {
         format.bytesPerRow = [NSNumber(value: format.imageWidth * 4)]
     }
 
-    // MARK: - OTVideoCapture
+    // MARK: - OTVideoCapture (lol what kind of API is this)
 
     func initCapture() {
 

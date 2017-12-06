@@ -81,10 +81,10 @@ class RPPTClient {
         client.callMethodName("getStreamData", parameters: subscriberParams) { response, error in
             if let error = error {
                 self.onOpenTokError?(error)
-            } else if let result = response?["result"] as? [String: String] {
-                self.sessionManager.connect(withProperties: result, asPublisher: false, completion: { error in
+            } else if let properties = RPPTSessionProperties(result: response?["result"], isPublisher: false) {
+                self.sessionManager.connect(withProperties: properties) { error in
                     print("Failed to connect with error: \(String(describing: error))")
-                })
+                }
                 self.locationManager.startUpdatingLocation()
             } else {
                 self.onClientError?(nil)
@@ -95,10 +95,10 @@ class RPPTClient {
         client.callMethodName("getStreamData", parameters: publisherParams) { response, error in
             if let error = error {
                 self.onOpenTokError?(error)
-            } else if let result = response?["result"] as? [String: String] {
-                self.sessionManager.connect(withProperties: result, asPublisher: true, completion: { error in
+            } else if let properties = RPPTSessionProperties(result: response?["result"], isPublisher: true) {
+                self.sessionManager.connect(withProperties: properties) { error in
                     print("Failed to connect with error: \(String(describing: error))")
-                })
+                }
             }
         }
     }

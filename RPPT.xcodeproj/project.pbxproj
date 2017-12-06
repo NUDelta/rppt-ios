@@ -14,6 +14,7 @@
 		142001541FD7622800D21F94 /* RPPTClient+Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142001531FD7622800D21F94 /* RPPTClient+Session.swift */; };
 		142001561FD767FC00D21F94 /* RPPTTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142001551FD767FC00D21F94 /* RPPTTask.swift */; };
 		143709811FD78BDA0096F545 /* RPPTExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143709801FD78BDA0096F545 /* RPPTExtensions.swift */; };
+		14EBCF881FD86C5E00DB2191 /* RPPTSessionProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14EBCF871FD86C5E00DB2191 /* RPPTSessionProperties.swift */; };
 		94449CCC1E2367CC0033430C /* RPPTScreenCapturer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94449CCB1E2367CC0033430C /* RPPTScreenCapturer.swift */; };
 		94A2A744DF1D49F5D68E13ED /* libPods-RPPT.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D648DADD84CFEF0C1CDC5BB /* libPods-RPPT.a */; };
 		AA11A15E19EB3FE9008CFDEA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA11A15C19EB3FE9008CFDEA /* Main.storyboard */; };
@@ -31,6 +32,7 @@
 		142001531FD7622800D21F94 /* RPPTClient+Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RPPTClient+Session.swift"; sourceTree = "<group>"; };
 		142001551FD767FC00D21F94 /* RPPTTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPPTTask.swift; sourceTree = "<group>"; };
 		143709801FD78BDA0096F545 /* RPPTExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPPTExtensions.swift; sourceTree = "<group>"; };
+		14EBCF871FD86C5E00DB2191 /* RPPTSessionProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPPTSessionProperties.swift; sourceTree = "<group>"; };
 		6D648DADD84CFEF0C1CDC5BB /* libPods-RPPT.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RPPT.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94449CCB1E2367CC0033430C /* RPPTScreenCapturer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RPPTScreenCapturer.swift; sourceTree = "<group>"; };
 		AA0208D219EC496C00180328 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
@@ -71,7 +73,6 @@
 		1437097A1FD7818E0096F545 /* Client */ = {
 			isa = PBXGroup;
 			children = (
-				142001551FD767FC00D21F94 /* RPPTTask.swift */,
 				142001511FD75E7C00D21F94 /* RPPTClient.swift */,
 				142001471FD74BC000D21F94 /* RPPTClient+Location.swift */,
 				142001531FD7622800D21F94 /* RPPTClient+Session.swift */,
@@ -93,8 +94,10 @@
 			isa = PBXGroup;
 			children = (
 				AA881AB319DE6F88004F9DB1 /* RPPTAppDelegate.swift */,
-				94449CCB1E2367CC0033430C /* RPPTScreenCapturer.swift */,
 				143709801FD78BDA0096F545 /* RPPTExtensions.swift */,
+				94449CCB1E2367CC0033430C /* RPPTScreenCapturer.swift */,
+				14EBCF871FD86C5E00DB2191 /* RPPTSessionProperties.swift */,
+				142001551FD767FC00D21F94 /* RPPTTask.swift */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 				AA881AB619DE6F88004F9DB1 /* RPPTController.swift in Sources */,
 				AA881AB419DE6F88004F9DB1 /* RPPTAppDelegate.swift in Sources */,
 				142001541FD7622800D21F94 /* RPPTClient+Session.swift in Sources */,
+				14EBCF881FD86C5E00DB2191 /* RPPTSessionProperties.swift in Sources */,
 				142001481FD74BC000D21F94 /* RPPTClient+Location.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

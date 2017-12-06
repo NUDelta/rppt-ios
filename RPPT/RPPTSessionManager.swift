@@ -31,24 +31,24 @@ class RPPTSessionManager: NSObject, OTSessionDelegate, OTSubscriberKitDelegate, 
     }
 
     // TODO: DOES THIS BLOCK MAIN THREAD (ASSUMING YES) SHOULD CHANGE
-    func connect(withProperties properties: [String: String], asPublisher: Bool, completion: ((Error?) -> Void)) {
+    func connect(withProperties properties: RPPTSessionProperties,
+                 completion: ((Error?) -> Void)) {
         print("RPPTSessionManager: " + #function)
 
-        guard let apiKey = properties["key"],
-            let token = properties["token"],
-            let streamId = properties["session"],
-            let session = OTSession(apiKey: apiKey, sessionId: streamId, delegate: self) else {
+        guard let session = OTSession(apiKey: properties.apiKey,
+                                      sessionId: properties.streamId,
+                                      delegate: self) else {
                 fatalError("Failed to create session with properties: \(properties)")
         }
 
-        if asPublisher {
+        if properties.isPublisher {
             publishingSession = session
         } else {
             subscribingSession = session
         }
 
         var error: OTError? = nil
-        session.connect(withToken: token, error: &error)
+        session.connect(withToken: properties.token, error: &error)
         completion(error)
     }
 
@@ -66,7 +66,8 @@ class RPPTSessionManager: NSObject, OTSessionDelegate, OTSubscriberKitDelegate, 
 //        capturer = ScreenCapturer(withView: view)
 //        publisher.videoCapture = capturer
 
-        guard let publishingSession = publishingSession, let publisherKit = publisherKit else {
+        guard let publishingSession = publishingSession,
+            let publisherKit = publisherKit else {
             fatalError("Attempted to publish with nil publishingSession")
         }
 
@@ -80,7 +81,8 @@ class RPPTSessionManager: NSObject, OTSessionDelegate, OTSubscriberKitDelegate, 
     func subscribe(to stream: OTStream) {
         subscriber = OTSubscriber(stream: stream, delegate: self)
 
-        guard let subscribingSession = subscribingSession, let subscriber = subscriber else {
+        guard let subscribingSession = subscribingSession,
+            let subscriber = subscriber else {
             fatalError("Attempted to subscriber with nil subscribingSession")
         }
 
