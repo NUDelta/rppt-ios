@@ -26,7 +26,7 @@ class RPPTSessionManager: NSObject, OTSessionDelegate, OTSubscriberKitDelegate, 
     private var publisherKit: OTPublisherKit?
     private var subscriber: OTSubscriber?
 
-     var isConnected: Bool {
+    var isConnected: Bool {
         return subscribingSession != nil && publishingSession != nil
     }
 
@@ -61,8 +61,6 @@ class RPPTSessionManager: NSObject, OTSessionDelegate, OTSubscriberKitDelegate, 
         publisherKit = OTPublisherKit(delegate: self, settings: settings)
         publisherKit?.videoType = .screen
         publisherKit?.audioFallbackEnabled = false
-
-        publisherKit?.videoCapture
 
         // TODO: REVISIT SCREENCAPTURE
 //        capturer = ScreenCapturer(withView: view)

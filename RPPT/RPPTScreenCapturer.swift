@@ -1,6 +1,6 @@
 //
-//  ScreenCapturer.swift
-//  5.Screen-Sharing
+//  RPPTScreenCapturer.swift
+//  RTTF
 //
 //  Created by Roberto Perez Cubero on 23/09/2016.
 //  Copyright © 2016 tokbox. All rights reserved.
@@ -9,7 +9,7 @@
 import ReplayKit
 
 @available(iOS 11.0, *)
-class ScreenCapturer: NSObject, OTVideoCapture {
+class RPPTScreenCapturer: NSObject, OTVideoCapture {
 
     // MARK: - Properties
 
@@ -24,8 +24,9 @@ class ScreenCapturer: NSObject, OTVideoCapture {
     // MARK: - Initalization
 
     override init() {
-        let sharedRecorder = RPScreenRecorder.shared()
+        super.init()
 
+        let sharedRecorder = RPScreenRecorder.shared()
         sharedRecorder.startCapture(handler: { sampleBuffer, bufferType, error in
 
             if let error = error {
@@ -48,7 +49,7 @@ class ScreenCapturer: NSObject, OTVideoCapture {
 
             CVPixelBufferUnlockBaseAddress(pixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
 
-        }) { error in
+        }) { _ in
 
         }
 

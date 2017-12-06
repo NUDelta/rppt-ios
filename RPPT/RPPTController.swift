@@ -1,6 +1,6 @@
 //
-//  ViewController.swift
-//  remote-paper-prototyper-ios
+//  RPPTController.swift
+//  RPPT
 //
 //  Created by Kevin Chen on 10/3/14.
 //  Copyright (c) 2014 aspin. All rights reserved.
@@ -30,10 +30,10 @@ class RPPTController: UIViewController {
 
     // MARK: - Properties
 
-    let client = RPPTClient()
-
     var task: RPPTTask?
-    var capturer: ScreenCapturer!
+
+    let client = RPPTClient()
+    let capturer = RPPTScreenCapturer()
 
     var lastPoint: CGPoint = .zero
 
@@ -42,17 +42,14 @@ class RPPTController: UIViewController {
     // I hate myself (don't we all)
     var pickerIsVisible = false
 
-    // Gesture Recognition Members
-    var tapGestureRecognizer: UITapGestureRecognizer!
-    var panGestureRecognizer: UIPanGestureRecognizer!
+    // MARK: - Gesture Recognizers
+
+    let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(RPPTController.handlePan))
 
     // MARK: - View Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        tapGestureRecognizer = UITapGestureRecognizer()
-        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
 
         view.addGestureRecognizer(panGestureRecognizer)
 
@@ -90,7 +87,7 @@ class RPPTController: UIViewController {
         }
 
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(self.messageChanged),
+                                               selector: #selector(messageChanged),
                                                name: NSNotification.Name("messages_changed"),
                                                object: nil)
     }

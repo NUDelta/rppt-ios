@@ -1,5 +1,5 @@
 //
-//  Extensions.swift
+//  RPPTExtensions.swift
 //  RPPT
 //
 //  Created by Andrew Finke on 12/5/17.
