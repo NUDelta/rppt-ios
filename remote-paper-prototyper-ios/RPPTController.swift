@@ -114,7 +114,7 @@ class RPPTController: UIViewController {
     }
 
     // TODO: THIS
-    func messageChanged(notification: NSNotification) {
+    @objc func messageChanged(notification: NSNotification) {
         guard let result = notification.userInfo as? [String:String] else { return }
 
         if result["_id"] == task?.messageID && result["type"] == "task" {
@@ -260,7 +260,7 @@ class RPPTController: UIViewController {
         sendTap(x: self.lastX, y: self.lastY)
     }
     
-    func handlePan(pan: UIPanGestureRecognizer) {
+    @objc func handlePan(pan: UIPanGestureRecognizer) {
         let motion = pan.translation(in: self.view)
         sendTap(x: lastX + Float(motion.x), y: lastY + Float(motion.y))
     }

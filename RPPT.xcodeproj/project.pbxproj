@@ -23,16 +23,6 @@
 		AA881ABE19DE6F88004F9DB1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA881ABC19DE6F88004F9DB1 /* LaunchScreen.xib */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		AA881AC419DE6F88004F9DB1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AA881AA619DE6F87004F9DB1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = AA881AAD19DE6F87004F9DB1;
-			remoteInfo = "remote-paper-prototyper-ios";
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		142001471FD74BC000D21F94 /* RPPTClient+Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RPPTClient+Location.swift"; sourceTree = "<group>"; };
 		142001491FD74F0500D21F94 /* RPPTLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPPTLocationManager.swift; sourceTree = "<group>"; };
@@ -52,7 +42,6 @@
 		AA881AB519DE6F88004F9DB1 /* RPPTController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPPTController.swift; sourceTree = "<group>"; };
 		AA881ABA19DE6F88004F9DB1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		AA881ABD19DE6F88004F9DB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		AA881AC319DE6F88004F9DB1 /* RPPT.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RPPT.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFC979B52F055A9F2DD1F3CD /* Pods-RPPT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RPPT.release.xcconfig"; path = "Pods/Target Support Files/Pods-RPPT/Pods-RPPT.release.xcconfig"; sourceTree = "<group>"; };
 		BAC4D294E94F714B7D5A2ADD /* Pods-RPPT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RPPT.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RPPT/Pods-RPPT.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -63,13 +52,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				94A2A744DF1D49F5D68E13ED /* libPods-RPPT.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AA881AC019DE6F88004F9DB1 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,7 +92,6 @@
 			isa = PBXGroup;
 			children = (
 				AA881AAE19DE6F88004F9DB1 /* RPPT.app */,
-				AA881AC319DE6F88004F9DB1 /* RPPT.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -166,24 +147,6 @@
 			productReference = AA881AAE19DE6F88004F9DB1 /* RPPT.app */;
 			productType = "com.apple.product-type.application";
 		};
-		AA881AC219DE6F88004F9DB1 /* RPPTTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = AA881AD019DE6F88004F9DB1 /* Build configuration list for PBXNativeTarget "RPPTTests" */;
-			buildPhases = (
-				AA881ABF19DE6F88004F9DB1 /* Sources */,
-				AA881AC019DE6F88004F9DB1 /* Frameworks */,
-				AA881AC119DE6F88004F9DB1 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				AA881AC519DE6F88004F9DB1 /* PBXTargetDependency */,
-			);
-			name = RPPTTests;
-			productName = "remote-paper-prototyper-iosTests";
-			productReference = AA881AC319DE6F88004F9DB1 /* RPPT.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -192,23 +155,18 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = aspin;
 				TargetAttributes = {
 					AA881AAD19DE6F87004F9DB1 = {
 						CreatedOnToolsVersion = 6.0.1;
 						DevelopmentTeam = QR3YW3B828;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0910;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 0;
 							};
 						};
-					};
-					AA881AC219DE6F88004F9DB1 = {
-						CreatedOnToolsVersion = 6.0.1;
-						LastSwiftMigration = 0800;
-						TestTargetID = AA881AAD19DE6F87004F9DB1;
 					};
 				};
 			};
@@ -226,7 +184,6 @@
 			projectRoot = "";
 			targets = (
 				AA881AAD19DE6F87004F9DB1 /* RPPT */,
-				AA881AC219DE6F88004F9DB1 /* RPPTTests */,
 			);
 		};
 /* End PBXProject section */
@@ -239,13 +196,6 @@
 				AA881ABE19DE6F88004F9DB1 /* LaunchScreen.xib in Resources */,
 				AA881ABB19DE6F88004F9DB1 /* Images.xcassets in Resources */,
 				AA11A15E19EB3FE9008CFDEA /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AA881AC119DE6F88004F9DB1 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,22 +270,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AA881ABF19DE6F88004F9DB1 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		AA881AC519DE6F88004F9DB1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = AA881AAD19DE6F87004F9DB1 /* RPPT */;
-			targetProxy = AA881AC419DE6F88004F9DB1 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		AA11A15C19EB3FE9008CFDEA /* Main.storyboard */ = {
@@ -365,14 +300,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -412,14 +353,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -478,7 +425,8 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "remote-paper-prototyper-ios-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Debug;
@@ -516,46 +464,9 @@
 				PRODUCT_NAME = RPPT;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "remote-paper-prototyper-ios-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				VALID_ARCHS = "armv7 armv7s arm64";
-			};
-			name = Release;
-		};
-		AA881AD119DE6F88004F9DB1 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "remote-paper-prototyper-iosTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.aspin.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = RPPT;
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RPPT.app/RPPT";
-			};
-			name = Debug;
-		};
-		AA881AD219DE6F88004F9DB1 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "remote-paper-prototyper-iosTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.aspin.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = RPPT;
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RPPT.app/RPPT";
 			};
 			name = Release;
 		};
@@ -576,15 +487,6 @@
 			buildConfigurations = (
 				AA881ACE19DE6F88004F9DB1 /* Debug */,
 				AA881ACF19DE6F88004F9DB1 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		AA881AD019DE6F88004F9DB1 /* Build configuration list for PBXNativeTarget "RPPTTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AA881AD119DE6F88004F9DB1 /* Debug */,
-				AA881AD219DE6F88004F9DB1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
