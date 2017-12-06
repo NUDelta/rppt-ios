@@ -7,94 +7,98 @@
 //
 
 import UIKit
-import CoreLocation
-import AVFoundation
 import MobileCoreServices
 import MapKit
 
-class RPPTController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
-
+class RPPTController: UIViewController {
     
-    // UI Elements
-    @IBOutlet weak var task: UILabel!
+    // MARK: - IB Interface Elements
+
+    @IBOutlet weak var taskLabel: UILabel!
     @IBOutlet weak var stopButton: UIButton!
     @IBOutlet weak var reSyncButton: UIButton!
 
-    // MeteorDDP Member
-    var meteorClient: MeteorClient!
+    // MARK: - Other Interface Elements
 
-    let sessionManager = RPPTSessionManager()
+    let mapView = MKMapView()
 
+    let textView = UITextView()
+    let imageView = UIImageView()
+    let overlayedImageView = UIImageView()
 
+    let picker = UIImagePickerController()
+
+    // MARK: - Properties
+
+    let client = RPPTClient()
+
+    var task: RPPTTask?
     var capturer: ScreenCapturer!
-    
-    var syncCode = ""
-    var messageId = ""
-    
+
+    var lastX = Float(0)
+    var lastY = Float(0)
+
+    var photoArray = [UIImage]()
+
+    // I hate myself (don't we all)
+    var pickerIsVisible = false;
+
     // Gesture Recognition Members
     var tapGestureRecognizer: UITapGestureRecognizer!
     var panGestureRecognizer: UIPanGestureRecognizer!
-    
-    var lastX = Float(0)
-    var lastY = Float(0)
-    
-    let picker = UIImagePickerController()
-    var textview = UITextView()
-    var imageView = UIImageView()
-    var overlayedImageView = UIImageView()
-    var mapView = MKMapView()
-    var photoArray = [UIImage]()
-    
-    // I hate myself
-    var pickerIsVisible = false;
 
-
-    let locationManager = RPPTLocationManager()
-
-    // -------------------------
-    // MARK: View Initialization
-    // -------------------------
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
+    // MARK: - View Life Cycle
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+
         tapGestureRecognizer = UITapGestureRecognizer()
         panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(RPPTController.handlePan))
-        
-        super.viewDidLoad()
-        
-        initMeteor()
 
-        self.view.addGestureRecognizer(panGestureRecognizer)
+        view.addGestureRecognizer(panGestureRecognizer)
         
-        
-        
-        textview.delegate = self
-        textview.backgroundColor = UIColor.clear
-        
+        textView.delegate = self
+        textView.backgroundColor = UIColor.clear
+
         setUpCamera()
+        setupClient()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if !sessionManager.isConnected {
+        if !client.isConnected {
             showSyncCodeAlert()
         }
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+
+    private func setupClient() {
+        client.onTaskUpdated = { task in
+            self.task = task
+        }
+
+        client.onClientError = { error in
+
+        }
+
+        client.onOpenTokError = { error in
+
+        }
+
+        client.onSubscriberConnected = { subscriberView in
+            let screenRect = UIScreen.main.bounds
+            subscriberView.frame = CGRect(x: 0, y: 20, width: screenRect.width, height: screenRect.width * 1.4375)
+            self.view.addSubview(subscriberView)
+            self.view.bringSubview(toFront: self.stopButton)
+        }
     }
     
     func showSyncCodeAlert() {
         let alert = UIAlertController(title: "Sync", message: "Enter the sync code below", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Confirm", style: UIAlertActionStyle.default, handler: { (action) -> Void in
-            self.syncCode = (alert.textFields![0] as UITextField).text!
-            
-            self.meteorClient.addSubscription("messages", withParameters: [self.syncCode])
-            NotificationCenter.default.addObserver(self, selector: #selector(RPPTController.messageChanged), name: NSNotification.Name(rawValue: "messages_changed"), object: nil)
-            self.initTask()
-            self.initStream()
+            let syncCode = (alert.textFields![0] as UITextField).text!
+
+            NotificationCenter.default.addObserver(self, selector: #selector(self.messageChanged), name: NSNotification.Name("messages_changed"), object: nil)
+
+            self.client.start(withSyncCode: syncCode)
         }))
         alert.addTextField(configurationHandler: {(textField: UITextField) in
             textField.placeholder = ""
@@ -103,101 +107,96 @@ class RPPTController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func setUpCamera() {
-        if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)) {
-            picker.sourceType = .camera
-            picker.mediaTypes = [kUTTypeImage as String]
-            picker.delegate = self
+        guard UIImagePickerController.isSourceTypeAvailable(.camera) else { return }
+        picker.sourceType = .camera
+        picker.mediaTypes = [kUTTypeImage as String]
+        picker.delegate = self
+    }
+
+    // TODO: THIS
+    func messageChanged(notification: NSNotification) {
+        guard let result = notification.userInfo as? [String:String] else { return }
+
+        if result["_id"] == task?.messageID && result["type"] == "task" {
+            taskLabel.text = result["content"]
+            AudioServicesPlaySystemSound(1003)
+        }
+
+        if result["keyboard"] == "show" {
+            // Where do these numbers come from
+            textView.frame = CGRect(x: 50, y: self.view.frame.height - 256, width: self.view.frame.width - 10, height: 40)
+            self.view.addSubview(textView)
+            self.textView.becomeFirstResponder()
+        } else if result["keyboard"] == "hide" {
+            self.textView.resignFirstResponder()
+            self.textView.removeFromSuperview()
+        }
+
+        if result["camera"] == "show" {
+            if (!pickerIsVisible) {
+                self.present(picker, animated: true, completion: nil)
+                pickerIsVisible = true;
+            }
+        } else if result["camera"] == "hide" {
+            if (pickerIsVisible) {
+                picker.dismiss(animated: true, completion: nil)
+                pickerIsVisible = false;
+            }
+        }
+
+        if let imageFullEncoding = result["overlayedFullImage"] {
+            self.overlayFullImage(imageEncoding: imageFullEncoding)
+        }
+
+        if let overlayedImageXString = result["overlayedImage_x"], let overlayedImageYString = result["overlayedImage_y"], let overlayedImageHeightString = result["overlayedImage_height"], let overlayedImageWidthString = result["overlayedImage_width"], let imageEncoding = result["overlayedImage"] {
+            let overlayedImageX = Double(overlayedImageXString)
+            let overlayedImageY = Double(overlayedImageYString)
+            let overlayedImageHeight = Double(overlayedImageHeightString)
+            let overlayedImageWidth = Double(overlayedImageWidthString)
+            let isCameraOverlay = (result["isCameraOverlay"] == "true") ? true : false
+            if overlayedImageX != -999 && overlayedImageY != -999 && overlayedImageWidth != -999 && overlayedImageHeight != -999 {
+                self.overlayImage(x: CGFloat(overlayedImageX!), y: CGFloat(overlayedImageY!), height: CGFloat(overlayedImageHeight!), width: CGFloat(overlayedImageWidth!), imageEncoding: imageEncoding, isCameraOverlay: isCameraOverlay)
+            }
+        }
+
+        if let mapXString = result["map_x"], let mapYString = result["map_y"], let mapWidthString = result["map_width"], let mapHeightString = result["map_height"] {
+            let mapX = Double(mapXString)
+            let mapY = Double(mapYString)
+            let mapHeight = Double(mapHeightString)
+            let mapWidth = Double(mapWidthString)
+            if mapX != -999 && mapY != -999 && mapWidth != -999 && mapHeight != -999 {
+                mapView.frame = CGRect(x: CGFloat(mapX!), y: CGFloat(mapY!), width: CGFloat(mapWidth!), height: CGFloat(mapHeight!))
+                if overlayedImageView.isDescendant(of: self.view) {
+                    self.view.insertSubview(mapView, belowSubview: overlayedImageView)
+                } else {
+                    self.view.addSubview(mapView)
+                }
+            } else {
+                self.mapView.removeFromSuperview()
+            }
+        }
+
+        if let photoXString = result["photo_x"], let photoYString = result["photo_y"], let photoWidthString = result["photo_width"], let photoHeightString = result["photo_height"] {
+            let photoX = Double(photoXString)
+            let photoY = Double(photoYString)
+            let photoHeight = Double(photoHeightString)
+            let photoWidth = Double(photoWidthString)
+            if photoX != -999 && photoY != -999 && photoWidth != -999 && photoHeight != -999 {
+                if (photoArray.count != 0) {
+                    imageView.frame = CGRect(x: CGFloat(photoX!), y: CGFloat(photoY!), width: CGFloat(photoWidth!), height: CGFloat(photoHeight!))
+                    imageView.image = photoArray.last!
+                    if overlayedImageView.isDescendant(of: self.view) {
+                        self.view.insertSubview(imageView, belowSubview: overlayedImageView)
+                    } else {
+                        self.view.addSubview(imageView)
+                    }
+                }
+            } else {
+                self.imageView.removeFromSuperview()
+            }
         }
     }
 
-    func messageChanged(notification: NSNotification) {
-        if let result = notification.userInfo as? [String:String] {
-            if result["_id"] == self.messageId && result["type"] == "task" {
-                task.text = result["content"]
-                AudioServicesPlaySystemSound(1003)
-            }
-            if result["keyboard"] == "show" {
-                self.setTextview(x: 50, y: self.view.frame.height - 256, width: self.view.frame.width - 10, height: 40)
-            } else if result["keyboard"] == "hide" {
-                self.textview.resignFirstResponder()
-                self.textview.removeFromSuperview()
-            }
-            if result["camera"] == "show" {
-                if (!pickerIsVisible) {
-                    self.present(picker, animated: true, completion: nil)
-                    pickerIsVisible = true;
-                }
-            } else if result["camera"] == "hide" {
-                if (pickerIsVisible) {
-                    picker.dismiss(animated: true, completion: nil)
-                    pickerIsVisible = false;
-                }
-            }
-            if let imageFullEncoding = result["overlayedFullImage"] {
-                self.overlayFullImage(imageEncoding: imageFullEncoding)
-            }
-            if let overlayedImageXString = result["overlayedImage_x"], let overlayedImageYString = result["overlayedImage_y"], let overlayedImageHeightString = result["overlayedImage_height"], let overlayedImageWidthString = result["overlayedImage_width"], let imageEncoding = result["overlayedImage"] {
-                let overlayedImageX = Double(overlayedImageXString)
-                let overlayedImageY = Double(overlayedImageYString)
-                let overlayedImageHeight = Double(overlayedImageHeightString)
-                let overlayedImageWidth = Double(overlayedImageWidthString)
-                let isCameraOverlay = (result["isCameraOverlay"] == "true") ? true : false
-                if overlayedImageX != -999 && overlayedImageY != -999 && overlayedImageWidth != -999 && overlayedImageHeight != -999 {
-                    self.overlayImage(x: CGFloat(overlayedImageX!), y: CGFloat(overlayedImageY!), height: CGFloat(overlayedImageHeight!), width: CGFloat(overlayedImageWidth!), imageEncoding: imageEncoding, isCameraOverlay: isCameraOverlay)
-                }
-            }
-            if let mapXString = result["map_x"], let mapYString = result["map_y"], let mapWidthString = result["map_width"], let mapHeightString = result["map_height"] {
-                let mapX = Double(mapXString)
-                let mapY = Double(mapYString)
-                let mapHeight = Double(mapHeightString)
-                let mapWidth = Double(mapWidthString)
-                if mapX != -999 && mapY != -999 && mapWidth != -999 && mapHeight != -999 {
-                    self.setMapView(x: CGFloat(mapX!), y: CGFloat(mapY!), width: CGFloat(mapWidth!), height: CGFloat(mapHeight!), index: 0)
-                } else {
-                    self.mapView.removeFromSuperview()
-                }
-            }
-            if let photoXString = result["photo_x"], let photoYString = result["photo_y"], let photoWidthString = result["photo_width"], let photoHeightString = result["photo_height"] {
-                let photoX = Double(photoXString)
-                let photoY = Double(photoYString)
-                let photoHeight = Double(photoHeightString)
-                let photoWidth = Double(photoWidthString)
-                if photoX != -999 && photoY != -999 && photoWidth != -999 && photoHeight != -999 {
-                    self.setImageView(x: CGFloat(photoX!), y: CGFloat(photoY!), width: CGFloat(photoWidth!), height: CGFloat(photoHeight!), index: 0)
-                } else {
-                    self.imageView.removeFromSuperview()
-                }
-            }
-        }
-    }
-    
-    func setTextview(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat) {
-        textview.frame = CGRect(x: x, y: y, width: width, height: height)
-        self.view.addSubview(textview)
-        self.textview.becomeFirstResponder()
-    }
-    
-    func setMapView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, index: Int) {
-        mapView.frame = CGRect(x: x, y: y, width: width, height: height)
-        if overlayedImageView.isDescendant(of: self.view) {
-            self.view.insertSubview(mapView, belowSubview: overlayedImageView)
-        } else {
-            self.view.addSubview(mapView)
-        }
-    }
-    
-    func setImageView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, index: Int) {
-        if (photoArray.count != 0) {
-            imageView.frame = CGRect(x: x, y: y, width: width, height: height)
-            imageView.image = photoArray.last!
-            if overlayedImageView.isDescendant(of: self.view) {
-                self.view.insertSubview(imageView, belowSubview: overlayedImageView)
-            } else {
-                self.view.addSubview(imageView)
-            }
-        }
-    }
-    
     func overlayFullImage(imageEncoding: String) {
         let dataDecoded = Data(base64Encoded: imageEncoding, options: .ignoreUnknownCharacters)
         let decodedimage = UIImage(data: dataDecoded!)
@@ -222,7 +221,7 @@ class RPPTController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func sendMessage() {
-        meteorClient.callMethodName("printKeyboardMessage", parameters: [syncCode, textview.text], responseCallback: nil)
+        client.sendMessage(text: textView.text)
     }
     
     func resetStreams() {
@@ -244,47 +243,6 @@ class RPPTController: UIViewController, UIImagePickerControllerDelegate, UINavig
         resetStreams()
         showSyncCodeAlert()
     }
-    // --------------------------------------------
-    // MARK: MeteorDDP Initialization and Observers
-    // --------------------------------------------
-    func initMeteor() {
-        meteorClient = (UIApplication.shared.delegate as! AppDelegate).meteorClient
-
-    }
-    
-    func initTask() {
-        self.meteorClient.callMethodName("getTaskId", parameters: [self.syncCode]) { (response, error) -> Void in
-            if let result = response?["result"] as? [String: String] {
-                self.task.text = result["content"]
-                self.messageId = result["_id"]!
-            }
-        }
-    }
-    
-    func initStream() {
-        self.meteorClient.callMethodName("getStreamData", parameters: [self.syncCode as AnyObject, "subscriber" as AnyObject] as [AnyObject], responseCallback: {(response, error) -> Void in
-            if let err = error {
-                self.showAlertWithMessage(title: "Could not get stream key.", message: "Try refreshing your web client and entering in a new sync code.")
-                print("\(err.localizedDescription)")
-            } else if let result = response?["result"] as? [String: String] {
-                self.sessionManager.connect(withProperties: result, asPublisher: false, completion: { error in
-                    print("Failed to connect with error: \(String(describing: error))")
-                })
-                self.locationManager.startUpdatingLocation()
-            } else {
-                self.showSyncCodeAlert()
-            }
-        })
-        self.meteorClient.callMethodName("getStreamData", parameters: [self.syncCode as AnyObject, "publisher" as AnyObject] as [AnyObject], responseCallback: {(response, error) -> Void in
-            if let err = error {
-                print("\(err.localizedDescription)")
-            } else if let result = response?["result"] as? [String: String] {
-                self.sessionManager.connect(withProperties: result, asPublisher: true, completion: { error in
-                    print("Failed to connect with error: \(String(describing: error))")
-                })
-            }
-        })
-    }
     
     func showAlertWithMessage(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -292,12 +250,7 @@ class RPPTController: UIViewController, UIImagePickerControllerDelegate, UINavig
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
     }
-    
 
-
-    // ---------------------------------
-    // MARK: Gesture Recognition Methods
-    // ---------------------------------
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch: AnyObject? = event!.allTouches?.first
         let touchPoint = touch?.location(in: self.view);
@@ -315,7 +268,7 @@ class RPPTController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func sendTap(x: Float, y: Float) {
         let (scaledX, scaledY) = scale(x: x, y: y)
         if scaledY < 500 {
-            meteorClient.callMethodName("createTap", parameters: [syncCode, scaledX, scaledY], responseCallback: nil)
+            client.createTap(scaledX: scaledX, scaledY: scaledY)
         }
     }
     
@@ -325,31 +278,29 @@ class RPPTController: UIViewController, UIImagePickerControllerDelegate, UINavig
             scaledY = y * 460 / Float(screenRect.width * 1.4375)
         return (scaledX, scaledY)
     }
-    
-    // ---------------------------------
-    // MARK: UIImagePickerController Delegate
-    // ---------------------------------
+
+}
+
+extension RPPTController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
+    // MARK: - UIImagePickerController Delegate
+
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         photoArray.append(info[UIImagePickerControllerOriginalImage] as! UIImage)
         picker.dismiss(animated: true, completion: nil)
     }
-    
-    // ---------------------------------
-    // MARK: UITextView Delegate
-    // ---------------------------------
-    
-    func textViewDidChange(_ textView: UITextView) {
-        if (textview.text.characters.last) == "\n" {
-            sendMessage()
-            textview.text = ""
-        }
-    }
-    
-    // ---------------------------------
-    // MARK: CoreLocation Delegate
-    // ---------------------------------
-    
+}
 
+extension RPPTController: UITextViewDelegate {
+
+    // MARK: - UITextViewDelegate
+
+    func textViewDidChange(_ textView: UITextView) {
+        guard textView.text.last == "\n" else { return }
+
+        sendMessage()
+        textView.text = ""
+    }
 }
 
 

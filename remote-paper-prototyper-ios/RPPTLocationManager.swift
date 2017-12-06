@@ -35,6 +35,7 @@ class RPPTLocationManager: NSObject, CLLocationManagerDelegate {
     // MARK: - CLLocationManagerDelegate
 
     public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("RPPTLocationManager: " + #function + " Error: " + error.localizedDescription)
         onError?(error)
     }
 
