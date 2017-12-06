@@ -14,8 +14,8 @@ class RPPTLocationManager: NSObject, CLLocationManagerDelegate {
 
     private let manager = CLLocationManager()
 
-    public var onError: ((Error) -> ())?
-    public var onUpdate: ((CLLocationCoordinate2D) -> ())?
+    public var onError: ((Error) -> Void)?
+    public var onUpdate: ((CLLocationCoordinate2D) -> Void)?
 
     // MARK: - Initialization
 

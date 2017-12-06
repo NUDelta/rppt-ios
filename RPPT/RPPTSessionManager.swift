@@ -12,11 +12,11 @@ class RPPTSessionManager: NSObject, OTSessionDelegate, OTSubscriberKitDelegate, 
 
     // MARK: - Closures
 
-    var onSubscriberConnected: ((UIView) -> ())?
+    var onSubscriberConnected: ((UIView) -> Void)?
 
-    var onSessionError: ((Error) -> ())?
-    var onPublisherError: ((Error) -> ())?
-    var onSubscriberError: ((Error?, UIView?) -> ())?
+    var onSessionError: ((Error) -> Void)?
+    var onPublisherError: ((Error) -> Void)?
+    var onSubscriberError: ((Error?, UIView?) -> Void)?
 
     // MARK: - Properties
 
@@ -31,7 +31,7 @@ class RPPTSessionManager: NSObject, OTSessionDelegate, OTSubscriberKitDelegate, 
     }
 
     // TODO: DOES THIS BLOCK MAIN THREAD (ASSUMING YES) SHOULD CHANGE
-    func connect(withProperties properties: [String: String], asPublisher: Bool, completion: ((Error?) -> ())) {
+    func connect(withProperties properties: [String: String], asPublisher: Bool, completion: ((Error?) -> Void)) {
         print("RPPTSessionManager: " + #function)
 
         guard let apiKey = properties["key"],
@@ -40,7 +40,7 @@ class RPPTSessionManager: NSObject, OTSessionDelegate, OTSubscriberKitDelegate, 
             let session = OTSession(apiKey: apiKey, sessionId: streamId, delegate: self) else {
                 fatalError("Failed to create session with properties: \(properties)")
         }
-        
+
         if asPublisher {
             publishingSession = session
         } else {
@@ -174,7 +174,7 @@ class RPPTSessionManager: NSObject, OTSessionDelegate, OTSubscriberKitDelegate, 
             fatalError("Oh boy I done goofed.")
         }
         print("RPPTSessionManager: " + #function + " ID: " + connectionId)
-        
+
         onSubscriberConnected?(view)
     }
 

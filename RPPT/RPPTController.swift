@@ -7,11 +7,11 @@
 //
 
 import UIKit
-import MobileCoreServices
 import MapKit
+import MobileCoreServices
 
 class RPPTController: UIViewController {
-    
+
     // MARK: - IB Interface Elements
 
     @IBOutlet weak var taskLabel: UILabel!
@@ -35,35 +35,34 @@ class RPPTController: UIViewController {
     var task: RPPTTask?
     var capturer: ScreenCapturer!
 
-    var lastX = Float(0)
-    var lastY = Float(0)
+    var lastPoint: CGPoint = .zero
 
     var photoArray = [UIImage]()
 
     // I hate myself (don't we all)
-    var pickerIsVisible = false;
+    var pickerIsVisible = false
 
     // Gesture Recognition Members
     var tapGestureRecognizer: UITapGestureRecognizer!
     var panGestureRecognizer: UIPanGestureRecognizer!
 
     // MARK: - View Life Cycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tapGestureRecognizer = UITapGestureRecognizer()
-        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(RPPTController.handlePan))
+        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
 
         view.addGestureRecognizer(panGestureRecognizer)
-        
+
         textView.delegate = self
         textView.backgroundColor = UIColor.clear
 
-        setUpCamera()
+        setupImagePicker()
         setupClient()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         if !client.isConnected {
             showSyncCodeAlert()
@@ -89,24 +88,34 @@ class RPPTController: UIViewController {
             self.view.addSubview(subscriberView)
             self.view.bringSubview(toFront: self.stopButton)
         }
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.messageChanged),
+                                               name: NSNotification.Name("messages_changed"),
+                                               object: nil)
     }
-    
+
     func showSyncCodeAlert() {
-        let alert = UIAlertController(title: "Sync", message: "Enter the sync code below", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Confirm", style: UIAlertActionStyle.default, handler: { (action) -> Void in
-            let syncCode = (alert.textFields![0] as UITextField).text!
+        let alert = UIAlertController(title: "Sync",
+                                      message: "Enter the sync code below",
+                                      preferredStyle: .alert)
 
-            NotificationCenter.default.addObserver(self, selector: #selector(self.messageChanged), name: NSNotification.Name("messages_changed"), object: nil)
+        let confirmAction = UIAlertAction(title: "Confirm", style: .default) { _ in
+            guard let syncCodeText = alert.textFields?.first?.text else {
+                fatalError("Failed to get sync code from alert view")
+            }
+            self.client.start(withSyncCode: syncCodeText)
+        }
+        alert.addAction(confirmAction)
 
-            self.client.start(withSyncCode: syncCode)
-        }))
-        alert.addTextField(configurationHandler: {(textField: UITextField) in
+        alert.addTextField(configurationHandler: { textField in
             textField.placeholder = ""
         })
+
         present(alert, animated: true, completion: nil)
     }
-    
-    func setUpCamera() {
+
+    func setupImagePicker() {
         guard UIImagePickerController.isSourceTypeAvailable(.camera) else { return }
         picker.sourceType = .camera
         picker.mediaTypes = [kUTTypeImage as String]
@@ -135,12 +144,12 @@ class RPPTController: UIViewController {
         if result["camera"] == "show" {
             if (!pickerIsVisible) {
                 self.present(picker, animated: true, completion: nil)
-                pickerIsVisible = true;
+                pickerIsVisible = true
             }
         } else if result["camera"] == "hide" {
             if (pickerIsVisible) {
                 picker.dismiss(animated: true, completion: nil)
-                pickerIsVisible = false;
+                pickerIsVisible = false
             }
         }
 
@@ -148,24 +157,48 @@ class RPPTController: UIViewController {
             self.overlayFullImage(imageEncoding: imageFullEncoding)
         }
 
-        if let overlayedImageXString = result["overlayedImage_x"], let overlayedImageYString = result["overlayedImage_y"], let overlayedImageHeightString = result["overlayedImage_height"], let overlayedImageWidthString = result["overlayedImage_width"], let imageEncoding = result["overlayedImage"] {
+        if let overlayedImageXString = result["overlayedImage_x"],
+            let overlayedImageYString = result["overlayedImage_y"],
+            let overlayedImageHeightString = result["overlayedImage_height"],
+            let overlayedImageWidthString = result["overlayedImage_width"],
+            let imageEncoding = result["overlayedImage"] {
+
             let overlayedImageX = Double(overlayedImageXString)
             let overlayedImageY = Double(overlayedImageYString)
             let overlayedImageHeight = Double(overlayedImageHeightString)
             let overlayedImageWidth = Double(overlayedImageWidthString)
             let isCameraOverlay = (result["isCameraOverlay"] == "true") ? true : false
-            if overlayedImageX != -999 && overlayedImageY != -999 && overlayedImageWidth != -999 && overlayedImageHeight != -999 {
-                self.overlayImage(x: CGFloat(overlayedImageX!), y: CGFloat(overlayedImageY!), height: CGFloat(overlayedImageHeight!), width: CGFloat(overlayedImageWidth!), imageEncoding: imageEncoding, isCameraOverlay: isCameraOverlay)
+
+            if overlayedImageX != -999 &&
+                overlayedImageY != -999 &&
+                overlayedImageWidth != -999 &&
+                overlayedImageHeight != -999 {
+
+                self.overlayImage(x: CGFloat(overlayedImageX!),
+                                  y: CGFloat(overlayedImageY!),
+                                  height: CGFloat(overlayedImageHeight!),
+                                  width: CGFloat(overlayedImageWidth!),
+                                  imageEncoding: imageEncoding,
+                                  isCameraOverlay: isCameraOverlay)
             }
         }
 
-        if let mapXString = result["map_x"], let mapYString = result["map_y"], let mapWidthString = result["map_width"], let mapHeightString = result["map_height"] {
+        if let mapXString = result["map_x"],
+            let mapYString = result["map_y"],
+            let mapWidthString = result["map_width"],
+            let mapHeightString = result["map_height"] {
+
             let mapX = Double(mapXString)
             let mapY = Double(mapYString)
             let mapHeight = Double(mapHeightString)
             let mapWidth = Double(mapWidthString)
             if mapX != -999 && mapY != -999 && mapWidth != -999 && mapHeight != -999 {
-                mapView.frame = CGRect(x: CGFloat(mapX!), y: CGFloat(mapY!), width: CGFloat(mapWidth!), height: CGFloat(mapHeight!))
+
+                mapView.frame = CGRect(x: CGFloat(mapX!),
+                                       y: CGFloat(mapY!),
+                                       width: CGFloat(mapWidth!),
+                                       height: CGFloat(mapHeight!))
+
                 if overlayedImageView.isDescendant(of: self.view) {
                     self.view.insertSubview(mapView, belowSubview: overlayedImageView)
                 } else {
@@ -176,13 +209,18 @@ class RPPTController: UIViewController {
             }
         }
 
-        if let photoXString = result["photo_x"], let photoYString = result["photo_y"], let photoWidthString = result["photo_width"], let photoHeightString = result["photo_height"] {
+        if let photoXString = result["photo_x"],
+            let photoYString = result["photo_y"],
+            let photoWidthString = result["photo_width"],
+            let photoHeightString = result["photo_height"] {
+
             let photoX = Double(photoXString)
             let photoY = Double(photoYString)
             let photoHeight = Double(photoHeightString)
             let photoWidth = Double(photoWidthString)
+
             if photoX != -999 && photoY != -999 && photoWidth != -999 && photoHeight != -999 {
-                if (photoArray.count != 0) {
+                if !photoArray.isEmpty {
                     imageView.frame = CGRect(x: CGFloat(photoX!), y: CGFloat(photoY!), width: CGFloat(photoWidth!), height: CGFloat(photoHeight!))
                     imageView.image = photoArray.last!
                     if overlayedImageView.isDescendant(of: self.view) {
@@ -205,7 +243,9 @@ class RPPTController: UIViewController {
         self.view.addSubview(overlayedImageView)
         self.view.bringSubview(toFront: overlayedImageView)
     }
-    
+
+    // TODO: Fix
+    //swiftlint:disable:next identifier_name
     func overlayImage(x: CGFloat, y: CGFloat, height: CGFloat, width: CGFloat, imageEncoding: String, isCameraOverlay: Bool) {
         let dataDecoded = Data(base64Encoded: imageEncoding, options: .ignoreUnknownCharacters)
         let decodedimage = UIImage(data: dataDecoded!)
@@ -219,11 +259,7 @@ class RPPTController: UIViewController {
             self.view.bringSubview(toFront: overlayedImageView)
         }
     }
-    
-    func sendMessage() {
-        client.sendMessage(text: textView.text)
-    }
-    
+
     func resetStreams() {
         //To fix
         // TODO: I GUESS FIX??
@@ -234,49 +270,54 @@ class RPPTController: UIViewController {
 //
 //        }
     }
-    
-    @IBAction func stopButtonTapped(sender: AnyObject) {
+
+    // MARK: - IBActions
+
+    @IBAction func stopButtonTapped() {
         resetStreams()
     }
-    
-    @IBAction func resyncButtonTapped(sender: AnyObject) {
+
+    @IBAction func resyncButtonTapped() {
         resetStreams()
         showSyncCodeAlert()
     }
-    
-    func showAlertWithMessage(title: String, message: String) {
+
+    func showAlert(withTitle: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
     }
 
+    // MARK: - User Interactions
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let touch: AnyObject? = event!.allTouches?.first
-        let touchPoint = touch?.location(in: self.view);
-        
-        lastX = Float((touchPoint?.x)!)
-        lastY = Float((touchPoint?.y)!)
-        sendTap(x: self.lastX, y: self.lastY)
+        super.touchesBegan(touches, with: event)
+
+        guard let point = event?.allTouches?.first?.location(in: view) else {
+            fatalError("Yup somethings not right")
+        }
+
+        sendTap(point: point)
     }
-    
+
     @objc func handlePan(pan: UIPanGestureRecognizer) {
         let motion = pan.translation(in: self.view)
-        sendTap(x: lastX + Float(motion.x), y: lastY + Float(motion.y))
+        sendTap(point: lastPoint + motion)
     }
-    
-    func sendTap(x: Float, y: Float) {
-        let (scaledX, scaledY) = scale(x: x, y: y)
+
+    // TODO: Fix
+    //swiftlint:disable:next identifier_name
+    func sendTap(point: CGPoint) {
+
+        // TODO: WHY DOES THIS EXIST
+        let screenRect = UIScreen.main.bounds
+        let scaledX = point.x * 320 / screenRect.width
+        let scaledY = point.y * 460 / screenRect.width * 1.4375
+
         if scaledY < 500 {
             client.createTap(scaledX: scaledX, scaledY: scaledY)
         }
-    }
-    
-    func scale(x: Float, y: Float) -> (Float, Float) {
-        let screenRect = UIScreen.main.bounds,
-            scaledX = x * 320 / Float(screenRect.width),
-            scaledY = y * 460 / Float(screenRect.width * 1.4375)
-        return (scaledX, scaledY)
     }
 
 }
@@ -285,8 +326,12 @@ extension RPPTController: UIImagePickerControllerDelegate, UINavigationControlle
 
     // MARK: - UIImagePickerController Delegate
 
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        photoArray.append(info[UIImagePickerControllerOriginalImage] as! UIImage)
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [String : Any]) {
+        guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
+            fatalError("Failed to get image from image picker.")
+        }
+        photoArray.append(image)
         picker.dismiss(animated: true, completion: nil)
     }
 }
@@ -297,10 +342,7 @@ extension RPPTController: UITextViewDelegate {
 
     func textViewDidChange(_ textView: UITextView) {
         guard textView.text.last == "\n" else { return }
-
-        sendMessage()
+        client.sendMessage(text: textView.text)
         textView.text = ""
     }
 }
-
-

@@ -12,11 +12,11 @@ class RPPTClient {
 
     // MARK: - Closures
 
-    var onSubscriberConnected: ((UIView) -> ())?
-    var onTaskUpdated: ((RPPTTask) -> ())?
+    var onSubscriberConnected: ((UIView) -> Void)?
+    var onTaskUpdated: ((RPPTTask) -> Void)?
 
-    var onClientError: ((Error?) -> ())?
-    var onOpenTokError: ((Error) -> ())?
+    var onClientError: ((Error?) -> Void)?
+    var onOpenTokError: ((Error) -> Void)?
 
     // MARK: - Properties
 
@@ -37,7 +37,6 @@ class RPPTClient {
 
         client = MeteorClient(ddpVersion: version)
         client.ddp = ObjectiveDDP(urlString: endpoint, delegate: client)
-
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(reportConnection),
@@ -112,7 +111,7 @@ class RPPTClient {
                               responseCallback: nil)
     }
 
-    func createTap(scaledX: Float, scaledY: Float) {
+    func createTap(scaledX: CGFloat, scaledY: CGFloat) {
         guard let syncCode = syncCode else { return }
         let parameters: [Any] = [syncCode, scaledX, scaledY]
 
