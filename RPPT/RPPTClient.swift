@@ -38,18 +38,21 @@ class RPPTClient {
         client = MeteorClient(ddpVersion: version)
         client.ddp = ObjectiveDDP(urlString: endpoint, delegate: client)
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(reportConnection),
-                                               name: NSNotification.Name.MeteorClientDidConnect,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(reportConnectionReady),
-                                               name: NSNotification.Name.MeteorClientConnectionReady,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(reportDisconnection),
-                                               name: NSNotification.Name.MeteorClientDidDisconnect,
-                                               object: nil)
+        //swiftlint:disable discarded_notification_center_observer
+        NotificationCenter.default.addObserver(forName: .MeteorClientDidConnect, object: nil, queue: nil) { _ in
+            print("RPPTClient: MeteorClientDidConnect")
+            UIApplication.shared.isIdleTimerDisabled = true
+        }
+
+        NotificationCenter.default.addObserver(forName: .MeteorClientConnectionReady, object: nil, queue: nil) { _ in
+            print("RPPTClient: MeteorClientDidConnect")
+        }
+
+        NotificationCenter.default.addObserver(forName: .MeteorClientDidDisconnect, object: nil, queue: nil) { _ in
+            print("RPPTClient: MeteorClientDidConnect")
+            UIApplication.shared.isIdleTimerDisabled = false
+        }
+        //swiftlint:enable discarded_notification_center_observer
 
         setupSessionManager()
         setupLocationManager()
@@ -120,22 +123,4 @@ class RPPTClient {
                               responseCallback: nil)
     }
 
-    // MARK: - Notifications
-
-    @objc
-    func reportConnection() {
-        print("RPPTClient: " + #function)
-        UIApplication.shared.isIdleTimerDisabled = true
-    }
-
-    @objc
-    func reportConnectionReady() {
-        print("RPPTClient: " + #function)
-    }
-
-    @objc
-    func reportDisconnection() {
-        print("RPPTClient: " + #function)
-        UIApplication.shared.isIdleTimerDisabled = false
-    }
 }
