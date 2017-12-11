@@ -14,7 +14,7 @@ class RPPTController: UIViewController {
 
     var syncCode: String!
     var viewHasAppeared = false
-    
+
     // MARK: - IB Interface Elements
 
     @IBOutlet weak var taskLabel: UILabel!
@@ -62,27 +62,22 @@ class RPPTController: UIViewController {
         setupImagePicker()
         setupClient()
 
-        activityView.alpha = 0.0
         activityView.center = view.center
-        activityView.color = UIColor.darkGray
-        view.addSubview(activityView)
+        activityView.color = .darkGray
         activityView.startAnimating()
+        view.addSubview(activityView)
 
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if !viewHasAppeared {
-            taskLabel.alpha = 0.0
-            navigationController?.navigationBar.alpha = 0.0
-        }
+        activityView.alpha = 0.0
+        taskLabel.alpha = 0.0
+        navigationController?.navigationBar.alpha = 0.0
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if !viewHasAppeared {
             viewHasAppeared = true
-            //client.start(withSyncCode: syncCode)
+            client.start(withSyncCode: syncCode)
             UIView.animate(withDuration: 0.5) {
                 self.taskLabel.alpha = 1.0
                 self.activityView.alpha = 1.0
@@ -96,17 +91,21 @@ class RPPTController: UIViewController {
     private func setupClient() {
         client.onTaskUpdated = { task in
             self.task = task
+            print(4)
         }
 
         client.onClientError = { error in
-
+            print(error)
+            print(1)
         }
 
         client.onOpenTokError = { error in
-
+            print(error)
+            print(2)
         }
 
         client.onSubscriberConnected = { subscriberView in
+            print(3)
             let screenRect = UIScreen.main.bounds
             subscriberView.frame = CGRect(x: 0, y: 20, width: screenRect.width, height: screenRect.width * 1.4375)
             self.view.addSubview(subscriberView)

@@ -101,6 +101,9 @@ class RPPTClient {
                 }
             }
         }
+
+        // NSNotificationCenter.defaultCenter().addObserver(self, selector: "messageChanged:", name: "messages_changed", object: nil)
+        
     }
 
     // MARK: - Helpers

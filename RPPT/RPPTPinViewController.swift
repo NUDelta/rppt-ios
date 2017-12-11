@@ -24,7 +24,7 @@ class RPPTPinViewController: UIViewController, UITextFieldDelegate {
 
         let attributes: [NSAttributedStringKey: Any] = [
             .foregroundColor: UIColor.lightGray,
-            .font : UIFont.systemFont(ofSize: 50.0, weight: .medium)
+            .font: UIFont.systemFont(ofSize: 50.0, weight: .medium)
         ]
 
         textField.attributedPlaceholder = NSAttributedString(string: "WizardPin",
@@ -34,13 +34,11 @@ class RPPTPinViewController: UIViewController, UITextFieldDelegate {
 
     private let connectButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Connect", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 10
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
 
-        button.isEnabled = false
-        button.layer.cornerRadius = 10
-        button.backgroundColor = UIColor.purple.withAlphaComponent(0.5)
+        button.setTitle("Connect", for: .normal)
+        button.setTitleColor(.white, for: .normal)
 
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -53,6 +51,8 @@ class RPPTPinViewController: UIViewController, UITextFieldDelegate {
 
         textField.delegate = self
         connectButton.translatesAutoresizingMaskIntoConstraints = false
+        connectButton.addTarget(self, action: #selector(connectButtonPressed), for: .touchUpInside)
+        updateButtonState(enabled: false)
 
         view.addSubview(textField)
         view.addSubview(connectButton)
@@ -69,14 +69,12 @@ class RPPTPinViewController: UIViewController, UITextFieldDelegate {
             connectButton.heightAnchor.constraint(equalToConstant: 50)
         ]
         NSLayoutConstraint.activate(constraints)
-        connectButton.addTarget(self, action: #selector(connectButtonPressed), for: .touchUpInside)
 
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.navigationBar.tintColor = .purple
         navigationController?.view.backgroundColor = .clear
-
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -105,6 +103,20 @@ class RPPTPinViewController: UIViewController, UITextFieldDelegate {
         super.viewDidAppear(animated)
         textField.alpha = 1.0
         connectButton.alpha = 1.0
+        textField.text = ""
+        updateButtonState(enabled: false)
+    }
+
+    // MARK: - Helpers
+
+    func updateButtonState(enabled: Bool) {
+        if enabled {
+            connectButton.backgroundColor = .purple
+            connectButton.isEnabled = true
+        } else {
+            connectButton.backgroundColor = UIColor.purple.withAlphaComponent(0.5)
+            connectButton.isEnabled = false
+        }
     }
 
     // MARK: - UITextFieldDelegate
@@ -118,14 +130,7 @@ class RPPTPinViewController: UIViewController, UITextFieldDelegate {
         }
 
         let newString = currentString.replacingCharacters(in: range, with: string) as NSString
-
-        if newString.length >= 5 {
-            connectButton.backgroundColor = .purple
-            connectButton.isEnabled = true
-        } else {
-            connectButton.backgroundColor = UIColor.purple.withAlphaComponent(0.5)
-            connectButton.isEnabled = false
-        }
+        updateButtonState(enabled: newString.length >= 5)
         return newString.length <= 5
     }
 

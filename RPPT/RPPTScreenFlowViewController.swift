@@ -15,6 +15,7 @@ class RPPTScreenFlowViewController: RPPTFlowViewController {
         super.viewDidLoad()
 
         titleText = "Screen Capture Access"
+        //swiftlint:disable next line_length
         descriptionText = "McGonagall needs to record your screen so the wizard can see what you're doing. This only records interactions inside the McGonagall app."
         continueText = "Enable"
 
@@ -36,13 +37,14 @@ class RPPTScreenFlowViewController: RPPTFlowViewController {
     override func continueButtonPressed() {
 
         func captured(success: Bool) {
+            let title = "Screen Recording Required"
+            let message = "Screen recording is required to setup McGonagall."
             DispatchQueue.main.async {
                 if success {
-                    self.navigationController?.pushViewController(RPPTFinalFlowViewController(),
-                                                             animated: true)
+                    let flowVC = RPPTFinalFlowViewController()
+                    self.navigationController?.pushViewController(flowVC, animated: true)
                 } else {
-                    self.presentAlert(title: "Screen Recording Required",
-                                      message: "Screen recording is required to setup McGonagall.")
+                    self.presentAlert(title: title, message: message)
                 }
             }
         }
@@ -52,7 +54,8 @@ class RPPTScreenFlowViewController: RPPTFlowViewController {
             return
         #endif
 
-        RPScreenRecorder.shared().startCapture(handler: { sampleBuffer, bufferType, error in
+        // TODO: Futher test out
+        RPScreenRecorder.shared().startCapture(handler: { _, _, _ in
             RPScreenRecorder.shared().stopCapture(handler: nil)
         }) { error in
             captured(success: error == nil)

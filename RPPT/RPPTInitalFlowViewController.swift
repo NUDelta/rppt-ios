@@ -10,6 +10,8 @@ import UIKit
 
 class RPPTInitalFlowViewController: RPPTFlowViewController {
 
+    // MARK: - View Life Cycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -23,7 +25,7 @@ class RPPTInitalFlowViewController: RPPTFlowViewController {
     }
 
     override func continueButtonPressed() {
-        navigationController?.pushViewController(RPPTLocationFlowViewController(),
-                                      animated: true)
+        let flowVC = RPPTLocationFlowViewController()
+        navigationController?.pushViewController(flowVC, animated: true)
     }
 }

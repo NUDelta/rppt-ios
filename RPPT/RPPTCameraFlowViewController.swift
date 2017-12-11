@@ -11,6 +11,8 @@ import AVFoundation
 
 class RPPTCameraFlowViewController: RPPTFlowViewController {
 
+    // MARK: - View Life Cycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -34,14 +36,15 @@ class RPPTCameraFlowViewController: RPPTFlowViewController {
     }
 
     override func continueButtonPressed() {
+        let title = "Camera Access Required"
+        let message = "Camera access  is required to setup McGonagall. Please open settings to enable camera access."
         AVCaptureDevice.requestAccess(for: .video) { success in
             DispatchQueue.main.async {
                 if success {
-                    self.navigationController?.pushViewController(RPPTScreenFlowViewController(),
-                                                                  animated: true)
+                    let flowVC = RPPTScreenFlowViewController()
+                    self.navigationController?.pushViewController(flowVC, animated: true)
                 } else {
-                    self.presentAlert(title: "Camera Access Required",
-                                      message: "Camera access  is required to setup McGonagall. Please open settings to enable camera access.")
+                    self.presentAlert(title: title, message: message)
                 }
             }
 

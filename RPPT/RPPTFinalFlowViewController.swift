@@ -10,6 +10,8 @@ import UIKit
 
 class RPPTFinalFlowViewController: RPPTFlowViewController {
 
+    // MARK: - View Life Cycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

@@ -11,7 +11,11 @@ import CoreLocation
 
 class RPPTLocationFlowViewController: RPPTFlowViewController, CLLocationManagerDelegate {
 
+    // MARK: - Properties
+
     private let locationManager = CLLocationManager()
+
+    // MARK: - View Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,9 +29,13 @@ class RPPTLocationFlowViewController: RPPTFlowViewController, CLLocationManagerD
 
     override func continueButtonPressed() {
         if CLLocationManager.authorizationStatus() == .denied {
-            presentAlert(title: "Location Required", message: "Your location is required to setup McGonagall. Please open settings to enable location access.")
+            let title = "Location Required"
+            //swiftlint:disable:next line_length
+            let message = "Your location is required to setup McGonagall. Please open settings to enable location access."
+            presentAlert(title: title, message: message)
         } else if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
-            navigationController?.pushViewController(RPPTCameraFlowViewController(), animated: true)
+            let flowVC = RPPTCameraFlowViewController()
+            navigationController?.pushViewController(flowVC, animated: true)
         } else {
             locationManager.delegate = self
             locationManager.requestWhenInUseAuthorization()
@@ -39,14 +47,18 @@ class RPPTLocationFlowViewController: RPPTFlowViewController, CLLocationManagerD
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .restricted:
-            presentAlert(title: "Location Restricted",
-                         message: "Your device's ability to grant location authorization is restricted.")
+            let title = "Location Restricted"
+            //swiftlint:disable:next line_length
+            let message = "Your device's ability to grant location authorization is restricted."
+            presentAlert(title: title, message: message)
         case .denied:
-            presentAlert(title: "Location Required",
-                         message: "Your location is required to setup McGonagall. Please open settings to enable location access.")
+            let title = "Location Required"
+            //swiftlint:disable:next line_length
+            let message = "Your location is required to setup McGonagall. Please open settings to enable location access."
+            presentAlert(title: title, message: message)
         case .authorizedWhenInUse:
-            navigationController?.pushViewController(RPPTCameraFlowViewController(),
-                                                     animated: true)
+            let flowVC = RPPTCameraFlowViewController()
+            navigationController?.pushViewController(flowVC, animated: true)
         default:
             fatalError()
         }

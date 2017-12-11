@@ -13,56 +13,38 @@ class RPPTFlowViewController: UIViewController {
     // MARK: - Properties
 
     var titleText: String? {
-        get {
-            return titleLabel.text
-        }
-        set {
-            titleLabel.text = newValue
+        didSet {
+            titleLabel.text = titleText
         }
     }
 
     var descriptionText: String? {
-        get {
-            return descriptionLabel.text
-        }
-        set {
-            descriptionLabel.text = newValue
+        didSet {
+            descriptionLabel.text = descriptionText
         }
     }
 
     var continueText: String? {
-        get {
-            return continueButton.title(for: .normal)
-        }
-        set {
-            continueButton.setTitle(newValue, for: .normal)
+        didSet {
+            continueButton.setTitle(continueText, for: .normal)
         }
     }
 
     var cancelText: String? {
-        get {
-            return cancelButton.title(for: .normal)
-        }
-        set {
-            cancelButton.setTitle(newValue, for: .normal)
+        didSet {
+            cancelButton.setTitle(cancelText, for: .normal)
         }
     }
 
     var image: UIImage? {
-        get {
-            return imageView.image
-        }
-        set {
-            imageView.image = newValue
+        didSet {
+            imageView.image = image
         }
     }
 
-    var isCancelButtonHidden: Bool {
-        get {
-            return cancelButton.isHidden
-        }
-        set {
-            cancelButton.isHidden = newValue
+    var isCancelButtonHidden: Bool = false {
+        didSet {
+            cancelButton.isHidden = isCancelButtonHidden
         }
     }
 
@@ -118,6 +100,8 @@ class RPPTFlowViewController: UIViewController {
         super.viewDidLoad()
 
         contentView.translatesAutoresizingMaskIntoConstraints = false
+        cancelButton.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
+        continueButton.addTarget(self, action: #selector(continueButtonPressed), for: .touchUpInside)
 
         view.backgroundColor = .white
 
@@ -163,9 +147,6 @@ class RPPTFlowViewController: UIViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.view.backgroundColor = .clear
-
-        continueButton.addTarget(self, action: #selector(continueButtonPressed), for: .touchUpInside)
-        cancelButton.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
     }
 
     // MARK: - Helpers
@@ -181,7 +162,7 @@ class RPPTFlowViewController: UIViewController {
 
     @objc
     func continueButtonPressed() {
-        fatalError(#function + " not implemented")
+        fatalError(#function + " not implemented by subclass")
     }
 
     @objc
