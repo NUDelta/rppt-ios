@@ -12,13 +12,16 @@ import MobileCoreServices
 
 class RPPTController: UIViewController {
 
+    var syncCode: String!
+    var viewHasAppeared = false
+    
     // MARK: - IB Interface Elements
 
     @IBOutlet weak var taskLabel: UILabel!
-    @IBOutlet weak var stopButton: UIButton!
-    @IBOutlet weak var reSyncButton: UIButton!
 
     // MARK: - Other Interface Elements
+
+    let activityView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
 
     let mapView = MKMapView()
 
@@ -54,20 +57,41 @@ class RPPTController: UIViewController {
         view.addGestureRecognizer(panGestureRecognizer)
 
         textView.delegate = self
-        textView.backgroundColor = UIColor.clear
+        textView.backgroundColor = .clear
 
         setupImagePicker()
         setupClient()
+
+        activityView.alpha = 0.0
+        activityView.center = view.center
+        activityView.color = UIColor.darkGray
+        view.addSubview(activityView)
+        activityView.startAnimating()
+
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if !viewHasAppeared {
+            taskLabel.alpha = 0.0
+            navigationController?.navigationBar.alpha = 0.0
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        if !UserDefaults.standard.bool(forKey: "SetupComplete") {
-            let flowNav = UINavigationController(rootViewController: RPPTStartFlowViewController())
-            navigationController?.present(flowNav, animated: true, completion: nil)
-        } else if !client.isConnected {
-            promptForSyncCode()
+        super.viewDidAppear(animated)
+        if !viewHasAppeared {
+            viewHasAppeared = true
+            //client.start(withSyncCode: syncCode)
+            UIView.animate(withDuration: 0.5) {
+                self.taskLabel.alpha = 1.0
+                self.activityView.alpha = 1.0
+                self.navigationController?.navigationBar.alpha = 1.0
+            }
         }
     }
+
+    // MARK: - Setup
 
     private func setupClient() {
         client.onTaskUpdated = { task in
@@ -86,7 +110,6 @@ class RPPTController: UIViewController {
             let screenRect = UIScreen.main.bounds
             subscriberView.frame = CGRect(x: 0, y: 20, width: screenRect.width, height: screenRect.width * 1.4375)
             self.view.addSubview(subscriberView)
-            self.view.bringSubview(toFront: self.stopButton)
         }
 
         NotificationCenter.default.addObserver(self,
@@ -95,32 +118,23 @@ class RPPTController: UIViewController {
                                                object: nil)
     }
 
-    func promptForSyncCode() {
-        let alert = UIAlertController(title: "Sync",
-                                      message: "Enter the sync code below",
-                                      preferredStyle: .alert)
-
-        let confirmAction = UIAlertAction(title: "Confirm", style: .default) { _ in
-            guard let syncCodeText = alert.textFields?.first?.text else {
-                fatalError("Failed to get sync code from alert view")
-            }
-            self.client.start(withSyncCode: syncCodeText)
-        }
-        alert.addAction(confirmAction)
-
-        alert.addTextField(configurationHandler: { textField in
-            textField.placeholder = ""
-        })
-
-        present(alert, animated: true, completion: nil)
-    }
-
     func setupImagePicker() {
         guard UIImagePickerController.isSourceTypeAvailable(.camera) else { return }
         picker.sourceType = .camera
         picker.mediaTypes = [kUTTypeImage as String]
         picker.delegate = self
     }
+
+    // MARK: - Helpers
+
+    func showAlert(withTitle: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
+
+    // MARK: - Comms
 
     // TODO: THIS
     @objc func messageChanged(notification: NSNotification) {
@@ -269,24 +283,6 @@ class RPPTController: UIViewController {
 //            subscriber.view?.removeFromSuperview()
 //
 //        }
-    }
-
-    // MARK: - IBActions
-
-    @IBAction func stopButtonTapped() {
-        resetStreams()
-    }
-
-    @IBAction func resyncButtonTapped() {
-        resetStreams()
-        promptForSyncCode()
-    }
-
-    func showAlert(withTitle: String, message: String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alertController.addAction(okAction)
-        present(alertController, animated: true, completion: nil)
     }
 
     // MARK: - User Interactions

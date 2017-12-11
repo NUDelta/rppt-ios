@@ -97,8 +97,8 @@ class RPPTFlowViewController: UIViewController {
         button.layer.cornerRadius = 10
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         button.setTitle("Continue", for: .normal)
-        button.backgroundColor = UIColor.purple
-        button.setTitleColor(UIColor.white, for: .normal)
+        button.backgroundColor = .purple
+        button.setTitleColor(.white, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -107,7 +107,7 @@ class RPPTFlowViewController: UIViewController {
         let button = UIButton()
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .light)
         button.setTitle("Cancel", for: .normal)
-        button.setTitleColor(UIColor.purple, for: .normal)
+        button.setTitleColor(.purple, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -119,7 +119,7 @@ class RPPTFlowViewController: UIViewController {
 
         contentView.translatesAutoresizingMaskIntoConstraints = false
 
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = .white
 
         view.addSubview(titleLabel)
         view.addSubview(descriptionLabel)

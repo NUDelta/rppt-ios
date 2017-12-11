@@ -1,5 +1,5 @@
 //
-//  RPPTStartFlowViewController.swift
+//  RPPTInitalFlowViewController.swift
 //  RPPTFlow
 //
 //  Created by Andrew Finke on 12/10/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RPPTStartFlowViewController: RPPTFlowViewController {
+class RPPTInitalFlowViewController: RPPTFlowViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,7 +19,7 @@ class RPPTStartFlowViewController: RPPTFlowViewController {
         isCancelButtonHidden = true
 
         image = #imageLiteral(resourceName: "delta_icon")
-        navigationController?.navigationBar.tintColor = UIColor.purple
+        navigationController?.navigationBar.tintColor = .purple
     }
 
     override func continueButtonPressed() {

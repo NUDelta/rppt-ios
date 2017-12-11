@@ -5,10 +5,33 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Pin View Controller-->
+        <scene sceneID="N1y-XH-Dlf">
+            <objects>
+                <viewController id="8m8-HF-TmG" customClass="RPPTPinViewController" customModule="RPPT" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="2ck-WW-1AM"/>
+                        <viewControllerLayoutGuide type="bottom" id="pjs-N1-lA4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="OTZ-Om-44G">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="4XX-MG-Pmo">
+                        <barButtonItem key="backBarButtonItem" title="Resync" id="mUL-9H-ZSg"/>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="vXZ-lx-hvc" kind="show" identifier="connect" animates="NO" id="fhq-R9-EDE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Wqm-Ma-nsy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-609" y="115"/>
+        </scene>
         <!--Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
@@ -22,62 +45,20 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connecting..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BJK-5S-Q8a">
-                                <rect key="frame" x="129" y="603" width="117.5" height="24"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <rect key="frame" x="93.5" y="590" width="189.5" height="37"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="31"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HAF-q5-hun">
-                                <rect key="frame" x="150" y="283.5" width="75" height="100"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="GHI-Fk-XGs"/>
-                                    <constraint firstAttribute="width" constant="75" id="Nbf-jw-1rQ"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                <inset key="titleEdgeInsets" minX="0.0" minY="65" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="Resync" backgroundImage="refresh">
-                                    <color key="titleColor" red="0.047058823529411764" green="0.37254901960784315" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="resyncButtonTapped" destination="vXZ-lx-hvc" eventType="touchUpInside" id="k3h-QY-s90"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YzM-0Z-vHB">
-                                <rect key="frame" x="329" y="30" width="30" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="30" id="TKB-9u-wnH"/>
-                                    <constraint firstAttribute="height" constant="30" id="l6K-tE-vHb"/>
-                                </constraints>
-                                <state key="normal" backgroundImage="exit"/>
-                                <connections>
-                                    <action selector="stopButtonTapped" destination="vXZ-lx-hvc" eventType="touchUpInside" id="PTT-fY-qUA"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="HAF-q5-hun" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="7JT-0b-7kL"/>
-                            <constraint firstItem="YzM-0Z-vHB" firstAttribute="centerY" secondItem="BJK-5S-Q8a" secondAttribute="centerY" id="FJk-EM-Lze"/>
                             <constraint firstAttribute="centerX" secondItem="BJK-5S-Q8a" secondAttribute="centerX" id="OuS-U1-vWf"/>
-                            <constraint firstItem="HAF-q5-hun" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="bGj-S2-8gY"/>
-                            <constraint firstItem="YzM-0Z-vHB" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="140" id="gdJ-U6-MOD"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="BJK-5S-Q8a" secondAttribute="bottom" constant="40" id="mln-IL-JSZ"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="YzM-0Z-vHB" secondAttribute="trailing" id="o5t-0f-IbS"/>
-                            <constraint firstItem="YzM-0Z-vHB" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="10" id="tSv-Cr-9vM"/>
-                            <constraint firstItem="YzM-0Z-vHB" firstAttribute="top" secondItem="HAF-q5-hun" secondAttribute="bottom" constant="36" id="wi5-yM-4nm"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="FJk-EM-Lze"/>
-                                <exclude reference="gdJ-U6-MOD"/>
-                                <exclude reference="wi5-yM-4nm"/>
-                            </mask>
-                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="DkV-nY-N1L"/>
                     <connections>
-                        <outlet property="reSyncButton" destination="HAF-q5-hun" id="bYQ-PM-FaZ"/>
-                        <outlet property="stopButton" destination="YzM-0Z-vHB" id="1Hv-xx-e4u"/>
                         <outlet property="taskLabel" destination="BJK-5S-Q8a" id="uIv-4o-TSX"/>
                     </connections>
                 </viewController>
@@ -88,21 +69,18 @@
         <!--Navigation Controller-->
         <scene sceneID="1v9-rd-iDy">
             <objects>
-                <navigationController navigationBarHidden="YES" id="VXN-8s-ceE" sceneMemberID="viewController">
+                <navigationController id="VXN-8s-ceE" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="B15-sz-H4x">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="D2w-yW-YZh"/>
+                        <segue destination="8m8-HF-TmG" kind="relationship" relationship="rootViewController" id="iEE-0S-Gdw"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xda-2D-pb8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-601" y="115"/>
+            <point key="canvasLocation" x="-1364" y="115"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="exit" width="600" height="600"/>
-        <image name="refresh" width="531" height="700"/>
-    </resources>
 </document>
