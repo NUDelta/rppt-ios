@@ -61,7 +61,10 @@ class RPPTController: UIViewController {
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        if !client.isConnected {
+        if !UserDefaults.standard.bool(forKey: "SetupComplete") {
+            let flowNav = UINavigationController(rootViewController: RPPTStartFlowViewController())
+            navigationController?.present(flowNav, animated: true, completion: nil)
+        } else if !client.isConnected {
             promptForSyncCode()
         }
     }

@@ -43,9 +43,14 @@ class RPPTScreenCapturer: NSObject, OTVideoCapture {
 
             CVPixelBufferLockBaseAddress(pixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
 
-            self.updateFormat(for: pixelBuffer)
+            self.format.imageWidth = UInt32(CVPixelBufferGetWidth(pixelBuffer))
+            self.format.imageHeight = UInt32(CVPixelBufferGetHeight(pixelBuffer))
+            self.format.bytesPerRow = [NSNumber(value: self.format.imageWidth * 4)]
+
             let frame = OTVideoFrame(format: self.format)
             frame.planes?.addPointer(CVPixelBufferGetBaseAddress(pixelBuffer))
+
+            self.videoCaptureConsumer?.consumeFrame(frame)
 
             CVPixelBufferUnlockBaseAddress(pixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
 
@@ -53,12 +58,6 @@ class RPPTScreenCapturer: NSObject, OTVideoCapture {
 
         }
 
-    }
-
-    private func updateFormat(for pixelBuffer: CVPixelBuffer) {
-        format.imageWidth = UInt32(CVPixelBufferGetWidth(pixelBuffer))
-        format.imageHeight = UInt32(CVPixelBufferGetHeight(pixelBuffer))
-        format.bytesPerRow = [NSNumber(value: format.imageWidth * 4)]
     }
 
     // MARK: - OTVideoCapture (lol what kind of API is this)

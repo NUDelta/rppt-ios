@@ -14,6 +14,12 @@
 		142001541FD7622800D21F94 /* RPPTClient+Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142001531FD7622800D21F94 /* RPPTClient+Session.swift */; };
 		142001561FD767FC00D21F94 /* RPPTTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142001551FD767FC00D21F94 /* RPPTTask.swift */; };
 		143709811FD78BDA0096F545 /* RPPTExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143709801FD78BDA0096F545 /* RPPTExtensions.swift */; };
+		14A9835A1FDE08BB00FDC137 /* RPPTStartFlowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A983541FDE08BA00FDC137 /* RPPTStartFlowViewController.swift */; };
+		14A9835B1FDE08BB00FDC137 /* RPPTScreenFlowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A983551FDE08BA00FDC137 /* RPPTScreenFlowViewController.swift */; };
+		14A9835C1FDE08BB00FDC137 /* RPPTFinalFlowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A983561FDE08BA00FDC137 /* RPPTFinalFlowViewController.swift */; };
+		14A9835D1FDE08BB00FDC137 /* RPPTFlowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A983571FDE08BA00FDC137 /* RPPTFlowViewController.swift */; };
+		14A9835E1FDE08BB00FDC137 /* RPPTCameraFlowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A983581FDE08BA00FDC137 /* RPPTCameraFlowViewController.swift */; };
+		14A9835F1FDE08BB00FDC137 /* RPPTLocationFlowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A983591FDE08BA00FDC137 /* RPPTLocationFlowViewController.swift */; };
 		14EBCF881FD86C5E00DB2191 /* RPPTSessionProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14EBCF871FD86C5E00DB2191 /* RPPTSessionProperties.swift */; };
 		94449CCC1E2367CC0033430C /* RPPTScreenCapturer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94449CCB1E2367CC0033430C /* RPPTScreenCapturer.swift */; };
 		94A2A744DF1D49F5D68E13ED /* libPods-RPPT.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D648DADD84CFEF0C1CDC5BB /* libPods-RPPT.a */; };
@@ -32,6 +38,12 @@
 		142001531FD7622800D21F94 /* RPPTClient+Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RPPTClient+Session.swift"; sourceTree = "<group>"; };
 		142001551FD767FC00D21F94 /* RPPTTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPPTTask.swift; sourceTree = "<group>"; };
 		143709801FD78BDA0096F545 /* RPPTExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPPTExtensions.swift; sourceTree = "<group>"; };
+		14A983541FDE08BA00FDC137 /* RPPTStartFlowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RPPTStartFlowViewController.swift; sourceTree = "<group>"; };
+		14A983551FDE08BA00FDC137 /* RPPTScreenFlowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RPPTScreenFlowViewController.swift; sourceTree = "<group>"; };
+		14A983561FDE08BA00FDC137 /* RPPTFinalFlowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RPPTFinalFlowViewController.swift; sourceTree = "<group>"; };
+		14A983571FDE08BA00FDC137 /* RPPTFlowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RPPTFlowViewController.swift; sourceTree = "<group>"; };
+		14A983581FDE08BA00FDC137 /* RPPTCameraFlowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RPPTCameraFlowViewController.swift; sourceTree = "<group>"; };
+		14A983591FDE08BA00FDC137 /* RPPTLocationFlowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RPPTLocationFlowViewController.swift; sourceTree = "<group>"; };
 		14EBCF871FD86C5E00DB2191 /* RPPTSessionProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPPTSessionProperties.swift; sourceTree = "<group>"; };
 		6D648DADD84CFEF0C1CDC5BB /* libPods-RPPT.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RPPT.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94449CCB1E2367CC0033430C /* RPPTScreenCapturer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RPPTScreenCapturer.swift; sourceTree = "<group>"; };
@@ -102,6 +114,19 @@
 			name = Other;
 			sourceTree = "<group>";
 		};
+		14A983601FDE08BF00FDC137 /* Setup */ = {
+			isa = PBXGroup;
+			children = (
+				14A983571FDE08BA00FDC137 /* RPPTFlowViewController.swift */,
+				14A983541FDE08BA00FDC137 /* RPPTStartFlowViewController.swift */,
+				14A983591FDE08BA00FDC137 /* RPPTLocationFlowViewController.swift */,
+				14A983581FDE08BA00FDC137 /* RPPTCameraFlowViewController.swift */,
+				14A983551FDE08BA00FDC137 /* RPPTScreenFlowViewController.swift */,
+				14A983561FDE08BA00FDC137 /* RPPTFinalFlowViewController.swift */,
+			);
+			name = Setup;
+			sourceTree = "<group>";
+		};
 		288A570B4F2917BC96AA0FFD /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -142,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				AA881AB519DE6F88004F9DB1 /* RPPTController.swift */,
+				14A983601FDE08BF00FDC137 /* Setup */,
 				1437097A1FD7818E0096F545 /* Client */,
 				1437097C1FD781A60096F545 /* Other */,
 				AA881AB119DE6F88004F9DB1 /* Supporting Files */,
@@ -308,16 +334,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				1420014E1FD74FE600D21F94 /* RPPTSessionManager.swift in Sources */,
+				14A9835D1FDE08BB00FDC137 /* RPPTFlowViewController.swift in Sources */,
 				1420014A1FD74F0500D21F94 /* RPPTLocationManager.swift in Sources */,
+				14A9835B1FDE08BB00FDC137 /* RPPTScreenFlowViewController.swift in Sources */,
 				142001521FD75E7C00D21F94 /* RPPTClient.swift in Sources */,
 				142001561FD767FC00D21F94 /* RPPTTask.swift in Sources */,
 				94449CCC1E2367CC0033430C /* RPPTScreenCapturer.swift in Sources */,
 				143709811FD78BDA0096F545 /* RPPTExtensions.swift in Sources */,
 				AA881AB619DE6F88004F9DB1 /* RPPTController.swift in Sources */,
 				AA881AB419DE6F88004F9DB1 /* RPPTAppDelegate.swift in Sources */,
+				14A9835C1FDE08BB00FDC137 /* RPPTFinalFlowViewController.swift in Sources */,
 				142001541FD7622800D21F94 /* RPPTClient+Session.swift in Sources */,
+				14A9835A1FDE08BB00FDC137 /* RPPTStartFlowViewController.swift in Sources */,
 				14EBCF881FD86C5E00DB2191 /* RPPTSessionProperties.swift in Sources */,
 				142001481FD74BC000D21F94 /* RPPTClient+Location.swift in Sources */,
+				14A9835F1FDE08BB00FDC137 /* RPPTLocationFlowViewController.swift in Sources */,
+				14A9835E1FDE08BB00FDC137 /* RPPTCameraFlowViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
