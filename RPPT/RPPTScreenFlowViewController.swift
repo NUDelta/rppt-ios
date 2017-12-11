@@ -42,7 +42,7 @@ class RPPTScreenFlowViewController: RPPTFlowViewController {
                                                              animated: true)
                 } else {
                     self.presentAlert(title: "Screen Recording Required",
-                                      message: "Screen recording is required to setup McGonagall. Please open settings to enable screen recording.")
+                                      message: "Screen recording is required to setup McGonagall.")
                 }
             }
         }
@@ -52,10 +52,11 @@ class RPPTScreenFlowViewController: RPPTFlowViewController {
             return
         #endif
 
-        RPScreenRecorder.shared().startCapture(handler: { _, _, error in
+        RPScreenRecorder.shared().startCapture(handler: { sampleBuffer, bufferType, error in
             RPScreenRecorder.shared().stopCapture(handler: nil)
+        }) { error in
             captured(success: error == nil)
-        }, completionHandler: nil)
+        }
     }
 
 }

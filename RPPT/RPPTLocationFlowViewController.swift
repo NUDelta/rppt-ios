@@ -17,7 +17,7 @@ class RPPTLocationFlowViewController: RPPTFlowViewController, CLLocationManagerD
         super.viewDidLoad()
 
         titleText = "Location Access"
-        descriptionText = "McGonagall needs your location for the wizard to see where you're at."
+        descriptionText = "McGonagall needs your location for the wizard to see where you are."
         continueText = "Enable"
 
         image = #imageLiteral(resourceName: "Map")
