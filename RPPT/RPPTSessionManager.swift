@@ -63,8 +63,11 @@ class RPPTSessionManager: NSObject, OTSessionDelegate, OTSubscriberKitDelegate, 
         publisherKit?.audioFallbackEnabled = false
 
         // TODO: REVISIT SCREENCAPTURE
-//        capturer = ScreenCapturer(withView: view)
-//        publisher.videoCapture = capturer
+///       capturer = ScreenCapturer(withView: view)
+
+        publisherKit?.videoCapture = RPPTScreenCapturer()
+
+
 
         guard let publishingSession = publishingSession,
             let publisherKit = publisherKit else {

@@ -35,8 +35,7 @@ class RPPTController: UIViewController {
 
     var task: RPPTTask?
 
-    let client = RPPTClient()
-    let capturer = RPPTScreenCapturer()
+    let client = RPPTClient.shared
 
     var lastPoint: CGPoint = .zero
 
@@ -91,21 +90,17 @@ class RPPTController: UIViewController {
     private func setupClient() {
         client.onTaskUpdated = { task in
             self.task = task
-            print(4)
         }
 
         client.onClientError = { error in
             print(error)
-            print(1)
         }
 
         client.onOpenTokError = { error in
             print(error)
-            print(2)
         }
 
         client.onSubscriberConnected = { subscriberView in
-            print(3)
             let screenRect = UIScreen.main.bounds
             subscriberView.frame = CGRect(x: 0, y: 20, width: screenRect.width, height: screenRect.width * 1.4375)
             self.view.addSubview(subscriberView)

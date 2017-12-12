@@ -11,4 +11,8 @@ import UIKit
 @UIApplicationMain
 class RPPTAppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
+
+    func applicationDidFinishLaunching(_ application: UIApplication) {
+        RPPTClient.shared.connectWebSocket()
+    }
 }

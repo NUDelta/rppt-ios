@@ -20,6 +20,7 @@ class RPPTClient {
 
     // MARK: - Properties
 
+    static let shared = RPPTClient()
     let client: MeteorClient
     let sessionManager = RPPTSessionManager()
     let locationManager = RPPTLocationManager()

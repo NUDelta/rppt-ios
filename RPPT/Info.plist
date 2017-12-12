@@ -25,7 +25,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>We need to use your camera!</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need your location while you&apos;re testing!</string>
+	<string>We need your location while you're testing!</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>We need to use the microphone!</string>
 	<key>NSPhotoLibraryUsageDescription</key>
