@@ -21,6 +21,8 @@
 		14A9835D1FDE08BB00FDC137 /* RPPTFlowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A983571FDE08BA00FDC137 /* RPPTFlowViewController.swift */; };
 		14A9835E1FDE08BB00FDC137 /* RPPTCameraFlowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A983581FDE08BA00FDC137 /* RPPTCameraFlowViewController.swift */; };
 		14A9835F1FDE08BB00FDC137 /* RPPTLocationFlowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A983591FDE08BA00FDC137 /* RPPTLocationFlowViewController.swift */; };
+		14E81ABB1FE0364700D80584 /* RPPTScreenCapturerIO.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E81ABA1FE0364700D80584 /* RPPTScreenCapturerIO.m */; };
+		14E81ABD1FE0464300D80584 /* RPPTMicFlowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E81ABC1FE0464300D80584 /* RPPTMicFlowViewController.swift */; };
 		14EBCF881FD86C5E00DB2191 /* RPPTSessionProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14EBCF871FD86C5E00DB2191 /* RPPTSessionProperties.swift */; };
 		94449CCC1E2367CC0033430C /* RPPTScreenCapturer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94449CCB1E2367CC0033430C /* RPPTScreenCapturer.swift */; };
 		94A2A744DF1D49F5D68E13ED /* libPods-RPPT.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D648DADD84CFEF0C1CDC5BB /* libPods-RPPT.a */; };
@@ -46,6 +48,9 @@
 		14A983571FDE08BA00FDC137 /* RPPTFlowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RPPTFlowViewController.swift; sourceTree = "<group>"; };
 		14A983581FDE08BA00FDC137 /* RPPTCameraFlowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RPPTCameraFlowViewController.swift; sourceTree = "<group>"; };
 		14A983591FDE08BA00FDC137 /* RPPTLocationFlowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RPPTLocationFlowViewController.swift; sourceTree = "<group>"; };
+		14E81AB91FE0364700D80584 /* RPPTScreenCapturerIO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RPPTScreenCapturerIO.h; sourceTree = "<group>"; };
+		14E81ABA1FE0364700D80584 /* RPPTScreenCapturerIO.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RPPTScreenCapturerIO.m; sourceTree = "<group>"; };
+		14E81ABC1FE0464300D80584 /* RPPTMicFlowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPPTMicFlowViewController.swift; sourceTree = "<group>"; };
 		14EBCF871FD86C5E00DB2191 /* RPPTSessionProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPPTSessionProperties.swift; sourceTree = "<group>"; };
 		6D648DADD84CFEF0C1CDC5BB /* libPods-RPPT.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RPPT.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94449CCB1E2367CC0033430C /* RPPTScreenCapturer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RPPTScreenCapturer.swift; sourceTree = "<group>"; };
@@ -110,6 +115,8 @@
 				AA881AB319DE6F88004F9DB1 /* RPPTAppDelegate.swift */,
 				143709801FD78BDA0096F545 /* RPPTExtensions.swift */,
 				94449CCB1E2367CC0033430C /* RPPTScreenCapturer.swift */,
+				14E81AB91FE0364700D80584 /* RPPTScreenCapturerIO.h */,
+				14E81ABA1FE0364700D80584 /* RPPTScreenCapturerIO.m */,
 				14EBCF871FD86C5E00DB2191 /* RPPTSessionProperties.swift */,
 				142001551FD767FC00D21F94 /* RPPTTask.swift */,
 			);
@@ -123,6 +130,7 @@
 				14A983541FDE08BA00FDC137 /* RPPTInitalFlowViewController.swift */,
 				14A983591FDE08BA00FDC137 /* RPPTLocationFlowViewController.swift */,
 				14A983581FDE08BA00FDC137 /* RPPTCameraFlowViewController.swift */,
+				14E81ABC1FE0464300D80584 /* RPPTMicFlowViewController.swift */,
 				14A983551FDE08BA00FDC137 /* RPPTScreenFlowViewController.swift */,
 				14A983561FDE08BA00FDC137 /* RPPTFinalFlowViewController.swift */,
 			);
@@ -336,6 +344,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14E81ABD1FE0464300D80584 /* RPPTMicFlowViewController.swift in Sources */,
 				1420014E1FD74FE600D21F94 /* RPPTSessionManager.swift in Sources */,
 				14A9835D1FDE08BB00FDC137 /* RPPTFlowViewController.swift in Sources */,
 				1420014A1FD74F0500D21F94 /* RPPTLocationManager.swift in Sources */,
@@ -343,6 +352,7 @@
 				142001521FD75E7C00D21F94 /* RPPTClient.swift in Sources */,
 				142001561FD767FC00D21F94 /* RPPTTask.swift in Sources */,
 				94449CCC1E2367CC0033430C /* RPPTScreenCapturer.swift in Sources */,
+				14E81ABB1FE0364700D80584 /* RPPTScreenCapturerIO.m in Sources */,
 				143709811FD78BDA0096F545 /* RPPTExtensions.swift in Sources */,
 				AA881AB619DE6F88004F9DB1 /* RPPTController.swift in Sources */,
 				AA881AB419DE6F88004F9DB1 /* RPPTAppDelegate.swift in Sources */,

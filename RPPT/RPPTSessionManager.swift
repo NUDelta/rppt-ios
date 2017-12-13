@@ -61,13 +61,7 @@ class RPPTSessionManager: NSObject, OTSessionDelegate, OTSubscriberKitDelegate, 
         publisherKit = OTPublisherKit(delegate: self, settings: settings)
         publisherKit?.videoType = .screen
         publisherKit?.audioFallbackEnabled = false
-
-        // TODO: REVISIT SCREENCAPTURE
-///       capturer = ScreenCapturer(withView: view)
-
         publisherKit?.videoCapture = RPPTScreenCapturer()
-
-
 
         guard let publishingSession = publishingSession,
             let publisherKit = publisherKit else {
@@ -179,7 +173,6 @@ class RPPTSessionManager: NSObject, OTSessionDelegate, OTSubscriberKitDelegate, 
             fatalError("Oh boy I done goofed.")
         }
         print("RPPTSessionManager: " + #function + " ID: " + connectionId)
-
         onSubscriberConnected?(view)
     }
 

@@ -15,11 +15,7 @@ class RPPTController: UIViewController {
     var syncCode: String!
     var viewHasAppeared = false
 
-    // MARK: - IB Interface Elements
-
-    @IBOutlet weak var taskLabel: UILabel!
-
-    // MARK: - Other Interface Elements
+    // MARK: - Interface Elements
 
     let activityView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
 
@@ -53,6 +49,7 @@ class RPPTController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        title = "Connecting"
         view.addGestureRecognizer(panGestureRecognizer)
 
         textView.delegate = self
@@ -67,7 +64,6 @@ class RPPTController: UIViewController {
         view.addSubview(activityView)
 
         activityView.alpha = 0.0
-        taskLabel.alpha = 0.0
         navigationController?.navigationBar.alpha = 0.0
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
     }
@@ -78,7 +74,6 @@ class RPPTController: UIViewController {
             viewHasAppeared = true
             client.start(withSyncCode: syncCode)
             UIView.animate(withDuration: 0.5) {
-                self.taskLabel.alpha = 1.0
                 self.activityView.alpha = 1.0
                 self.navigationController?.navigationBar.alpha = 1.0
             }
@@ -88,22 +83,51 @@ class RPPTController: UIViewController {
     // MARK: - Setup
 
     private func setupClient() {
-        client.onTaskUpdated = { task in
-            self.task = task
+        client.onTaskUpdated = { [weak self] task in
+            self?.task = task
         }
 
         client.onClientError = { error in
             print(error)
+            print(1)
+
         }
 
-        client.onOpenTokError = { error in
+        client.onOpenTokError = { [weak self] error in
             print(error)
+            if let controller = self?.presentedViewController {
+                controller.dismiss(animated: true, completion: {
+                    self?.presentAlert(title: "Sync Issue",
+                                      message: "There was an issue syncing with the wizard. Please try again.")
+                })
+            } else {
+                self?.presentAlert(title: "Sync Issue",
+                                  message: "There was an issue syncing with the wizard. Please try again.")
+            }
         }
 
-        client.onSubscriberConnected = { subscriberView in
-            let screenRect = UIScreen.main.bounds
-            subscriberView.frame = CGRect(x: 0, y: 20, width: screenRect.width, height: screenRect.width * 1.4375)
-            self.view.addSubview(subscriberView)
+        client.onSubscriberConnected = { [weak self] subscriberView in
+            guard let view = self?.view else { return }
+
+            subscriberView.translatesAutoresizingMaskIntoConstraints = false
+            self?.view.addSubview(subscriberView)
+
+            let constraints = [
+                subscriberView.leftAnchor.constraint(equalTo: view.leftAnchor),
+                subscriberView.rightAnchor.constraint(equalTo: view.rightAnchor),
+                subscriberView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                subscriberView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ]
+            NSLayoutConstraint.activate(constraints)
+
+            self?.title = "Connected"
+            UIView.animate(withDuration: 0.5, animations: {
+                self?.activityView.alpha = 0.0
+            }, completion: { _ in
+                self?.activityView.removeFromSuperview()
+            })
+
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
         }
 
         NotificationCenter.default.addObserver(self,
@@ -121,10 +145,12 @@ class RPPTController: UIViewController {
 
     // MARK: - Helpers
 
-    func showAlert(withTitle: String, message: String) {
+    func presentAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alertController.addAction(okAction)
+        let action = UIAlertAction(title: "Ok", style: .cancel) { _ in
+            self.navigationController?.popToRootViewController(animated: true)
+        }
+        alertController.addAction(action)
         present(alertController, animated: true, completion: nil)
     }
 
@@ -135,7 +161,7 @@ class RPPTController: UIViewController {
         guard let result = notification.userInfo as? [String:String] else { return }
 
         if result["_id"] == task?.messageID && result["type"] == "task" {
-            taskLabel.text = result["content"]
+            title = result["content"]
             AudioServicesPlaySystemSound(1003)
         }
 

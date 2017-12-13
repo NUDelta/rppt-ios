@@ -13,6 +13,8 @@ class RPPTAppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func applicationDidFinishLaunching(_ application: UIApplication) {
-        RPPTClient.shared.connectWebSocket()
+        if UserDefaults.standard.bool(forKey: "SetupComplete") {
+            RPPTClient.shared.connectWebSocket()
+        }
     }
 }

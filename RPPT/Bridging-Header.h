@@ -5,3 +5,4 @@
 #import <OpenTok/OpenTok.h>
 #import "MeteorClient.h"
 #import "ObjectiveDDP.h"
+#import "RPPTScreenCapturerIO.h"

@@ -46,11 +46,11 @@ class RPPTClient {
         }
 
         NotificationCenter.default.addObserver(forName: .MeteorClientConnectionReady, object: nil, queue: nil) { _ in
-            print("RPPTClient: MeteorClientDidConnect")
+            print("RPPTClient: MeteorClientConnectionReady")
         }
 
         NotificationCenter.default.addObserver(forName: .MeteorClientDidDisconnect, object: nil, queue: nil) { _ in
-            print("RPPTClient: MeteorClientDidConnect")
+            print("RPPTClient: MeteorClientDidDisconnect")
             UIApplication.shared.isIdleTimerDisabled = false
         }
         //swiftlint:enable discarded_notification_center_observer

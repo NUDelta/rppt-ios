@@ -1,28 +1,28 @@
 //
-//  RPPTCameraFlowViewController.swift
-//  RPPTFlow
+//  RPPTMicFlowViewController.swift
+//  RPPT
 //
-//  Created by Andrew Finke on 12/10/17.
-//  Copyright © 2017 Andrew Finke. All rights reserved.
+//  Created by Andrew Finke on 12/12/17.
+//  Copyright © 2017 aspin. All rights reserved.
 //
 
 import UIKit
 import AVFoundation
 
-class RPPTCameraFlowViewController: RPPTFlowViewController {
+class RPPTMicFlowViewController: RPPTFlowViewController {
 
     // MARK: - View Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        titleText = "Camera Access"
-        descriptionText = "McGonagall needs camera access for the camera module."
+        titleText = "Microphone Access"
+        descriptionText = "McGonagall needs microphone access so the wizard can hear your thoughts."
         continueText = "Enable"
 
         let placeholderLabel = UILabel()
         placeholderLabel.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        placeholderLabel.text = "Picture of wizard looking at camera."
+        placeholderLabel.text = "lol no idea what should go here."
         placeholderLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(placeholderLabel)
 
@@ -36,12 +36,12 @@ class RPPTCameraFlowViewController: RPPTFlowViewController {
     }
 
     override func continueButtonPressed() {
-        let title = "Camera Access Required"
-        let message = "Camera access  is required to setup McGonagall. Please open settings to enable camera access."
-        AVCaptureDevice.requestAccess(for: .video) { success in
+        let title = "Microphone Access Required"
+        let message = "Microphone access  is required to setup McGonagall. Please open settings to enable microphone access."
+        AVCaptureDevice.requestAccess(for: .audio) { success in
             DispatchQueue.main.async {
                 if success {
-                    let flowVC = RPPTMicFlowViewController()
+                    let flowVC = RPPTFinalFlowViewController()
                     self.navigationController?.pushViewController(flowVC, animated: true)
                 } else {
                     self.presentAlert(title: title, message: message)
