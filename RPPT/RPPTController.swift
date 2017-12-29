@@ -109,6 +109,8 @@ class RPPTController: UIViewController {
         client.onSubscriberConnected = { [weak self] subscriberView in
             guard let view = self?.view else { return }
 
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
+
             subscriberView.translatesAutoresizingMaskIntoConstraints = false
             self?.view.addSubview(subscriberView)
 
@@ -152,6 +154,8 @@ class RPPTController: UIViewController {
         }
         alertController.addAction(action)
         present(alertController, animated: true, completion: nil)
+
+        UINotificationFeedbackGenerator().notificationOccurred(.error)
     }
 
     // MARK: - Comms
