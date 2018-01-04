@@ -218,6 +218,8 @@ class RPPTController: UIViewController {
                                   width: CGFloat(overlayedImageWidth!),
                                   imageEncoding: imageEncoding,
                                   isCameraOverlay: isCameraOverlay)
+            } else {
+                self.overlayedImageView.removeFromSuperview()
             }
         }
 
